@@ -9,7 +9,6 @@ const UserPage: React.FC = () => {
   useEffect(() => {
     const loadUsers = async () => {
       try {
-        // Define a URL diretamente
         const usersData = await fetchUsers('/users');
         setUsers(usersData);
       } catch (error) {
@@ -28,7 +27,7 @@ const UserPage: React.FC = () => {
       <ul>
         {users.map(user => (
           <li key={user.id}>
-            {user.nomeCompleto} - {user.cpf}
+            {user.username}
           </li>
         ))}
       </ul>
