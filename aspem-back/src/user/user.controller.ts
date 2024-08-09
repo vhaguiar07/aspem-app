@@ -4,8 +4,8 @@ import { User } from '@prisma/client';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 
 class CreateUserDto {
-  nomeCompleto: string;
-  cpf: string;
+  username: string;
+  password: string;
 }
 
 @ApiTags('users')
@@ -18,8 +18,9 @@ export class UserController {
   @ApiResponse({ status: 400, description: 'Dados inválidos.' })
   @ApiBody({ type: CreateUserDto })
   @Post()
-  async createUser(@Body('nomeCompleto') nomeCompleto: string, @Body('cpf') cpf: string): Promise<User> {
-    return this.userService.createUser(nomeCompleto, cpf);
+  async createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
+    const { username, password } = createUserDto;
+    return this.userService.createUser(username, password);
   }
 
   @ApiOperation({ summary: 'Lista todos os usuários' })
