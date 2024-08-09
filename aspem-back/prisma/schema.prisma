@@ -21,3 +21,12 @@ model User {
   updatedAt   DateTime @updatedAt
   deletedAt   DateTime?
 }
+
+model Customer {
+  id           Int      @id @default(autoincrement())
+  nomeCompleto String
+  cpf          String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  deletedAt    DateTime?
+}
