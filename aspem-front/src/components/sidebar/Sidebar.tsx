@@ -2,7 +2,11 @@ import React from 'react';
 import { Button, Icon } from '@blueprintjs/core';
 import './Sidebar.css';
 
-const Sidebar: React.FC = () => {
+interface SidebarProps {
+  className?: string; // Permite que a className seja opcional
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ className }) => {
     return (
         <div className="sidebar">
             <Button minimal={true} className="add-button">
