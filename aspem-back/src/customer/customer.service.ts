@@ -18,4 +18,10 @@ export class CustomerService {
   async getAllCustomers(): Promise<Customer[]> {
     return this.prisma.customer.findMany();
   }
+
+  async getCustomerById(id: string): Promise<Customer | null> {
+    return this.prisma.customer.findUnique({
+      where: { id: parseInt(id) },
+    });
+  }
 }
