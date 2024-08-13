@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, NotFoundException } from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { Customer } from '@prisma/client';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
@@ -28,5 +28,17 @@ export class CustomerController {
   @Get()
   async getAllCustomers(): Promise<Customer[]> {
     return this.customerService.getAllCustomers();
+  }
+
+  @ApiOperation({ summary: 'Obtém um cliente pelo ID' })
+  @ApiResponse({ status: 200, description: 'Cliente encontrado.' })
+  @ApiResponse({ status: 404, description: 'Cliente não encontrado.' })
+  @Get(':id')
+  async getCustomerById(@Param('id') id: string): Promise<Customer> {
+    const customer = await this.customerService.getCustomerById(id);
+    if (!customer) {
+      throw new NotFoundException('Cliente não encontrado');
+    }
+    return customer;
   }
 }
