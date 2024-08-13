@@ -1,0 +1,56 @@
+.customer-page {
+  padding: 20px;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.search-bar {
+  width: 300px;
+  padding: 10px;
+  padding-right: 40px; /* Espaço para o ícone */
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.search-icon {
+  position: absolute;
+  right: 10px; /* Ajuste conforme necessário */
+  pointer-events: none; /* Evita que o ícone capture cliques */
+}
+
+.list-title {
+  margin-left: 50px;
+}
+
+.table-container {
+  margin-left: 50px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+th {
+  background-color: #f4f4f4;
+  text-align: left;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}

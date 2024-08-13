@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './views/home/pages/home';
+import CustomerPage from './views/customer/pages/customer';
 import UserPage from './views/user/pages/user';
-import Sidebar from './components/sidebar/Sidebar'; // Ajuste o caminho conforme necessário
+import Sidebar from './components/sidebar/Sidebar';
 import { USERS } from './views/user/routes';
-import './styles/global.css'; // Importa o CSS global
+import './styles/global.css';
 
 const App: React.FC = () => {
   return (
@@ -13,7 +13,7 @@ const App: React.FC = () => {
         <Sidebar className="sidebar" />
         <div className="content">
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<CustomerPage />} />
             <Route path={USERS()} element={<UserPage />} />
           </Routes>
         </div>
