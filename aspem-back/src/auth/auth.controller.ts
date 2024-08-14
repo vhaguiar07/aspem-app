@@ -2,6 +2,7 @@ import { Controller, Post, Request, UseGuards, BadRequestException, HttpCode, Ht
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { AuthDto } from './dto/auth.dto';
 
 @ApiTags('auth')
@@ -21,6 +22,21 @@ export class AuthController {
       return this.authService.login(req.user);
     } catch (error) {
       throw new BadRequestException('Erro ao realizar login.');
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Realiza o logout de um usuário' })
+  @ApiResponse({ status: 200, description: 'Logout realizado com sucesso.' })
+  @ApiResponse({ status: 401, description: 'Usuário não autenticado.' })
+  @HttpCode(HttpStatus.OK)
+  @Post('logout')
+  async logout(@Request() req): Promise<{ message: string }> {
+    try {
+      await this.authService.logout(req.user);
+      return { message: 'Logout realizado com sucesso.' };
+    } catch (error) {
+      throw new BadRequestException('Erro ao realizar logout.');
     }
   }
 }
