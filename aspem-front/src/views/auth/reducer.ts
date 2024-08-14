@@ -5,6 +5,7 @@ interface LoginState {
   password: string;
   error: string | null;
   success: string | null;
+  isAuthenticated: boolean;
 }
 
 const initialState: LoginState = {
@@ -12,6 +13,7 @@ const initialState: LoginState = {
   password: '',
   error: null,
   success: null,
+  isAuthenticated: !!localStorage.getItem('token'),
 };
 
 const loginSlice = createSlice({
@@ -27,17 +29,27 @@ const loginSlice = createSlice({
     loginSuccess(state, action: PayloadAction<string>) {
       state.success = action.payload;
       state.error = null;
+      state.isAuthenticated = true;
     },
     loginFailure(state, action: PayloadAction<string>) {
       state.error = action.payload;
       state.success = null;
+      state.isAuthenticated = false;
     },
     clearMessages(state) {
       state.error = null;
       state.success = null;
     },
+    logout(state) {
+      state.username = '';
+      state.password = '';
+      state.error = null;
+      state.success = null;
+      state.isAuthenticated = false;
+      localStorage.removeItem('token');
+    },
   },
 });
 
-export const { setUsername, setPassword, loginSuccess, loginFailure, clearMessages } = loginSlice.actions;
+export const { setUsername, setPassword, loginSuccess, loginFailure, clearMessages, logout } = loginSlice.actions;
 export default loginSlice.reducer;
