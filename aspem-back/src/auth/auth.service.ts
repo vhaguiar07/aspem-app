@@ -1,10 +1,12 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from '../user/user.service'; // ajuste a importação conforme sua estrutura
+import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
+  private revokedTokens: Set<string> = new Set();
+
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
@@ -21,8 +23,20 @@ export class AuthService {
 
   async login(user: any) {
     const payload = { username: user.username, sub: user.id };
+    const accessToken = this.jwtService.sign(payload);
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: accessToken,
     };
+  }
+
+  async logout(user: any): Promise<void> {
+    const payload = { username: user.username, sub: user.id };
+    const token = this.jwtService.sign(payload);
+
+    this.revokedTokens.add(token);
+  }
+
+  async isTokenRevoked(token: string): Promise<boolean> {
+    return this.revokedTokens.has(token);
   }
 }
