@@ -1,6 +1,8 @@
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
+
 const useAuth = () => {
-  const token = localStorage.getItem('token');
-  const isAuthenticated = !!token;
+  const isAuthenticated = useSelector((state: RootState) => state.login.isAuthenticated);
 
   return { isAuthenticated };
 };

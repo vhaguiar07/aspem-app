@@ -5,6 +5,11 @@ const api = axios.create({
 });
 
 export const loginUser = async (username: string, password: string): Promise<string> => {
-  const response = await api.post('/auth/login', { username, password });
-  return response.data.token;
+  try {
+    const response = await api.post('/auth/login', { username, password });
+    return response.data.access_token;
+  } catch (error) {
+    console.error('Erro ao realizar login:', error);
+    throw new Error('Falha ao autenticar usuário');
+  }
 };
