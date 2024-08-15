@@ -12,6 +12,10 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  async signToken(payload: any): Promise<string> {
+    return this.jwtService.sign(payload);
+  }
+
   async validateUser(username: string, pass: string): Promise<any> {
     const user = await this.userService.findUserByUsername(username);
     if (user && (await bcrypt.compare(pass, user.password))) {

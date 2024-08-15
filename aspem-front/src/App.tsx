@@ -4,9 +4,11 @@ import CustomerPage from './views/customer/pages/customer';
 import CustomerDetailsPage from './views/customer/pages/customerDetails';
 import UserPage from './views/user/pages/user';
 import LoginPage from './views/auth/pages/login';
+import RegisterPage from './views/register/pages/register';
 import Sidebar from './components/sidebar/Sidebar';
 import { USERS } from './views/user/routes';
 import { LOGIN } from './views/auth/routes';
+import { REGISTER } from './views/register/routes';
 import './styles/global.css';
 import PrivateRoute from './components/routes/PrivateRoute';
 
@@ -21,6 +23,7 @@ const App: React.FC = () => {
             <Route path='/customers/:id' element={<PrivateRoute element={<CustomerDetailsPage />} />} />
             <Route path={USERS()} element={<PrivateRoute element={<UserPage />} />} />
             <Route path={LOGIN()} element={<LoginPage />} />
+            <Route path={REGISTER()} element={<RegisterPage />} />
           </Routes>
         </div>
       </div>
