@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(uuid())
   username    String   @unique
   password    String
   createdAt   DateTime @default(now())
@@ -22,11 +16,430 @@ model User {
   deletedAt   DateTime?
 }
 
-model Customer {
-  id           Int      @id @default(autoincrement())
-  nomeCompleto String
-  cpf          String   @unique
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  deletedAt    DateTime?
+model Autarquias {
+  id                         String   @id @default(uuid())
+  orgao                      String
+  classificacao              String
+  matricula                  String
+  matriculaSocial            Int
+  dataAdmissao               DateTime
+  nomeSocio                  String
+  endereco                   String
+  numero                     Int
+  complemento                String
+  bairroResidencia           String
+  cidadeResidencia           String
+  uf                         String
+  cepResidencia              String
+  telefoneResidencia         String
+  telefoneCelular            String
+  telefoneComercial          String
+  falecido                   Boolean
+  cpf                        String   @unique
+  rg                         String
+  orgaoExpedidor             String
+  dataFalecimento            DateTime?
+  quantidadeAdventicios      Int
+  quantidadeCooperadores     Int
+  dentCross                  Int
+  odMed                      Int
+  seguro                     Int
+  reversivel                 Boolean
+  valorDescontoSeguro        String
+  morteNatural               String
+  morteAcidental             String
+  invalidezPermanenteAcidente String
+  ps                         Boolean
+  omitido                    Boolean
+  rioPax                     Int
+  dataNascimento             DateTime
+  estadoCivil                String
+  email                      String   @unique
+  quantidadeDependentes      Int
+  conjuge                    String
+  descontoSocioEfetivo       String
+  historicoSocio             String
+  observacoesPagamentos      String
+  anoFiscal                  DateTime
+  totalJaneiro               Int
+  totalFevereiro             Int
+  totalMarco                 Int
+  totalAbril                 Int
+  totalMaio                  Int
+  totalJunho                 Int
+  totalJulho                 Int
+  totalAgosto                Int
+  totalSetembro              Int
+  totalOutubro               Int
+  totalNovembro              Int
+  totalDezembro              Int
+  createdAt                  DateTime @default(now())
+  updatedAt                  DateTime @updatedAt
+  deletedAt                  DateTime?
+
+  adventiciosAutarquia       AdventicioAutarquia[]
+  cooperadoresAutarquia      CooperadorAutarquia[]
+  dentCrossesAutarquia       DentCrossAutarquia[]
+  odMedsAutarquia            OdMedAutarquia[]
+  rioPaxesAutarquia          RioPaxAutarquia[]
+  dependentesAutarquia       DependenteAutarquia[]
+}
+
+model BC {
+  id                         String   @id @default(uuid())
+  orgao                      String
+  classificacao              String
+  matricula                  String
+  matriculaSocial            Int
+  dataAdmissao               DateTime
+  nomeSocio                  String
+  endereco                   String
+  numero                     Int
+  complemento                String
+  bairroResidencia           String
+  cidadeResidencia           String
+  uf                         String
+  cepResidencia              String
+  telefoneResidencia         String
+  telefoneCelular            String
+  telefoneComercial          String
+  falecido                   Boolean
+  cpf                        String   @unique
+  rg                         String
+  orgaoExpedidor             String
+  dataFalecimento            DateTime?
+  quantidadeAdventicios      Int
+  quantidadeCooperadores     Int
+  dentCross                  Int
+  odMed                      Int
+  seguro                     Int
+  reversivel                 Boolean
+  valorDescontoSeguro        String
+  morteNatural               String
+  morteAcidental             String
+  invalidezPermanenteAcidente String
+  ps                         Boolean
+  omitido                    Boolean
+  rioPax                     Int
+  dataNascimento             DateTime
+  estadoCivil                String
+  email                      String   @unique
+  quantidadeDependentes      Int
+  conjuge                    String
+  descontoSocioEfetivo       String
+  historicoSocio             String
+  observacoesPagamentos      String
+  anoFiscal                  DateTime
+  totalJaneiro               Int
+  totalFevereiro             Int
+  totalMarco                 Int
+  totalAbril                 Int
+  totalMaio                  Int
+  totalJunho                 Int
+  totalJulho                 Int
+  totalAgosto                Int
+  totalSetembro              Int
+  totalOutubro               Int
+  totalNovembro              Int
+  totalDezembro              Int
+  createdAt                  DateTime @default(now())
+  updatedAt                  DateTime @updatedAt
+  deletedAt                  DateTime?
+
+  adventiciosBC              AdventicioBC[]
+  cooperadoresBC             CooperadorBC[]
+  dentCrossesBC              DentCrossBC[]
+  odMedsBC                   OdMedBC[]
+  rioPaxesBC                 RioPaxBC[]
+  dependentesBC              DependenteBC[]
+}
+
+model Estados {
+  id                         String   @id @default(uuid())
+  orgao                      String
+  classificacao              String
+  matricula                  String
+  matriculaSocial            Int
+  dataAdmissao               DateTime
+  nomeSocio                  String
+  endereco                   String
+  numero                     Int
+  complemento                String
+  bairroResidencia           String
+  cidadeResidencia           String
+  uf                         String
+  cepResidencia              String
+  telefoneResidencia         String
+  telefoneCelular            String
+  telefoneComercial          String
+  falecido                   Boolean
+  cpf                        String   @unique
+  rg                         String
+  orgaoExpedidor             String
+  dataFalecimento            DateTime?
+  quantidadeAdventicios      Int
+  quantidadeCooperadores     Int
+  dentCross                  Int
+  odMed                      Int
+  seguro                     Int
+  reversivel                 Boolean
+  valorDescontoSeguro        String
+  morteNatural               String
+  morteAcidental             String
+  invalidezPermanenteAcidente String
+  ps                         Boolean
+  omitido                    Boolean
+  rioPax                     Int
+  dataNascimento             DateTime
+  estadoCivil                String
+  email                      String   @unique
+  quantidadeDependentes      Int
+  conjuge                    String
+  descontoSocioEfetivo       String
+  historicoSocio             String
+  observacoesPagamentos      String
+  anoFiscal                  DateTime
+  totalJaneiro               Int
+  totalFevereiro             Int
+  totalMarco                 Int
+  totalAbril                 Int
+  totalMaio                  Int
+  totalJunho                 Int
+  totalJulho                 Int
+  totalAgosto                Int
+  totalSetembro              Int
+  totalOutubro               Int
+  totalNovembro              Int
+  totalDezembro              Int
+  createdAt                  DateTime @default(now())
+  updatedAt                  DateTime @updatedAt
+  deletedAt                  DateTime?
+
+  adventiciosEstados         AdventicioEstados[]
+  cooperadoresEstados        CooperadorEstados[]
+  dentCrossesEstados         DentCrossEstados[]
+  odMedsEstados              OdMedEstados[]
+  rioPaxesEstados            RioPaxEstados[]
+  dependentesEstados         DependenteEstados[]
+}
+
+model Municipios {
+  id                         String   @id @default(uuid())
+  orgao                      String
+  classificacao              String
+  matricula                  String
+  matriculaSocial            Int
+  dataAdmissao               DateTime
+  nomeSocio                  String
+  endereco                   String
+  numero                     Int
+  complemento                String
+  bairroResidencia           String
+  cidadeResidencia           String
+  uf                         String
+  cepResidencia              String
+  telefoneResidencia         String
+  telefoneCelular            String
+  telefoneComercial          String
+  falecido                   Boolean
+  cpf                        String   @unique
+  rg                         String
+  orgaoExpedidor             String
+  dataFalecimento            DateTime?
+  quantidadeAdventicios      Int
+  quantidadeCooperadores     Int
+  dentCross                  Int
+  odMed                      Int
+  seguro                     Int
+  reversivel                 Boolean
+  valorDescontoSeguro        String
+  morteNatural               String
+  morteAcidental             String
+  invalidezPermanenteAcidente String
+  ps                         Boolean
+  omitido                    Boolean
+  rioPax                     Int
+  dataNascimento             DateTime
+  estadoCivil                String
+  email                      String   @unique
+  quantidadeDependentes      Int
+  conjuge                    String
+  descontoSocioEfetivo       String
+  historicoSocio             String
+  observacoesPagamentos      String
+  anoFiscal                  DateTime
+  totalJaneiro               Int
+  totalFevereiro             Int
+  totalMarco                 Int
+  totalAbril                 Int
+  totalMaio                  Int
+  totalJunho                 Int
+  totalJulho                 Int
+  totalAgosto                Int
+  totalSetembro              Int
+  totalOutubro               Int
+  totalNovembro              Int
+  totalDezembro              Int
+  createdAt                  DateTime @default(now())
+  updatedAt                  DateTime @updatedAt
+  deletedAt                  DateTime?
+
+  adventiciosMunicipios      AdventicioMunicipios[]
+  cooperadoresMunicipios     CooperadorMunicipios[]
+  dentCrossesMunicipios      DentCrossMunicipios[]
+  odMedsMunicipios           OdMedMunicipios[]
+  rioPaxesMunicipios         RioPaxMunicipios[]
+  dependentesMunicipios      DependenteMunicipios[]
+}
+
+// Modelos Dinâmicos
+// Modelos Dinâmicos Autarquias
+
+model AdventicioAutarquia {
+  id          String   @id @default(uuid())
+  autarquiaId String
+  Autarquias  Autarquias @relation(fields: [autarquiaId], references: [id])
+}
+
+model CooperadorAutarquia {
+  id          String   @id @default(uuid())
+  autarquiaId String
+  Autarquias  Autarquias @relation(fields: [autarquiaId], references: [id])
+}
+
+model DentCrossAutarquia {
+  id          String   @id @default(uuid())
+  autarquiaId String
+  Autarquias  Autarquias @relation(fields: [autarquiaId], references: [id])
+}
+
+model OdMedAutarquia {
+  id          String   @id @default(uuid())
+  autarquiaId String
+  Autarquias  Autarquias @relation(fields: [autarquiaId], references: [id])
+}
+model RioPaxAutarquia {
+  id          String   @id @default(uuid())
+  autarquiaId String
+  Autarquias  Autarquias @relation(fields: [autarquiaId], references: [id])
+}
+
+model DependenteAutarquia {
+  id          String   @id @default(uuid())
+  autarquiaId String
+  Autarquias  Autarquias @relation(fields: [autarquiaId], references: [id])
+}
+
+// Modelos Dinâmicos BC
+
+model AdventicioBC {
+  id       String @id @default(uuid())
+  bcId     String
+  BC       BC     @relation(fields: [bcId], references: [id])
+}
+
+model CooperadorBC {
+  id       String @id @default(uuid())
+  bcId     String
+  BC       BC     @relation(fields: [bcId], references: [id])
+}
+
+model DentCrossBC {
+  id          String   @id @default(uuid())
+  bcId String
+  BC  BC @relation(fields: [bcId], references: [id])
+}
+
+model OdMedBC {
+  id          String   @id @default(uuid())
+  bcId String
+  BC  BC @relation(fields: [bcId], references: [id])
+}
+
+model RioPaxBC {
+  id          String   @id @default(uuid())
+  bcId String
+  BC  BC @relation(fields: [bcId], references: [id])
+}
+
+model DependenteBC {
+  id          String   @id @default(uuid())
+  bcId String
+  BC  BC @relation(fields: [bcId], references: [id])
+}
+
+// Modelos Dinâmicos Estados
+
+model AdventicioEstados {
+  id          String @id @default(uuid())
+  estadosId   String
+  Estados     Estados @relation(fields: [estadosId], references: [id])
+}
+
+model CooperadorEstados {
+  id          String @id @default(uuid())
+  estadosId   String
+  Estados     Estados @relation(fields: [estadosId], references: [id])
+}
+
+model DentCrossEstados {
+  id          String   @id @default(uuid())
+  estadosId String
+  Estados  Estados @relation(fields: [estadosId], references: [id])
+}
+
+model OdMedEstados {
+  id          String   @id @default(uuid())
+  estadosId String
+  Estados  Estados @relation(fields: [estadosId], references: [id])
+}
+
+model RioPaxEstados {
+  id          String   @id @default(uuid())
+  estadosId String
+  Estados  Estados @relation(fields: [estadosId], references: [id])
+}
+
+model DependenteEstados {
+  id          String   @id @default(uuid())
+  estadosId String
+  Estados  Estados @relation(fields: [estadosId], references: [id])
+}
+
+// Modelos Dinâmicos Municipios
+
+model AdventicioMunicipios {
+  id           String @id @default(uuid())
+  municipiosId String
+  Municipios   Municipios @relation(fields: [municipiosId], references: [id])
+}
+
+model CooperadorMunicipios {
+  id           String @id @default(uuid())
+  municipiosId String
+  Municipios   Municipios @relation(fields: [municipiosId], references: [id])
+}
+
+model DentCrossMunicipios {
+  id          String   @id @default(uuid())
+  municipiosId String
+  Municipios  Municipios @relation(fields: [municipiosId], references: [id])
+}
+
+model OdMedMunicipios {
+  id          String   @id @default(uuid())
+  municipiosId String
+  Municipios  Municipios @relation(fields: [municipiosId], references: [id])
+}
+
+model RioPaxMunicipios {
+  id          String   @id @default(uuid())
+  municipiosId String
+  Municipios  Municipios @relation(fields: [municipiosId], references: [id])
+}
+
+model DependenteMunicipios {
+  id          String   @id @default(uuid())
+  municipiosId String
+  Municipios  Municipios @relation(fields: [municipiosId], references: [id])
 }
