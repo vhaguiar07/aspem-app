@@ -1,4 +1,4 @@
-import { Controller, Post, Request, UseGuards, BadRequestException, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Request, UseGuards, BadRequestException, UnauthorizedException, NotFoundException, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -19,8 +19,15 @@ export class AuthController {
   @Post('login')
   async login(@Request() req): Promise<{ access_token: string }> {
     try {
-      return this.authService.login(req.user);
+      const user = req.user;
+      if (!user) {
+        throw new UnauthorizedException('Credenciais inválidas');
+      }
+      return this.authService.login(user);
     } catch (error) {
+      if (error instanceof UnauthorizedException) {
+        throw new UnauthorizedException('Senha incorreta ou usuário não encontrado');
+      }
       throw new BadRequestException('Erro ao realizar login.');
     }
   }
@@ -33,9 +40,16 @@ export class AuthController {
   @Post('logout')
   async logout(@Request() req): Promise<{ message: string }> {
     try {
-      await this.authService.logout(req.user);
+      const user = req.user;
+      if (!user) {
+        throw new UnauthorizedException('Usuário não autenticado');
+      }
+      await this.authService.logout(user);
       return { message: 'Logout realizado com sucesso.' };
     } catch (error) {
+      if (error instanceof UnauthorizedException) {
+        throw new UnauthorizedException('Usuário não autenticado');
+      }
       throw new BadRequestException('Erro ao realizar logout.');
     }
   }
