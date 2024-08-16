@@ -14,6 +14,8 @@ import PrivateRoute from './components/routes/PrivateRoute';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AuthNotifier from './components/auth/AuthNotifier';
+import { AUTARQUIAS } from './views/autarquia/routes';
+import AutarquiaPage from './views/autarquia/pages/Autarquia';
 
 const App: React.FC = () => {
   return (
@@ -25,6 +27,7 @@ const App: React.FC = () => {
             <Route path="/" element={<PrivateRoute element={<CustomerPage />} />} />
             <Route path='/customers/:id' element={<PrivateRoute element={<CustomerDetailsPage />} />} />
             <Route path={USERS()} element={<PrivateRoute element={<UserPage />} />} />
+            <Route path={AUTARQUIAS()} element={<PrivateRoute element={<AutarquiaPage />} />} />
             <Route path={LOGIN()} element={<LoginPage />} />
             <Route path={REGISTER()} element={<RegisterPage />} />
           </Routes>
