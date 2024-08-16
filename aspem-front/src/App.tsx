@@ -11,6 +11,9 @@ import { LOGIN } from './views/auth/routes';
 import { REGISTER } from './views/register/routes';
 import './styles/global.css';
 import PrivateRoute from './components/routes/PrivateRoute';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import AuthNotifier from './components/auth/AuthNotifier';
 
 const App: React.FC = () => {
   return (
@@ -27,6 +30,8 @@ const App: React.FC = () => {
           </Routes>
         </div>
       </div>
+      <ToastContainer />
+      <AuthNotifier />
     </Router>
   );
 };

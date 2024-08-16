@@ -9,7 +9,11 @@ export const loginUser = async (username: string, password: string): Promise<str
     const response = await api.post('/auth/login', { username, password });
     return response.data.access_token;
   } catch (error) {
-    console.error('Erro ao realizar login:', error);
-    throw new Error('Falha ao autenticar usuário');
+    if (axios.isAxiosError(error) && error.response) {
+      const errorMessage = error.response.data.message || 'Erro desconhecido ao realizar login';
+      throw new Error(errorMessage);
+    } else {
+      throw new Error('Erro ao realizar login.');
+    }
   }
 };

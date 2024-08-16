@@ -11,7 +11,7 @@ const LoginPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
-  const { username, password, error, success } = useSelector((state: RootState) => state.login as LoginState);
+  const { username, password } = useSelector((state: RootState) => state.login as LoginState);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -30,8 +30,9 @@ const LoginPage: React.FC = () => {
       dispatch(loginSuccess('Login realizado com sucesso!'));
       navigate('/');
     } catch (error) {
-      dispatch(loginFailure('Erro ao realizar login.'));
-      console.error(error);
+      const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido';
+      dispatch(loginFailure(errorMessage));
+      console.error('Erro ao realizar login:', error);
     }
   };
 
@@ -61,8 +62,6 @@ const LoginPage: React.FC = () => {
         </div>
         <button type="submit">Entrar</button>
       </form>
-      {error && <p>{error}</p>}
-      {success && <p>{success}</p>}
     </div>
   );
 };
