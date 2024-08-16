@@ -1,6 +1,6 @@
-import { Controller, Post, Body, Get, Param, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Delete, Patch, NotFoundException, BadRequestException } from '@nestjs/common';
 import { UserService } from './user.service';
-import { AuthService } from '../auth/auth.service'; // Certifique-se de ajustar o caminho conforme necessário
+import { AuthService } from '../auth/auth.service';
 import { User } from '@prisma/client';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
 
@@ -9,12 +9,17 @@ class CreateUserDto {
   password: string;
 }
 
+class UpdateUserDto {
+  username?: string;
+  password?: string;
+}
+
 @ApiTags('users')
 @Controller('users')
 export class UserController {
   constructor(
     private readonly userService: UserService,
-    private readonly authService: AuthService, // Adicione o AuthService aqui
+    private readonly authService: AuthService,
   ) {}
 
   @ApiOperation({ summary: 'Cria um novo usuário' })
@@ -28,7 +33,7 @@ export class UserController {
         createdAt: '2024-08-14T12:34:56.789Z',
         updatedAt: '2024-08-14T12:34:56.789Z',
         deletedAt: null,
-        access_token: 'jwt.token.exemplo' // Adicione o campo do token JWT
+        access_token: 'jwt.token.exemplo'
       },
     },
   })
@@ -57,10 +62,8 @@ export class UserController {
       throw new BadRequestException('Usuário já existe.');
     }
 
-    // Crie o usuário
     const user = await this.userService.createUser(username, password);
 
-    // Gere o token JWT
     const payload = { username: user.username, sub: user.id };
     const accessToken = await this.authService.signToken(payload);
 
@@ -133,5 +136,72 @@ export class UserController {
       throw new NotFoundException(`Usuário com ID ${userId} não encontrado.`);
     }
     return user;
+  }
+
+  @ApiOperation({ summary: 'Remove um usuário pelo ID' })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Usuário removido com sucesso.' 
+  })
+  @ApiResponse({ 
+    status: 404, 
+    description: 'Usuário não encontrado com o ID fornecido.' 
+  })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID do usuário que será removido.' })
+  @Delete(':id')
+  async deleteUser(@Param('id') id: string): Promise<void> {
+    const userId = parseInt(id, 10);
+    if (isNaN(userId)) {
+      throw new BadRequestException('ID inválido.');
+    }
+    const user = await this.userService.findUserById(userId);
+    if (!user) {
+      throw new NotFoundException(`Usuário com ID ${userId} não encontrado.`);
+    }
+    await this.userService.deleteUser(userId);
+  }
+
+  @ApiOperation({ summary: 'Atualiza um usuário pelo ID' })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Usuário atualizado com sucesso.',
+    schema: {
+      example: {
+        id: 1,
+        username: 'updatedUser',
+        createdAt: '2024-08-14T12:34:56.789Z',
+        updatedAt: '2024-08-15T12:34:56.789Z',
+        deletedAt: null,
+      },
+    },
+  })
+  @ApiResponse({ 
+    status: 400, 
+    description: 'Dados inválidos. Verifique se o nome de usuário atende aos requisitos de segurança.' 
+  })
+  @ApiResponse({ 
+    status: 404, 
+    description: 'Usuário não encontrado com o ID fornecido.' 
+  })
+  @ApiParam({ name: 'id', type: 'number', description: 'ID do usuário que será atualizado.' })
+  @Patch(':id')
+  async updateUser(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto
+  ): Promise<User> {
+    const userId = parseInt(id, 10);
+    if (isNaN(userId)) {
+      throw new BadRequestException('ID inválido.');
+    }
+
+    const { username, password } = updateUserDto;
+    const user = await this.userService.findUserById(userId);
+    if (!user) {
+      throw new NotFoundException(`Usuário com ID ${userId} não encontrado.`);
+    }
+
+    const updatedUser = await this.userService.updateUser(userId, username, password);
+
+    return updatedUser;
   }
 }
