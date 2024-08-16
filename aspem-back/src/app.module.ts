@@ -3,22 +3,23 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { PrismaService } from '../prisma/prisma.service';
-import { CustomerService } from './customer/customer.service';
-import { CustomerController } from './customer/customer.controller';
-import { CustomerModule } from './customer/customer.module';
 import { AuthModule } from './auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigModule } from '@nestjs/config';
+import { AutarquiasService } from './autarquias/autarquias.service';
+import { AutarquiasController } from './autarquias/autarquias.controller';
+import { AutarquiasModule } from './autarquias/autarquias.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     UserModule,
-    CustomerModule,
+    AutarquiasModule,
     AuthModule,
     PassportModule,
+    AutarquiasModule,
   ],
-  controllers: [AppController, CustomerController],
-  providers: [AppService, PrismaService, CustomerService],
+  controllers: [AppController, AutarquiasController],
+  providers: [AppService, PrismaService, AutarquiasService],
 })
 export class AppModule {}

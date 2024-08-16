@@ -28,7 +28,7 @@ export class UserService {
     });
   }
 
-  async findUserById(id: number): Promise<User | null> {
+  async findUserById(id: string): Promise<User | null> {
     return this.prisma.user.findUnique({
       where: { 
         id,
@@ -41,8 +41,7 @@ export class UserService {
     return !!user;
   }
 
-  async deleteUser(id: number): Promise<void> {
-    // Verificar se o usuário existe antes de tentar excluir
+  async deleteUser(id: string): Promise<void> {
     const user = await this.findUserById(id);
     if (!user) {
       throw new NotFoundException(`Usuário com ID ${id} não encontrado.`);
@@ -53,7 +52,7 @@ export class UserService {
     });
   }
 
-  async updateUser(id: number, username?: string, password?: string): Promise<User> {
+  async updateUser(id: string, username?: string, password?: string): Promise<User> {
     const user = await this.findUserById(id);
     if (!user) {
       throw new NotFoundException(`Usuário com ID ${id} não encontrado.`);
@@ -62,7 +61,6 @@ export class UserService {
     const updateData: any = {};
 
     if (username) {
-      // Verificar se o novo nome de usuário já está em uso
       const existingUser = await this.findUserByUsername(username);
       if (existingUser && existingUser.id !== id) {
         throw new BadRequestException('Nome de usuário já está em uso.');

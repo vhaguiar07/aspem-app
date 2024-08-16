@@ -78,7 +78,6 @@ model Autarquias {
   deletedAt                  DateTime?
 
   adventiciosAutarquia       AdventicioAutarquia[]
-  cooperadoresAutarquia      CooperadorAutarquia[]
   dentCrossesAutarquia       DentCrossAutarquia[]
   odMedsAutarquia            OdMedAutarquia[]
   rioPaxesAutarquia          RioPaxAutarquia[]
@@ -296,38 +295,41 @@ model Municipios {
 // Modelos Dinâmicos Autarquias
 
 model AdventicioAutarquia {
-  id          String   @id @default(uuid())
-  autarquiaId String
-  Autarquias  Autarquias @relation(fields: [autarquiaId], references: [id])
-}
-
-model CooperadorAutarquia {
-  id          String   @id @default(uuid())
-  autarquiaId String
-  Autarquias  Autarquias @relation(fields: [autarquiaId], references: [id])
+  id              String   @id @default(uuid())
+  autarquiaId     String
+  Autarquias      Autarquias @relation(fields: [autarquiaId], references: [id])
+  nomeCompleto    String
 }
 
 model DentCrossAutarquia {
-  id          String   @id @default(uuid())
-  autarquiaId String
-  Autarquias  Autarquias @relation(fields: [autarquiaId], references: [id])
+  id              String   @id @default(uuid())
+  autarquiaId     String
+  Autarquias      Autarquias @relation(fields: [autarquiaId], references: [id])
+  nomeCompleto    String
 }
 
 model OdMedAutarquia {
-  id          String   @id @default(uuid())
-  autarquiaId String
-  Autarquias  Autarquias @relation(fields: [autarquiaId], references: [id])
+  id              String   @id @default(uuid())
+  autarquiaId     String
+  Autarquias      Autarquias @relation(fields: [autarquiaId], references: [id])
+  nomeCompleto    String
+  data  DateTime
 }
+
 model RioPaxAutarquia {
-  id          String   @id @default(uuid())
-  autarquiaId String
-  Autarquias  Autarquias @relation(fields: [autarquiaId], references: [id])
+  id              String   @id @default(uuid())
+  autarquiaId     String
+  Autarquias      Autarquias @relation(fields: [autarquiaId], references: [id])
+  nomeCompleto    String
+  data  DateTime
 }
 
 model DependenteAutarquia {
-  id          String   @id @default(uuid())
-  autarquiaId String
-  Autarquias  Autarquias @relation(fields: [autarquiaId], references: [id])
+  id              String   @id @default(uuid())
+  autarquiaId     String
+  Autarquias      Autarquias @relation(fields: [autarquiaId], references: [id])
+  nomeCompleto    String
+  dataNascimento  DateTime
 }
 
 // Modelos Dinâmicos BC

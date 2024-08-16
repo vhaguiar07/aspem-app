@@ -112,7 +112,7 @@ export class UserController {
     description: 'Usuário encontrado com sucesso.',
     schema: {
       example: {
-        id: 1,
+        id: '1',
         username: 'exampleUser',
         createdAt: '2024-08-14T12:34:56.789Z',
         updatedAt: '2024-08-14T12:34:56.789Z',
@@ -124,20 +124,16 @@ export class UserController {
     status: 404, 
     description: 'Usuário não encontrado com o ID fornecido.' 
   })
-  @ApiParam({ name: 'id', type: 'number', description: 'ID do usuário que será retornado.' })
+  @ApiParam({ name: 'id', type: 'string', description: 'ID do usuário que será retornado.' })
   @Get(':id')
   async getUserById(@Param('id') id: string): Promise<User> {
-    const userId = parseInt(id, 10);
-    if (isNaN(userId)) {
-      throw new BadRequestException('ID inválido.');
-    }
-    const user = await this.userService.findUserById(userId);
+    const user = await this.userService.findUserById(id);
     if (!user) {
-      throw new NotFoundException(`Usuário com ID ${userId} não encontrado.`);
+      throw new NotFoundException(`Usuário com ID ${id} não encontrado.`);
     }
     return user;
   }
-
+  
   @ApiOperation({ summary: 'Remove um usuário pelo ID' })
   @ApiResponse({ 
     status: 200, 
@@ -147,27 +143,23 @@ export class UserController {
     status: 404, 
     description: 'Usuário não encontrado com o ID fornecido.' 
   })
-  @ApiParam({ name: 'id', type: 'number', description: 'ID do usuário que será removido.' })
+  @ApiParam({ name: 'id', type: 'string', description: 'ID do usuário que será removido.' })
   @Delete(':id')
   async deleteUser(@Param('id') id: string): Promise<void> {
-    const userId = parseInt(id, 10);
-    if (isNaN(userId)) {
-      throw new BadRequestException('ID inválido.');
-    }
-    const user = await this.userService.findUserById(userId);
+    const user = await this.userService.findUserById(id);
     if (!user) {
-      throw new NotFoundException(`Usuário com ID ${userId} não encontrado.`);
+      throw new NotFoundException(`Usuário com ID ${id} não encontrado.`);
     }
-    await this.userService.deleteUser(userId);
+    await this.userService.deleteUser(id);
   }
-
+  
   @ApiOperation({ summary: 'Atualiza um usuário pelo ID' })
   @ApiResponse({ 
     status: 200, 
     description: 'Usuário atualizado com sucesso.',
     schema: {
       example: {
-        id: 1,
+        id: '1',
         username: 'updatedUser',
         createdAt: '2024-08-14T12:34:56.789Z',
         updatedAt: '2024-08-15T12:34:56.789Z',
@@ -183,25 +175,20 @@ export class UserController {
     status: 404, 
     description: 'Usuário não encontrado com o ID fornecido.' 
   })
-  @ApiParam({ name: 'id', type: 'number', description: 'ID do usuário que será atualizado.' })
+  @ApiParam({ name: 'id', type: 'string', description: 'ID do usuário que será atualizado.' })
   @Patch(':id')
   async updateUser(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto
   ): Promise<User> {
-    const userId = parseInt(id, 10);
-    if (isNaN(userId)) {
-      throw new BadRequestException('ID inválido.');
-    }
-
     const { username, password } = updateUserDto;
-    const user = await this.userService.findUserById(userId);
+    const user = await this.userService.findUserById(id);
     if (!user) {
-      throw new NotFoundException(`Usuário com ID ${userId} não encontrado.`);
+      throw new NotFoundException(`Usuário com ID ${id} não encontrado.`);
     }
-
-    const updatedUser = await this.userService.updateUser(userId, username, password);
-
+  
+    const updatedUser = await this.userService.updateUser(id, username, password);
+  
     return updatedUser;
   }
 }
