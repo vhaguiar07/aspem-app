@@ -25,19 +25,19 @@ model Autarquias {
   dataAdmissao               DateTime
   nomeSocio                  String
   endereco                   String
-  numero                     Int
+  numero                     Int?
   complemento                String?
   bairroResidencia           String
   cidadeResidencia           String
   uf                         String
-  cepResidencia              String
+  cepResidencia              String?
   telefoneResidencia         String?
   telefoneCelular            String?
   telefoneComercial          String?
   falecido                   Boolean?
-  cpf                        String   @unique
-  rg                         String
-  orgaoExpedidor             String
+  cpf                        String?   @unique
+  rg                         String?
+  orgaoExpedidor             String?
   dataFalecimento            DateTime?
   quantidadeAdventicios      Int?
   quantidadeCooperadores     Int?
@@ -53,8 +53,8 @@ model Autarquias {
   omitido                    Boolean?
   rioPax                     Int?
   dataNascimento             DateTime
-  estadoCivil                String
-  email                      String   @unique
+  estadoCivil                String?
+  email                      String?   @unique
   quantidadeDependentes      Int?
   conjuge                    String?
   descontoSocioEfetivo       String?
@@ -93,19 +93,19 @@ model BC {
   dataAdmissao               DateTime
   nomeSocio                  String
   endereco                   String
-  numero                     Int
+  numero                     Int?
   complemento                String?
   bairroResidencia           String
   cidadeResidencia           String
   uf                         String
-  cepResidencia              String
+  cepResidencia              String?
   telefoneResidencia         String?
   telefoneCelular            String?
   telefoneComercial          String?
   falecido                   Boolean?
-  cpf                        String   @unique
-  rg                         String
-  orgaoExpedidor             String
+  cpf                        String?   @unique
+  rg                         String?
+  orgaoExpedidor             String?
   dataFalecimento            DateTime?
   quantidadeAdventicios      Int?
   quantidadeCooperadores     Int?
@@ -121,8 +121,8 @@ model BC {
   omitido                    Boolean?
   rioPax                     Int?
   dataNascimento             DateTime
-  estadoCivil                String
-  email                      String   @unique
+  estadoCivil                String?
+  email                      String?   @unique
   quantidadeDependentes      Int?
   conjuge                    String?
   descontoSocioEfetivo       String?
@@ -162,19 +162,19 @@ model Estados {
   dataAdmissao               DateTime
   nomeSocio                  String
   endereco                   String
-  numero                     Int
+  numero                     Int?
   complemento                String?
   bairroResidencia           String
   cidadeResidencia           String
   uf                         String
-  cepResidencia              String
+  cepResidencia              String?
   telefoneResidencia         String?
   telefoneCelular            String?
   telefoneComercial          String?
   falecido                   Boolean?
-  cpf                        String   @unique
-  rg                         String
-  orgaoExpedidor             String
+  cpf                        String?   @unique
+  rg                         String?
+  orgaoExpedidor             String?
   dataFalecimento            DateTime?
   quantidadeAdventicios      Int?
   quantidadeCooperadores     Int?
@@ -190,8 +190,8 @@ model Estados {
   omitido                    Boolean?
   rioPax                     Int?
   dataNascimento             DateTime
-  estadoCivil                String
-  email                      String   @unique
+  estadoCivil                String?
+  email                      String?   @unique
   quantidadeDependentes      Int?
   conjuge                    String?
   descontoSocioEfetivo       String?
@@ -231,19 +231,19 @@ model Municipios {
   dataAdmissao               DateTime
   nomeSocio                  String
   endereco                   String
-  numero                     Int
+  numero                     Int?
   complemento                String?
   bairroResidencia           String
   cidadeResidencia           String
   uf                         String
-  cepResidencia              String
+  cepResidencia              String?
   telefoneResidencia         String?
   telefoneCelular            String?
   telefoneComercial          String?
   falecido                   Boolean?
-  cpf                        String   @unique
-  rg                         String
-  orgaoExpedidor             String
+  cpf                        String?   @unique
+  rg                         String?
+  orgaoExpedidor             String?
   dataFalecimento            DateTime?
   quantidadeAdventicios      Int?
   quantidadeCooperadores     Int?
@@ -259,8 +259,8 @@ model Municipios {
   omitido                    Boolean?
   rioPax                     Int?
   dataNascimento             DateTime
-  estadoCivil                String
-  email                      String   @unique
+  estadoCivil                String?
+  email                      String?   @unique
   quantidadeDependentes      Int?
   conjuge                    String?
   descontoSocioEfetivo       String?

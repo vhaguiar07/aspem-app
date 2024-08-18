@@ -1,0 +1,121 @@
+  .add-autarquia-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .add-autarquia-page h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-bottom: 50px;
+  }
+  
+  .error {
+    color: red;
+    text-align: center;
+  }
+  
+  .content {
+    margin: 0 auto;
+  }
+  
+  .form-container-two {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 80px;
+  }
+
+  .form-container-three {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 80px;
+  }
+
+  .form-container-lonely {
+    display: grid;
+    margin-bottom: 20px;
+    justify-content: center;
+  }
+
+  .form-container-lonely .bp5-label {
+    text-align: center;
+    font-size: 16px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+  .form-container-lonely textarea {
+    width: 100%;
+    max-width: 500px;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+  }
+
+  .form-container-two .bp5-form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0;
+  }
+  
+  .form-container-two .bp5-label {
+    text-align: center;
+    font-size: 16px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+  .form-container-three .bp5-form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0;
+  }
+  
+  .form-container-three .bp5-label {
+    text-align: center;
+    font-size: 16px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif
+  }
+
+  .form-container-two .bp5-input-group input,
+  .form-container-three .bp5-input-group input {
+    width: 170px;
+    max-width: 100%;
+    height: 30px;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 6px;
+  }
+
+  .form-container-lonely .bp5-input-group input {
+    width: 170px;
+    max-width: 500px;
+    height: 30px;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+  .bp5-form-content .bp5-control{
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+  }
+
+  .bp5-form-content .bp5-control input{
+    width: 25px;
+    height: 25px;
+  }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchAutarquias } from '../autarquiaApi';
 import { Autarquia } from '../types';
 import { Icon } from '@blueprintjs/core';
-import './styles.css';
+import './autarquiaStyles.css';
 
 const AutarquiaPage: React.FC = () => {
   const [autarquias, setAutarquias] = useState<Autarquia[]>([]);
