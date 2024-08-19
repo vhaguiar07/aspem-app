@@ -48,7 +48,7 @@ const AddAutarquia: React.FC = () => {
       parsedValue = parseDate(value).toISOString();
     } 
 
-    if (name === 'numero' || name === 'quantidadeAdventicios' || name === 'seguro' || name === 'totalJaneiro' || name === 'totalFevereiro' || name === 'totalMarco' || name === 'totalAbril' || name === 'totalMaio' || name === 'totalJunho' || name === 'totalJulho' || name === 'totalAgosto' || name === 'totalSetembro' || name === 'totalOutubro' || name === 'totalNovembro' || name === 'totalDezembro') {
+    if (name === 'descontoSocioEfetivo' || name === 'numero' || name === 'quantidadeAdventicios' || name === 'seguro' || name === 'totalJaneiro' || name === 'totalFevereiro' || name === 'totalMarco' || name === 'totalAbril' || name === 'totalMaio' || name === 'totalJunho' || name === 'totalJulho' || name === 'totalAgosto' || name === 'totalSetembro' || name === 'totalOutubro' || name === 'totalNovembro' || name === 'totalDezembro') {
       parsedValue = parseInt(value, 10);
       if (isNaN(parsedValue)) parsedValue = 0;
     }
@@ -112,7 +112,7 @@ const AddAutarquia: React.FC = () => {
 
   return (
     <div className="add-autarquia-page">
-      <h1>Adicionar Autarquia</h1>
+      <h1>Autarquia</h1>
       {error && <p className="error">{error}</p>}
       <form onSubmit={handleSubmit}>
 
@@ -188,38 +188,6 @@ const AddAutarquia: React.FC = () => {
           />
         </div>
 
-        <div className="form-container-two">
-          <div className="nice-form-group">
-            <label>Data de Nascimento</label>
-              <input
-                id="dataNascimento"
-                name="dataNascimento"
-                type="date"
-                value={autarquia.dataNascimento ? new Date(autarquia.dataNascimento).toISOString().split('T')[0] : ''}
-                onChange={(e) => {
-                  const dateValue = e.target.value ? new Date(e.target.value) : null;
-                  handleDateChange(dateValue, 'dataNascimento');
-                }}
-                placeholder="DD/MM/AAAA"
-              />
-          </div>
-
-          <div className="nice-form-group">
-            <label>Data de Admissão</label>
-              <input
-                id="dataAdmissao"
-                name="dataAdmissao"
-                type="date"
-                value={autarquia.dataAdmissao ? new Date(autarquia.dataAdmissao).toISOString().split('T')[0] : ''}
-                onChange={(e) => {
-                  const dateValue = e.target.value ? new Date(e.target.value) : null;
-                  handleDateChange(dateValue, 'dataAdmissao');
-                }}
-                placeholder="DD/MM/AAAA"
-              />
-          </div>
-        </div>
-
         <div className="form-container-three">
           <div className="nice-form-group">
             <label htmlFor="endereco" className="form-label">
@@ -243,7 +211,7 @@ const AddAutarquia: React.FC = () => {
               id="numero" 
               name="numero" 
               className="nice-input" 
-              type="number"
+              type="text"
               onChange={handleInputChange} 
               required 
             />
@@ -316,6 +284,36 @@ const AddAutarquia: React.FC = () => {
               onChange={(e) => handleChange('uf', e.target.value)} 
               required 
             />
+          </div>
+
+          <div className="nice-form-group">
+            <label>Data de Nascimento</label>
+              <input
+                id="dataNascimento"
+                name="dataNascimento"
+                type="date"
+                value={autarquia.dataNascimento ? new Date(autarquia.dataNascimento).toISOString().split('T')[0] : ''}
+                onChange={(e) => {
+                  const dateValue = e.target.value ? new Date(e.target.value) : null;
+                  handleDateChange(dateValue, 'dataNascimento');
+                }}
+                placeholder="DD/MM/AAAA"
+              />
+          </div>
+
+          <div className="nice-form-group">
+            <label>Data de Admissão</label>
+              <input
+                id="dataAdmissao"
+                name="dataAdmissao"
+                type="date"
+                value={autarquia.dataAdmissao ? new Date(autarquia.dataAdmissao).toISOString().split('T')[0] : ''}
+                onChange={(e) => {
+                  const dateValue = e.target.value ? new Date(e.target.value) : null;
+                  handleDateChange(dateValue, 'dataAdmissao');
+                }}
+                placeholder="DD/MM/AAAA"
+              />
           </div>
         </div>
 
@@ -444,6 +442,29 @@ const AddAutarquia: React.FC = () => {
 
         <div className="form-container-two">
           <div className="nice-form-group">
+            <label>Histórico do Sócio</label>
+              <textarea
+                id="historicoSocio"
+                name="historicoSocio"
+                onChange={(e) => handleChange('historicoSocio', e.target.value)}
+                rows={6}
+                cols={70}
+              />
+          </div>
+          <div className="nice-form-group">
+            <label>Observações sobre pagamentos</label>
+            <textarea
+              id="observacoesPagamentos"
+              name="observacoesPagamentos"
+              onChange={(e) => handleChange('observacoesPagamentos', e.target.value)}
+              rows={6}
+              cols={70}
+            />
+          </div>    
+        </div>
+
+        <div className="form-container-lonely">
+          <div className="nice-form-group">
             <label>Falecido</label>
               <input type="checkbox" id="falecido" name="falecido" onChange={(e) => handleChange('falecido', e.target.checked)} />
           </div>
@@ -464,42 +485,16 @@ const AddAutarquia: React.FC = () => {
           </div>
         </div>
 
-        <div className="form-container-lonely">
-          <div className="nice-form-group">
-            <label>Histórico do Sócio</label>
-              <textarea
-                id="historicoSocio"
-                name="historicoSocio"
-                onChange={(e) => handleChange('historicoSocio', e.target.value)}
-                rows={6}
-                cols={70}
-              />
-          </div>
-        </div>
-
-        <div className="form-container-lonely">
-          <div className="nice-form-group">
-            <label>Observações sobre pagamentos</label>
-            <textarea
-              id="observacoesPagamentos"
-              name="observacoesPagamentos"
-              onChange={(e) => handleChange('observacoesPagamentos', e.target.value)}
-              rows={6}
-              cols={70}
-            />
-          </div>    
-        </div>
-
         <div className="form-container-two">
           <div className="nice-form-group">
-            <label htmlFor="faixaSeguro" className="form-label">
+            <label htmlFor="seguro" className="form-label">
               Faixa Seguro
             </label>
             <input 
-              id="faixaSeguro" 
-              name="faixaSeguro" 
+              id="seguro" 
+              name="seguro" 
               className="nice-input" 
-              type="number"
+              type="text"
               onChange={handleInputChange} 
             />
           </div>
@@ -573,7 +568,7 @@ const AddAutarquia: React.FC = () => {
               id="descontoSocioEfetivo" 
               name="descontoSocioEfetivo" 
               className="nice-input" 
-              type="number"
+              type="text"
               onChange={handleInputChange} 
             />
           </div>
@@ -617,7 +612,7 @@ const AddAutarquia: React.FC = () => {
             id="totalJaneiro" 
             name="totalJaneiro" 
             className="nice-input" 
-            type="number"
+            type="text"
             onChange={handleInputChange} 
           />
         </div>
@@ -630,7 +625,7 @@ const AddAutarquia: React.FC = () => {
             id="totalFevereiro" 
             name="totalFevereiro" 
             className="nice-input" 
-            type="number"
+            type="text"
             onChange={handleInputChange} 
           />
         </div>
@@ -643,7 +638,7 @@ const AddAutarquia: React.FC = () => {
             id="totalMarco" 
             name="totalMarco" 
             className="nice-input" 
-            type="number"
+            type="text"
             onChange={handleInputChange} 
           />
         </div>
@@ -656,7 +651,7 @@ const AddAutarquia: React.FC = () => {
             id="totalAbril" 
             name="totalAbril" 
             className="nice-input" 
-            type="number"
+            type="text"
             onChange={handleInputChange} 
           />
         </div>
@@ -669,7 +664,7 @@ const AddAutarquia: React.FC = () => {
             id="totalMaio" 
             name="totalMaio" 
             className="nice-input" 
-            type="number"
+            type="text"
             onChange={handleInputChange} 
           />
         </div>
@@ -682,7 +677,7 @@ const AddAutarquia: React.FC = () => {
             id="totalJunho" 
             name="totalJunho" 
             className="nice-input" 
-            type="number"
+            type="text"
             onChange={handleInputChange} 
           />
         </div>
@@ -695,7 +690,7 @@ const AddAutarquia: React.FC = () => {
             id="totalJulho" 
             name="totalJulho" 
             className="nice-input" 
-            type="number"
+            type="text"
             onChange={handleInputChange} 
           />
         </div>
@@ -708,7 +703,7 @@ const AddAutarquia: React.FC = () => {
             id="totalAgosto" 
             name="totalAgosto" 
             className="nice-input" 
-            type="number"
+            type="text"
             onChange={handleInputChange} 
           />
         </div>
@@ -721,7 +716,7 @@ const AddAutarquia: React.FC = () => {
             id="totalSetembro" 
             name="totalSetembro" 
             className="nice-input" 
-            type="number"
+            type="text"
             onChange={handleInputChange} 
           />
         </div>
@@ -734,7 +729,7 @@ const AddAutarquia: React.FC = () => {
             id="totalOutubro" 
             name="totalOutubro" 
             className="nice-input" 
-            type="number"
+            type="text"
             onChange={handleInputChange} 
           />
         </div>
@@ -747,7 +742,7 @@ const AddAutarquia: React.FC = () => {
             id="totalNovembro" 
             name="totalNovembro" 
             className="nice-input" 
-            type="number"
+            type="text"
             onChange={handleInputChange} 
           />
         </div>
@@ -760,7 +755,7 @@ const AddAutarquia: React.FC = () => {
             id="totalDezembro" 
             name="totalDezembro" 
             className="nice-input" 
-            type="number"
+            type="text"
             onChange={handleInputChange} 
           />
         </div>
@@ -964,9 +959,12 @@ const AddAutarquia: React.FC = () => {
           ))}
         </div>
 
-        <Button type="submit" intent={Intent.PRIMARY}>
-          Adicionar Autarquia
-        </Button>
+        <div className="button-div">
+          <Button type="submit" intent={Intent.PRIMARY}>
+            Adicionar Autarquia
+          </Button>
+        </div>
+
       </form>
     </div>
   );
