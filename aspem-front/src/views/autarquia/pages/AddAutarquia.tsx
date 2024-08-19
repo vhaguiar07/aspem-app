@@ -8,6 +8,7 @@ import { Button, FormGroup, Intent, InputGroup, Switch } from '@blueprintjs/core
 import { ptBR } from 'date-fns/locale';
 import { parse } from 'date-fns';
 import './addAutarquiaStyles.css';
+import './nice-form.css'
 
 const AddAutarquia: React.FC = () => {
   const [autarquia, setAutarquia] = useState<Partial<Autarquia>>({});
@@ -116,152 +117,369 @@ const AddAutarquia: React.FC = () => {
       <form onSubmit={handleSubmit}>
 
         <div className="form-container-two">
-          <FormGroup label="Órgão" labelFor="orgao">
-            <InputGroup id="orgao" name="orgao" onChange={(e) => handleChange('orgao', e.target.value)} required />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label htmlFor="orgao" className="form-label">
+              Órgão
+            </label>
+            <input 
+              id="orgao" 
+              name="orgao" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('orgao', e.target.value)} 
+              required 
+            />
+          </div>
 
-          <FormGroup label="Classificação" labelFor="classificacao">
-            <InputGroup id="classificacao" name="classificacao" onChange={(e) => handleChange('classificacao', e.target.value)} required />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label htmlFor="classificacao" className="form-label">
+              Classificação
+            </label>
+            <input 
+              id="classificacao" 
+              name="classificacao" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('classificacao', e.target.value)} 
+              required 
+            />
+          </div>
 
-          <FormGroup label="Matrícula" labelFor="matricula">
-            <InputGroup id="matricula" name="matricula" onChange={(e) => handleChange('matricula', e.target.value)} required />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label htmlFor="matricula" className="form-label">
+              Matrícula
+            </label>
+            <input 
+              id="matricula" 
+              name="matricula" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('matricula', e.target.value)} 
+              required 
+            />
+          </div>
 
-          <FormGroup label="Matrícula Social" labelFor="matriculaSocial">
-            <InputGroup id="matriculaSocial" name="matriculaSocial" onChange={(e) => handleChange('matriculaSocial', e.target.value)} required />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label htmlFor="matriculaSocial" className="form-label">
+              Matrícula Social
+            </label>
+            <input 
+              id="matriculaSocial" 
+              name="matriculaSocial" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('matriculaSocial', e.target.value)} 
+              required 
+            />
+          </div>
         </div>
 
-        <div className="form-container-lonely">
-          <FormGroup label="Nome do Sócio" labelFor="nomeSocio">
-            <InputGroup id="nomeSocio" name="nomeSocio" onChange={(e) => handleChange('nomeSocio', e.target.value)} required />
-          </FormGroup>
+        <div className="nice-form-group">
+          <label htmlFor="nomeSocio" className="form-label">
+            Nome do Sócio
+          </label>
+          <input 
+            id="nomeSocio" 
+            name="nomeSocio" 
+            className="nice-input"
+            type="text"
+            onChange={(e) => handleChange('nomeSocio', e.target.value)} 
+            required 
+          />
         </div>
 
         <div className="form-container-two">
-          <FormGroup label="Data de Nascimento" labelFor="dataNascimento">
-            <DatePicker
-              selected={autarquia.dataNascimento ? new Date(autarquia.dataNascimento) : null}
-              onChange={(date) => handleDateChange(date, 'dataNascimento')}
-              dateFormat="dd/MM/yyyy"
-              placeholderText="DD/MM/AAAA"
-              locale={ptBR}
-              customInput={<InputGroup id="dataNascimento" name="dataNascimento" onChange={handleInputChange} />}
-            />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label>Data de Nascimento</label>
+              <input
+                id="dataNascimento"
+                name="dataNascimento"
+                type="date"
+                value={autarquia.dataNascimento ? new Date(autarquia.dataNascimento).toISOString().split('T')[0] : ''}
+                onChange={(e) => {
+                  const dateValue = e.target.value ? new Date(e.target.value) : null;
+                  handleDateChange(dateValue, 'dataNascimento');
+                }}
+                placeholder="DD/MM/AAAA"
+              />
+          </div>
 
-          <FormGroup label="Data de Admissão" labelFor="dataAdmissao">
-            <DatePicker
-              selected={autarquia.dataAdmissao ? new Date(autarquia.dataAdmissao) : null}
-              onChange={(date) => handleDateChange(date, 'dataAdmissao')}
-              dateFormat="dd/MM/yyyy"
-              placeholderText="DD/MM/AAAA"
-              locale={ptBR}
-              customInput={<InputGroup id="dataAdmissao" name="dataAdmissao" onChange={handleInputChange} required />}
-            />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label>Data de Admissão</label>
+              <input
+                id="dataAdmissao"
+                name="dataAdmissao"
+                type="date"
+                value={autarquia.dataAdmissao ? new Date(autarquia.dataAdmissao).toISOString().split('T')[0] : ''}
+                onChange={(e) => {
+                  const dateValue = e.target.value ? new Date(e.target.value) : null;
+                  handleDateChange(dateValue, 'dataAdmissao');
+                }}
+                placeholder="DD/MM/AAAA"
+              />
+          </div>
         </div>
 
         <div className="form-container-three">
-          <FormGroup label="Endereço" labelFor="endereco">
-            <InputGroup id="endereco" name="endereco" onChange={(e) => handleChange('endereco', e.target.value)} required />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label htmlFor="endereco" className="form-label">
+              Endereço
+            </label>
+            <input 
+              id="endereco" 
+              name="endereco" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('endereco', e.target.value)} 
+              required 
+            />
+          </div>
 
-          <FormGroup label="Número" labelFor="numero">
-            <InputGroup id="numero" name="numero" type="number" onChange={handleInputChange} required />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label htmlFor="numero" className="form-label">
+              Número
+            </label>
+            <input 
+              id="numero" 
+              name="numero" 
+              className="nice-input" 
+              type="number"
+              onChange={handleInputChange} 
+              required 
+            />
+          </div>
 
-          <FormGroup label="Complemento" labelFor="complemento">
-            <InputGroup id="complemento" name="complemento" onChange={(e) => handleChange('complemento', e.target.value)} />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label htmlFor="complemento" className="form-label">
+              Complemento
+            </label>
+            <input 
+              id="complemento" 
+              name="complemento" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('complemento', e.target.value)} 
+            />
+          </div>
 
-          <FormGroup label="Bairro Residência" labelFor="bairroResidencia">
-            <InputGroup id="bairroResidencia" name="bairroResidencia" onChange={(e) => handleChange('bairroResidencia', e.target.value)} required />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label htmlFor="bairroResidencia" className="form-label">
+              Bairro Residência
+            </label>
+            <input 
+              id="bairroResidencia" 
+              name="bairroResidencia" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('bairroResidencia', e.target.value)} 
+              required 
+            />
+          </div>
 
-          <FormGroup label="CEP Residência" labelFor="cepResidencia">
-            <InputGroup id="cepResidencia" name="cepResidencia" onChange={(e) => handleChange('cepResidencia', e.target.value)} required />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label htmlFor="cepResidencia" className="form-label">
+              CEP Residência
+            </label>
+            <input 
+              id="cepResidencia" 
+              name="cepResidencia" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('cepResidencia', e.target.value)} 
+              required 
+            />
+          </div>
 
-          <FormGroup label="Cidade Residência" labelFor="cidadeResidencia">
-            <InputGroup id="cidadeResidencia" name="cidadeResidencia" onChange={(e) => handleChange('cidadeResidencia', e.target.value)} required />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label htmlFor="cidadeResidencia" className="form-label">
+              Cidade Residência
+            </label>
+            <input 
+              id="cidadeResidencia" 
+              name="cidadeResidencia" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('cidadeResidencia', e.target.value)} 
+              required 
+            />
+          </div>
 
-          <FormGroup label="UF" labelFor="uf">
-            <InputGroup id="uf" name="uf" onChange={(e) => handleChange('uf', e.target.value)} required />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label htmlFor="uf" className="form-label">
+              UF
+            </label>
+            <input 
+              id="uf" 
+              name="uf" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('uf', e.target.value)} 
+              required 
+            />
+          </div>
         </div>
 
         <div className="form-container-three">
-          <FormGroup label="Email" labelFor="email">
-            <InputGroup id="email" name="email" type="email" onChange={(e) => handleChange('email', e.target.value)} />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label htmlFor="email" className="form-label">
+              Email
+            </label>
+            <input 
+              id="email" 
+              name="email" 
+              className="nice-input" 
+              type="email"
+              onChange={(e) => handleChange('email', e.target.value)} 
+            />
+          </div>
 
-          <FormGroup label="Telefone Residência" labelFor="telefoneResidencia">
-            <InputGroup id="telefoneResidencia" name="telefoneResidencia" onChange={(e) => handleChange('telefoneResidencia', e.target.value)} />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label htmlFor="telefoneResidencia" className="form-label">
+              Telefone Residência
+            </label>
+            <input 
+              id="telefoneResidencia" 
+              name="telefoneResidencia" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('telefoneResidencia', e.target.value)} 
+            />
+          </div>
 
-          <FormGroup label="Telefone Celular" labelFor="telefoneCelular">
-            <InputGroup id="telefoneCelular" name="telefoneCelular" onChange={(e) => handleChange('telefoneCelular', e.target.value)} />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label htmlFor="telefoneCelular" className="form-label">
+              Telefone Celular
+            </label>
+            <input 
+              id="telefoneCelular" 
+              name="telefoneCelular" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('telefoneCelular', e.target.value)} 
+            />
+          </div>
 
-          <FormGroup label="Telefone Comercial" labelFor="telefoneComercial">
-            <InputGroup id="telefoneComercial" name="telefoneComercial" onChange={(e) => handleChange('telefoneComercial', e.target.value)} />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label htmlFor="telefoneComercial" className="form-label">
+              Telefone Comercial
+            </label>
+            <input 
+              id="telefoneComercial" 
+              name="telefoneComercial" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('telefoneComercial', e.target.value)} 
+            />
+          </div>
 
-          <FormGroup label="Estado Civil" labelFor="estadoCivil">
-            <InputGroup id="estadoCivil" name="estadoCivil" onChange={(e) => handleChange('estadoCivil', e.target.value)} required />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label htmlFor="estadoCivil" className="form-label">
+              Estado Civil
+            </label>
+            <input 
+              id="estadoCivil" 
+              name="estadoCivil" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('estadoCivil', e.target.value)} 
+              required 
+            />
+          </div>
 
-          <FormGroup label="Cônjuge" labelFor="conjuge">
-            <InputGroup id="conjuge" name="conjuge" onChange={(e) => handleChange('conuge', e.target.value)} />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label htmlFor="conjuge" className="form-label">
+              Cônjuge
+            </label>
+            <input 
+              id="conjuge" 
+              name="conjuge" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('conjuge', e.target.value)} 
+            />
+          </div>
 
-          <FormGroup label="CPF" labelFor="cpf">
-            <InputGroup id="cpf" name="cpf" onChange={(e) => handleChange('cpf', e.target.value)} required />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label htmlFor="cpf" className="form-label">
+              CPF
+            </label>
+            <input 
+              id="cpf" 
+              name="cpf" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('cpf', e.target.value)} 
+              required 
+            />
+          </div>
 
-          <FormGroup label="RG" labelFor="rg">
-            <InputGroup id="rg" name="rg" onChange={(e) => handleChange('rg', e.target.value)} required />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label htmlFor="rg" className="form-label">
+              RG
+            </label>
+            <input 
+              id="rg" 
+              name="rg" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('rg', e.target.value)} 
+              required 
+            />
+          </div>
 
-          <FormGroup label="Órgão Expedidor" labelFor="orgaoExpedidor">
-            <InputGroup id="orgaoExpedidor" name="orgaoExpedidor" onChange={(e) => handleChange('orgaoExpedidor', e.target.value)} required />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label htmlFor="orgaoExpedidor" className="form-label">
+              Órgão Expedidor
+            </label>
+            <input 
+              id="orgaoExpedidor" 
+              name="orgaoExpedidor" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('orgaoExpedidor', e.target.value)} 
+              required 
+            />
+          </div>
         </div>
 
         <div className="form-container-two">
-          <FormGroup label="Falecido" labelFor="falecido">
-            <Switch id="falecido" name="falecido" onChange={(e) => handleChange('falecido', e.target.checked)} />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label>Falecido</label>
+              <input type="checkbox" id="falecido" name="falecido" onChange={(e) => handleChange('falecido', e.target.checked)} />
+          </div>
 
-          <FormGroup label="Data de Falecimento" labelFor="dataFalecimento">
-            <DatePicker
-              selected={autarquia.dataFalecimento ? new Date(autarquia.dataFalecimento) : null}
-              onChange={(date) => handleDateChange(date, 'dataFalecimento')}
-              dateFormat="dd/MM/yyyy"
-              placeholderText="DD/MM/AAAA"
-              locale={ptBR}
-              customInput={<InputGroup id="dataFalecimento" name="dataFalecimento" onChange={handleInputChange} />}
-            />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label>Data de Falecimento</label>
+              <input
+                id="dataFalecimento"
+                name="dataFalecimento"
+                type="date"
+                value={autarquia.dataFalecimento ? new Date(autarquia.dataFalecimento).toISOString().split('T')[0] : ''}
+                onChange={(e) => {
+                  const dateValue = e.target.value ? new Date(e.target.value) : null;
+                  handleDateChange(dateValue, 'dataFalecimento');
+                }}
+                placeholder="DD/MM/AAAA"
+              />
+          </div>
         </div>
 
         <div className="form-container-lonely">
-          <FormGroup label="Histórico do Sócio" labelFor="historicoSocio">
-            <textarea
-              id="historicoSocio"
-              name="historicoSocio"
-              onChange={(e) => handleChange('historicoSocio', e.target.value)}
-              rows={6}
-              cols={70}
-            />
-          </FormGroup>
+          <div className="nice-form-group">
+            <label>Histórico do Sócio</label>
+              <textarea
+                id="historicoSocio"
+                name="historicoSocio"
+                onChange={(e) => handleChange('historicoSocio', e.target.value)}
+                rows={6}
+                cols={70}
+              />
+          </div>
         </div>
 
         <div className="form-container-lonely">
-          <FormGroup label="Observações sobre Pagamentos" labelFor="observacoesPagamentos">
+          <div className="nice-form-group">
+            <label>Observações sobre pagamentos</label>
             <textarea
               id="observacoesPagamentos"
               name="observacoesPagamentos"
@@ -269,114 +487,283 @@ const AddAutarquia: React.FC = () => {
               rows={6}
               cols={70}
             />
-          </FormGroup>
+          </div>    
         </div>
 
         <div className="form-container-two">
-          <FormGroup label="Faixa Seguro" labelFor="seguro">
-            <InputGroup id="seguro" name="seguro" type="number" onChange={handleInputChange} />
-          </FormGroup>
-
-          <FormGroup label="Reversível" labelFor="reversivel">
-            <Switch id="reversivel" name="reversivel" onChange={(e) => handleChange('reversivel', e.target.checked)} />
-          </FormGroup>
-        </div>
-
-        <div className="form-container-two">
-          <FormGroup label="Valor Desconto Seguro" labelFor="valorDescontoSeguro">
-            <InputGroup id="valorDescontoSeguro" name="valorDescontoSeguro" onChange={(e) => handleChange('valorDescontoSeguro', e.target.value)} />
-          </FormGroup>
-
-          <FormGroup label="Morte Natural" labelFor="morteNatural">
-            <InputGroup id="morteNatural" name="morteNatural" onChange={(e) => handleChange('morteNatural', e.target.value)} />
-          </FormGroup>
-
-          <FormGroup label="Morte Acidental" labelFor="morteAcidental">
-            <InputGroup id="morteAcidental" name="morteAcidental" onChange={(e) => handleChange('morteAcidental', e.target.value)} />
-          </FormGroup>
-
-          <FormGroup label="Invalidez Permanente Acidente" labelFor="invalidezPermanenteAcidente">
-            <InputGroup id="invalidezPermanenteAcidente" name="invalidezPermanenteAcidente" onChange={(e) => handleChange('invalidezPermanenteAcidente', e.target.value)} />
-          </FormGroup>
-        </div>
-
-        <div className="form-container-two">
-          <FormGroup label="Desconto Sócio Efetivo" labelFor="descontoSocioEfetivo">
-            <InputGroup id="descontoSocioEfetivo" name="descontoSocioEfetivo" onChange={(e) => handleChange('descontoSocioEfetivo', e.target.value)} />
-          </FormGroup>
-
-          <FormGroup label="Omitido" labelFor="omitido">
-            <Switch id="omitido" name="omitido" onChange={(e) => handleChange('omitido', e.target.checked)} />
-          </FormGroup>
-        </div>
-
-        <div className="form-container-lonely">
-          <FormGroup label="PS" labelFor="ps">
-            <Switch id="ps" name="ps" onChange={(e) => handleChange('ps', e.target.checked)} />
-          </FormGroup>
-        </div>
-
-        <div className="form-container-lonely">
-          <FormGroup label="Ano Fiscal" labelFor="anoFiscal">
-            <DatePicker
-              selected={autarquia.anoFiscal ? new Date(autarquia.anoFiscal) : null}
-              onChange={(date) => handleDateChange(date, 'anoFiscal')}
-              dateFormat="dd/MM/yyyy"
-              placeholderText="DD/MM/AAAA"
-              locale={ptBR}
-              customInput={<InputGroup id="anoFiscal" name="anoFiscal" onChange={handleInputChange} />}
+          <div className="nice-form-group">
+            <label htmlFor="faixaSeguro" className="form-label">
+              Faixa Seguro
+            </label>
+            <input 
+              id="faixaSeguro" 
+              name="faixaSeguro" 
+              className="nice-input" 
+              type="number"
+              onChange={handleInputChange} 
             />
-          </FormGroup>
+          </div>
+
+          <div className="nice-form-group">
+            <label>Reversível</label>
+              <input type="checkbox" id="reversivel" name="reversivel" onChange={(e) => handleChange('reversivel', e.target.checked)} />
+          </div>
+        </div>
+
+        <div className="form-container-two">
+          <div className="nice-form-group">
+            <label htmlFor="valorDescontoSeguro" className="form-label">
+              Valor Desconto Seguro
+            </label>
+            <input 
+              id="valorDescontoSeguro" 
+              name="valorDescontoSeguro" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('valorDescontoSeguro', e.target.value)} 
+            />
+          </div>
+
+          <div className="nice-form-group">
+            <label htmlFor="morteNatural" className="form-label">
+              Morte Natural
+            </label>
+            <input 
+              id="morteNatural" 
+              name="morteNatural" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('morteNatural', e.target.value)} 
+            />
+          </div>
+
+          <div className="nice-form-group">
+            <label htmlFor="morteAcidental" className="form-label">
+              Morte Acidental
+            </label>
+            <input 
+              id="morteAcidental" 
+              name="morteAcidental" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('morteAcidental', e.target.value)} 
+            />
+          </div>
+
+          <div className="nice-form-group">
+            <label htmlFor="invalidezPermanenteAcidente" className="form-label">
+              Invalidez Permanente Acidente
+            </label>
+            <input 
+              id="invalidezPermanenteAcidente" 
+              name="invalidezPermanenteAcidente" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('invalidezPermanenteAcidente', e.target.value)} 
+            />
+          </div>
+        </div>
+
+        <div className="form-container-two">
+          <div className="nice-form-group">
+            <label htmlFor="descontoSocioEfetivo" className="form-label">
+              Desconto Sócio Efetivo
+            </label>
+            <input 
+              id="descontoSocioEfetivo" 
+              name="descontoSocioEfetivo" 
+              className="nice-input" 
+              type="number"
+              onChange={handleInputChange} 
+            />
+          </div>
+
+          <div className="nice-form-group">
+            <label>Omitido</label>
+              <input type="checkbox" id="omitido" name="omitido" onChange={(e) => handleChange('omitido', e.target.checked)} />
+          </div>
+        </div>
+
+        <div className="form-container-lonely">
+          <div className="nice-form-group">
+            <label>PS</label>
+              <input type="checkbox" id="ps" name="ps" onChange={(e) => handleChange('ps', e.target.checked)} />
+          </div>
+        </div>
+
+        <div className="form-container-lonely">
+          <div className="nice-form-group">
+            <label>Ano Fiscal</label>
+              <input
+                id="anoFiscal"
+                name="anoFiscal"
+                type="date"
+                value={autarquia.anoFiscal ? new Date(autarquia.anoFiscal).toISOString().split('T')[0] : ''}
+                onChange={(e) => {
+                  const dateValue = e.target.value ? new Date(e.target.value) : null;
+                  handleDateChange(dateValue, 'anoFiscal');
+                }}
+                placeholder="DD/MM/AAAA"
+              />
+          </div>
         </div>
 
         <div className="form-container-three">
-          <FormGroup label="Total Janeiro" labelFor="totalJaneiro">
-            <InputGroup id="totalJaneiro" name="totalJaneiro" type="number" onChange={handleInputChange} />
-          </FormGroup>
+        <div className="nice-form-group">
+          <label htmlFor="totalJaneiro" className="form-label">
+            Total Janeiro
+          </label>
+          <input 
+            id="totalJaneiro" 
+            name="totalJaneiro" 
+            className="nice-input" 
+            type="number"
+            onChange={handleInputChange} 
+          />
+        </div>
 
-          <FormGroup label="Total Fevereiro" labelFor="totalFevereiro">
-            <InputGroup id="totalFevereiro" name="totalFevereiro" type="number" onChange={handleInputChange} />
-          </FormGroup>
+        <div className="nice-form-group">
+          <label htmlFor="totalFevereiro" className="form-label">
+            Total Fevereiro
+          </label>
+          <input 
+            id="totalFevereiro" 
+            name="totalFevereiro" 
+            className="nice-input" 
+            type="number"
+            onChange={handleInputChange} 
+          />
+        </div>
 
-          <FormGroup label="Total Março" labelFor="totalMarco">
-            <InputGroup id="totalMarco" name="totalMarco" type="number" onChange={handleInputChange} />
-          </FormGroup>
+        <div className="nice-form-group">
+          <label htmlFor="totalMarco" className="form-label">
+            Total Março
+          </label>
+          <input 
+            id="totalMarco" 
+            name="totalMarco" 
+            className="nice-input" 
+            type="number"
+            onChange={handleInputChange} 
+          />
+        </div>
 
-          <FormGroup label="Total Abril" labelFor="totalAbril">
-            <InputGroup id="totalAbril" name="totalAbril" type="number" onChange={handleInputChange} />
-          </FormGroup>
+        <div className="nice-form-group">
+          <label htmlFor="totalAbril" className="form-label">
+            Total Abril
+          </label>
+          <input 
+            id="totalAbril" 
+            name="totalAbril" 
+            className="nice-input" 
+            type="number"
+            onChange={handleInputChange} 
+          />
+        </div>
 
-          <FormGroup label="Total Maio" labelFor="totalMaio">
-            <InputGroup id="totalMaio" name="totalMaio" type="number" onChange={handleInputChange} />
-          </FormGroup>
+        <div className="nice-form-group">
+          <label htmlFor="totalMaio" className="form-label">
+            Total Maio
+          </label>
+          <input 
+            id="totalMaio" 
+            name="totalMaio" 
+            className="nice-input" 
+            type="number"
+            onChange={handleInputChange} 
+          />
+        </div>
 
-          <FormGroup label="Total Junho" labelFor="totalJunho">
-            <InputGroup id="totalJunho" name="totalJunho" type="number" onChange={handleInputChange} />
-          </FormGroup>
+        <div className="nice-form-group">
+          <label htmlFor="totalJunho" className="form-label">
+            Total Junho
+          </label>
+          <input 
+            id="totalJunho" 
+            name="totalJunho" 
+            className="nice-input" 
+            type="number"
+            onChange={handleInputChange} 
+          />
+        </div>
 
-          <FormGroup label="Total Julho" labelFor="totalJulho">
-            <InputGroup id="totalJulho" name="totalJulho" type="number" onChange={handleInputChange} />
-          </FormGroup>
+        <div className="nice-form-group">
+          <label htmlFor="totalJulho" className="form-label">
+            Total Julho
+          </label>
+          <input 
+            id="totalJulho" 
+            name="totalJulho" 
+            className="nice-input" 
+            type="number"
+            onChange={handleInputChange} 
+          />
+        </div>
 
-          <FormGroup label="Total Agosto" labelFor="totalAgosto">
-            <InputGroup id="totalAgosto" name="totalAgosto" type="number" onChange={handleInputChange} />
-          </FormGroup>
+        <div className="nice-form-group">
+          <label htmlFor="totalAgosto" className="form-label">
+            Total Agosto
+          </label>
+          <input 
+            id="totalAgosto" 
+            name="totalAgosto" 
+            className="nice-input" 
+            type="number"
+            onChange={handleInputChange} 
+          />
+        </div>
 
-          <FormGroup label="Total Setembro" labelFor="totalSetembro">
-            <InputGroup id="totalSetembro" name="totalSetembro" type="number" onChange={handleInputChange} />
-          </FormGroup>
+        <div className="nice-form-group">
+          <label htmlFor="totalSetembro" className="form-label">
+            Total Setembro
+          </label>
+          <input 
+            id="totalSetembro" 
+            name="totalSetembro" 
+            className="nice-input" 
+            type="number"
+            onChange={handleInputChange} 
+          />
+        </div>
 
-          <FormGroup label="Total Outubro" labelFor="totalOutubro">
-            <InputGroup id="totalOutubro" name="totalOutubro" type="number" onChange={handleInputChange} />
-          </FormGroup>
+        <div className="nice-form-group">
+          <label htmlFor="totalOutubro" className="form-label">
+            Total Outubro
+          </label>
+          <input 
+            id="totalOutubro" 
+            name="totalOutubro" 
+            className="nice-input" 
+            type="number"
+            onChange={handleInputChange} 
+          />
+        </div>
 
-          <FormGroup label="Total Novembro" labelFor="totalNovembro">
-            <InputGroup id="totalNovembro" name="totalNovembro" type="number" onChange={handleInputChange} />
-          </FormGroup>
+        <div className="nice-form-group">
+          <label htmlFor="totalNovembro" className="form-label">
+            Total Novembro
+          </label>
+          <input 
+            id="totalNovembro" 
+            name="totalNovembro" 
+            className="nice-input" 
+            type="number"
+            onChange={handleInputChange} 
+          />
+        </div>
 
-          <FormGroup label="Total Dezembro" labelFor="totalDezembro">
-            <InputGroup id="totalDezembro" name="totalDezembro" type="number" onChange={handleInputChange} />
-          </FormGroup>
+        <div className="nice-form-group">
+          <label htmlFor="totalDezembro" className="form-label">
+            Total Dezembro
+          </label>
+          <input 
+            id="totalDezembro" 
+            name="totalDezembro" 
+            className="nice-input" 
+            type="number"
+            onChange={handleInputChange} 
+          />
+        </div>
         </div>
 
         <div className="form-container-lonely">
