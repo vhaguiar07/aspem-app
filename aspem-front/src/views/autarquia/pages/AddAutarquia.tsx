@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -19,6 +19,7 @@ const AddAutarquia: React.FC = () => {
   const [cooperadores, setCooperadores] = useState<{ [key: string]: string }[]>([]);
   const [dependentes, setDependentes] = useState<{ [key: string]: string }[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
 
   const handleChange = (name: string, value: any) => {
@@ -110,11 +111,22 @@ const AddAutarquia: React.FC = () => {
     }
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const formElements = formRef.current?.elements as HTMLCollectionOf<HTMLElement>;
+      const index = Array.from(formElements).indexOf(e.target as HTMLElement);
+      if (index > -1 && index < formElements.length - 1) {
+        (formElements[index + 1] as HTMLElement).focus();
+      }
+    }
+  };
+
   return (
     <div className="add-autarquia-page">
       <h1>Autarquia</h1>
       {error && <p className="error">{error}</p>}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} ref={formRef} onKeyPress={handleKeyPress}>
 
         <div className="form-container-two">
           <div className="nice-form-group">
@@ -287,33 +299,29 @@ const AddAutarquia: React.FC = () => {
           </div>
 
           <div className="nice-form-group">
-            <label>Data de Nascimento</label>
-              <input
-                id="dataNascimento"
-                name="dataNascimento"
-                type="date"
-                value={autarquia.dataNascimento ? new Date(autarquia.dataNascimento).toISOString().split('T')[0] : ''}
-                onChange={(e) => {
-                  const dateValue = e.target.value ? new Date(e.target.value) : null;
-                  handleDateChange(dateValue, 'dataNascimento');
-                }}
-                placeholder="DD/MM/AAAA"
+            <FormGroup label="Data de Nascimento" labelFor="dataNascimento">
+              <DatePicker
+                selected={autarquia.dataNascimento ? new Date(autarquia.dataNascimento) : null}
+                onChange={(date) => handleDateChange(date, 'dataNascimento')}
+                dateFormat="dd/MM/yyyy"
+                placeholderText="DD/MM/AAAA"
+                locale={ptBR}
+                customInput={<InputGroup id="dataNascimento" name="dataNascimento" onChange={handleInputChange} />}
               />
+            </FormGroup>
           </div>
 
           <div className="nice-form-group">
-            <label>Data de Admissão</label>
-              <input
-                id="dataAdmissao"
-                name="dataAdmissao"
-                type="date"
-                value={autarquia.dataAdmissao ? new Date(autarquia.dataAdmissao).toISOString().split('T')[0] : ''}
-                onChange={(e) => {
-                  const dateValue = e.target.value ? new Date(e.target.value) : null;
-                  handleDateChange(dateValue, 'dataAdmissao');
-                }}
-                placeholder="DD/MM/AAAA"
+            <FormGroup label="Data de Admissão" labelFor="dataAdmissao">
+              <DatePicker
+                selected={autarquia.dataAdmissao ? new Date(autarquia.dataAdmissao) : null}
+                onChange={(date) => handleDateChange(date, 'dataAdmissao')}
+                dateFormat="dd/MM/yyyy"
+                placeholderText="DD/MM/AAAA"
+                locale={ptBR}
+                customInput={<InputGroup id="dataAdmissao" name="dataAdmissao" onChange={handleInputChange} />}
               />
+            </FormGroup>
           </div>
         </div>
 
@@ -464,24 +472,22 @@ const AddAutarquia: React.FC = () => {
         </div>
 
         <div className="form-container-lonely">
-          <div className="nice-form-group">
-            <label>Falecido</label>
-              <input type="checkbox" id="falecido" name="falecido" onChange={(e) => handleChange('falecido', e.target.checked)} />
+          <div className="nice-form-group" style={{ display: 'flex', alignItems: 'center' }}>
+            <label htmlFor="falecido" style={{ marginRight: '8px', marginBottom: '0px' }}>Falecido</label>
+            <input type="checkbox" id="falecido" name="falecido" />
           </div>
 
           <div className="nice-form-group">
-            <label>Data de Falecimento</label>
-              <input
-                id="dataFalecimento"
-                name="dataFalecimento"
-                type="date"
-                value={autarquia.dataFalecimento ? new Date(autarquia.dataFalecimento).toISOString().split('T')[0] : ''}
-                onChange={(e) => {
-                  const dateValue = e.target.value ? new Date(e.target.value) : null;
-                  handleDateChange(dateValue, 'dataFalecimento');
-                }}
-                placeholder="DD/MM/AAAA"
+            <FormGroup label="Data de Falecimento" labelFor="dataFalecimento">
+              <DatePicker
+                selected={autarquia.dataFalecimento ? new Date(autarquia.dataFalecimento) : null}
+                onChange={(date) => handleDateChange(date, 'dataFalecimento')}
+                dateFormat="dd/MM/yyyy"
+                placeholderText="DD/MM/AAAA"
+                locale={ptBR}
+                customInput={<InputGroup id="dataFalecimento" name="dataFalecimento" onChange={handleInputChange} />}
               />
+            </FormGroup>
           </div>
         </div>
 
@@ -499,9 +505,9 @@ const AddAutarquia: React.FC = () => {
             />
           </div>
 
-          <div className="nice-form-group">
-            <label>Reversível</label>
-              <input type="checkbox" id="reversivel" name="reversivel" onChange={(e) => handleChange('reversivel', e.target.checked)} />
+          <div className="nice-form-group" style={{ display: 'flex', alignItems: 'center' }}>
+            <label htmlFor="reversivel" style={{ marginRight: '8px', marginBottom: '0px' }}>Reversível</label>
+            <input type="checkbox" id="reversivel" name="reversivel" />
           </div>
         </div>
 
@@ -573,33 +579,32 @@ const AddAutarquia: React.FC = () => {
             />
           </div>
 
-          <div className="nice-form-group">
-            <label>Omitido</label>
-              <input type="checkbox" id="omitido" name="omitido" onChange={(e) => handleChange('omitido', e.target.checked)} />
+          <div className="nice-form-group" style={{ display: 'flex', alignItems: 'center' }}>
+            <label htmlFor="omitido" style={{ marginRight: '8px', marginBottom: '0px' }}>Omitido</label>
+            <input type="checkbox" id="omitido" name="omitido" />
+          </div>
+        </div>
+
+        <div className="form-container-lonely">
+        <div className="nice-form-group" style={{ display: 'flex', alignItems: 'center' }}>
+            <label htmlFor="ps" style={{ marginRight: '8px', marginBottom: '0px' }}>PS</label>
+            <input type="checkbox" id="ps" name="ps" />
           </div>
         </div>
 
         <div className="form-container-lonely">
           <div className="nice-form-group">
-            <label>PS</label>
-              <input type="checkbox" id="ps" name="ps" onChange={(e) => handleChange('ps', e.target.checked)} />
-          </div>
-        </div>
-
-        <div className="form-container-lonely">
-          <div className="nice-form-group">
-            <label>Ano Fiscal</label>
-              <input
-                id="anoFiscal"
-                name="anoFiscal"
-                type="date"
-                value={autarquia.anoFiscal ? new Date(autarquia.anoFiscal).toISOString().split('T')[0] : ''}
-                onChange={(e) => {
-                  const dateValue = e.target.value ? new Date(e.target.value) : null;
-                  handleDateChange(dateValue, 'anoFiscal');
-                }}
-                placeholder="DD/MM/AAAA"
-              />
+            <label htmlFor="anoFiscal" className="form-label">
+              Ano Fiscal
+            </label>
+            <input 
+              id="anoFiscal" 
+              name="anoFiscal" 
+              className="nice-input" 
+              type="text"
+              onChange={(e) => handleChange('anoFiscal', e.target.value)} 
+              required 
+            />
           </div>
         </div>
 
@@ -762,23 +767,25 @@ const AddAutarquia: React.FC = () => {
         </div>
 
         <div className="form-container-lonely">
-          <FormGroup label="Adventícios" labelFor="quantidadeAdventicios">
-            <InputGroup
-              id="quantidadeAdventicios"
-              name="quantidadeAdventicios"
-              type="number"
-              onChange={(e) => {
-                handleInputChange(e);
+          <div className="nice-form-group">
+            <FormGroup label="Adventícios" labelFor="quantidadeAdventicios">
+              <InputGroup
+                id="quantidadeAdventicios"
+                name="quantidadeAdventicios"
+                type="number"
+                onChange={(e) => {
+                  handleInputChange(e);
 
-                const quantidade = parseInt(e.target.value, 10);
-                if (!isNaN(quantidade) && quantidade >= 0) {
-                  setAdventicios(Array(quantidade).fill({}));
-                } else {
-                  setAdventicios([]);
-                }
-              }}
-            />
-          </FormGroup>
+                  const quantidade = parseInt(e.target.value, 10);
+                  if (!isNaN(quantidade) && quantidade >= 0) {
+                    setAdventicios(Array(quantidade).fill({}));
+                  } else {
+                    setAdventicios([]);
+                  }
+                }}
+              />
+            </FormGroup>
+          </div>
 
           {adventicios.map((_, index) => (
             <div key={index} className="adventicio-group">
@@ -795,23 +802,25 @@ const AddAutarquia: React.FC = () => {
         </div>
 
         <div className="form-container-lonely">
-          <FormGroup label="Faixa Dente Cross" labelFor="dentCross">
-            <InputGroup
-              id="dentCross"
-              name="dentCross"
-              type="number"
-              onChange={(e) => {
-                handleInputChange(e);
+          <div className="nice-form-group">
+            <FormGroup label="Faixa Dente Cross" labelFor="dentCross">
+              <InputGroup
+                id="dentCross"
+                name="dentCross"
+                type="number"
+                onChange={(e) => {
+                  handleInputChange(e);
 
-                const quantidade = parseInt(e.target.value, 10);
-                if (!isNaN(quantidade) && quantidade >= 0) {
-                  setDentCross(Array(quantidade).fill({}));
-                } else {
-                  setDentCross([]);
-                }
-              }}
-            />
-          </FormGroup>
+                  const quantidade = parseInt(e.target.value, 10);
+                  if (!isNaN(quantidade) && quantidade >= 0) {
+                    setDentCross(Array(quantidade).fill({}));
+                  } else {
+                    setDentCross([]);
+                  }
+                }}
+              />
+            </FormGroup>
+          </div>
 
           {dentCross.map((_, index) => (
             <div key={index} className="dentCross-group">
@@ -828,23 +837,25 @@ const AddAutarquia: React.FC = () => {
         </div>
 
         <div className="form-container-lonely">
-          <FormGroup label="Faixa OD Med" labelFor="odMed">
-            <InputGroup
-              id="odMed"
-              name="odMed"
-              type="number"
-              onChange={(e) => {
-                handleInputChange(e);
+          <div className="nice-form-group">
+            <FormGroup label="Faixa OD Med" labelFor="odMed">
+              <InputGroup
+                id="odMed"
+                name="odMed"
+                type="number"
+                onChange={(e) => {
+                  handleInputChange(e);
 
-                const quantidade = parseInt(e.target.value, 10);
-                if (!isNaN(quantidade) && quantidade >= 0) {
-                  setOdMed(Array(quantidade).fill({}));
-                } else {
-                  setOdMed([]);
-                }
-              }}
-            />
-          </FormGroup>
+                  const quantidade = parseInt(e.target.value, 10);
+                  if (!isNaN(quantidade) && quantidade >= 0) {
+                    setOdMed(Array(quantidade).fill({}));
+                  } else {
+                    setOdMed([]);
+                  }
+                }}
+              />
+            </FormGroup>
+          </div>
 
           {odMed.map((_, index) => (
             <div key={index} className="odMed-group">
@@ -861,23 +872,25 @@ const AddAutarquia: React.FC = () => {
         </div>
 
         <div className="form-container-lonely">
-          <FormGroup label="Rio Pax" labelFor="rioPax">
-            <InputGroup
-              id="rioPax"
-              name="rioPax"
-              type="number"
-              onChange={(e) => {
-                handleInputChange(e);
+          <div className="nice-form-group">
+            <FormGroup label="Rio Pax" labelFor="rioPax">
+              <InputGroup
+                id="rioPax"
+                name="rioPax"
+                type="number"
+                onChange={(e) => {
+                  handleInputChange(e);
 
-                const quantidade = parseInt(e.target.value, 10);
-                if (!isNaN(quantidade) && quantidade >= 0) {
-                  setRioPax(Array(quantidade).fill({}));
-                } else {
-                  setRioPax([]);
-                }
-              }}
-            />
-          </FormGroup>
+                  const quantidade = parseInt(e.target.value, 10);
+                  if (!isNaN(quantidade) && quantidade >= 0) {
+                    setRioPax(Array(quantidade).fill({}));
+                  } else {
+                    setRioPax([]);
+                  }
+                }}
+              />
+            </FormGroup>
+          </div>
 
           {rioPax.map((_, index) => (
             <div key={index} className="rioPax-group">
@@ -894,23 +907,25 @@ const AddAutarquia: React.FC = () => {
         </div>
 
         <div className="form-container-lonely">
-          <FormGroup label="Cooperadores" labelFor="cooperadores">
-            <InputGroup
-              id="cooperadores"
-              name="cooperadores"
-              type="number"
-              onChange={(e) => {
-                handleInputChange(e);
+          <div className="nice-form-group">
+            <FormGroup label="Cooperadores" labelFor="cooperadores">
+              <InputGroup
+                id="cooperadores"
+                name="cooperadores"
+                type="number"
+                onChange={(e) => {
+                  handleInputChange(e);
 
-                const quantidade = parseInt(e.target.value, 10);
-                if (!isNaN(quantidade) && quantidade >= 0) {
-                  setCooperadores(Array(quantidade).fill({}));
-                } else {
-                  setCooperadores([]);
-                }
-              }}
-            />
-          </FormGroup>
+                  const quantidade = parseInt(e.target.value, 10);
+                  if (!isNaN(quantidade) && quantidade >= 0) {
+                    setCooperadores(Array(quantidade).fill({}));
+                  } else {
+                    setCooperadores([]);
+                  }
+                }}
+              />
+            </FormGroup>
+          </div>
 
           {cooperadores.map((_, index) => (
             <div key={index} className="cooperadores-group">
@@ -927,23 +942,25 @@ const AddAutarquia: React.FC = () => {
         </div>
 
         <div className="form-container-lonely">
-          <FormGroup label="Dependentes" labelFor="dependentes">
-            <InputGroup
-              id="dependentes"
-              name="dependentes"
-              type="number"
-              onChange={(e) => {
-                handleInputChange(e);
+          <div className="nice-form-group">
+            <FormGroup label="Dependentes" labelFor="dependentes">
+              <InputGroup
+                id="dependentes"
+                name="dependentes"
+                type="number"
+                onChange={(e) => {
+                  handleInputChange(e);
 
-                const quantidade = parseInt(e.target.value, 10);
-                if (!isNaN(quantidade) && quantidade >= 0) {
-                  setDependentes(Array(quantidade).fill({}));
-                } else {
-                  setDependentes([]);
-                }
-              }}
-            />
-          </FormGroup>
+                  const quantidade = parseInt(e.target.value, 10);
+                  if (!isNaN(quantidade) && quantidade >= 0) {
+                    setDependentes(Array(quantidade).fill({}));
+                  } else {
+                    setDependentes([]);
+                  }
+                }}
+              />
+            </FormGroup>
+          </div>
 
           {dependentes.map((_, index) => (
             <div key={index} className="dependentes-group">

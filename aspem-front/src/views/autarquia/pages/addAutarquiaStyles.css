@@ -39,9 +39,12 @@
   }
 
   .form-container-lonely .bp5-label {
-    text-align: center;
-    font-size: 16px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    display: block;
+    color: var(--nf-label-color);
+    font-size: var(--nf-label-font-size);
+    font-family: var(--nf-label-font-family);
+    margin-bottom: calc(var(--nf-input-size)/2);
+    white-space: normal;
   }
 
   .form-container-lonely textarea {
@@ -86,7 +89,7 @@
   .form-container-three .bp5-input-group input {
     width: 170px;
     max-width: 100%;
-    height: 30px;
+    height: calc(var(--nf-input-size)*2.75);
     padding: 8px;
     box-sizing: border-box;
     border: 2px solid #ccc;
@@ -95,16 +98,27 @@
     margin-top: 6px;
   }
 
+  .form-container-two .bp5-input-group input,
+  .form-container-three .bp5-input-group input:focus {
+    outline: none;
+    border-color: var(--nf-input-focus-border-color);
+  }
+
   .form-container-lonely .bp5-input-group input {
     width: 170px;
     max-width: 500px;
-    height: 30px;
+    height: calc(var(--nf-input-size)*2.75);
     padding: 8px;
     box-sizing: border-box;
     border: 2px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
-}
+  }
+
+  .form-container-lonely .bp5-input-group input:focus {
+    outline: none;
+    border-color: var(--nf-input-focus-border-color);
+  }
 
   .bp5-form-content .bp5-control{
     display: flex;
@@ -118,7 +132,7 @@
   }
 
   .bp5-button.bp5-intent-primary{
-    background: #3b4ce2;
+    background: #1a4870;
     display: -webkit-inline-flex;
     display: inline-flex;
     color: #fff;
@@ -134,7 +148,7 @@
   }
 
   .bp5-button.bp5-intent-primary:hover{
-    background: #2538df;
+    background: #103759;
   }
 
   .button-div{
