@@ -60,7 +60,7 @@ model Autarquias {
   descontoSocioEfetivo       String?
   historicoSocio             String?
   observacoesPagamentos      String?
-  anoFiscal                  String
+  anoFiscal                  String?
   totalJaneiro               Int?
   totalFevereiro             Int?
   totalMarco                 Int?
@@ -128,7 +128,7 @@ model BC {
   descontoSocioEfetivo       String?
   historicoSocio             String?
   observacoesPagamentos      String?
-  anoFiscal                  String
+  anoFiscal                  String?
   totalJaneiro               Int?
   totalFevereiro             Int?
   totalMarco                 Int?
@@ -197,7 +197,7 @@ model Estados {
   descontoSocioEfetivo       String?
   historicoSocio             String?
   observacoesPagamentos      String?
-  anoFiscal                  String
+  anoFiscal                  String?
   totalJaneiro               Int?
   totalFevereiro             Int?
   totalMarco                 Int?
@@ -266,7 +266,7 @@ model Municipios {
   descontoSocioEfetivo       String?
   historicoSocio             String?
   observacoesPagamentos      String?
-  anoFiscal                  String
+  anoFiscal                  String?
   totalJaneiro               Int?
   totalFevereiro             Int?
   totalMarco                 Int?

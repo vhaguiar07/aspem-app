@@ -49,7 +49,7 @@ const AddAutarquia: React.FC = () => {
       parsedValue = parseDate(value).toISOString();
     } 
 
-    if (name === 'descontoSocioEfetivo' || name === 'numero' || name === 'quantidadeAdventicios' || name === 'seguro' || name === 'totalJaneiro' || name === 'totalFevereiro' || name === 'totalMarco' || name === 'totalAbril' || name === 'totalMaio' || name === 'totalJunho' || name === 'totalJulho' || name === 'totalAgosto' || name === 'totalSetembro' || name === 'totalOutubro' || name === 'totalNovembro' || name === 'totalDezembro') {
+    if (name === 'numero' || name === 'quantidadeAdventicios' || name === 'seguro' || name === 'totalJaneiro' || name === 'totalFevereiro' || name === 'totalMarco' || name === 'totalAbril' || name === 'totalMaio' || name === 'totalJunho' || name === 'totalJulho' || name === 'totalAgosto' || name === 'totalSetembro' || name === 'totalOutubro' || name === 'totalNovembro' || name === 'totalDezembro') {
       parsedValue = parseInt(value, 10);
       if (isNaN(parsedValue)) parsedValue = 0;
     }
