@@ -157,7 +157,7 @@ export class CreateAutarquiasDto {
   observacoesPagamentos?: string;
 
   @IsOptional()
-  anoFiscal?: Date;
+  anoFiscal?: string;
 
   @IsNumber()
   @IsOptional()
