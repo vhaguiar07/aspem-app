@@ -1,0 +1,157 @@
+   .add-autarquia-page h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin-bottom: 50px;
+    margin-top: 50px;
+    font-size: 20px;
+  }
+  
+  .error {
+    color: red;
+    text-align: center;
+  }
+  
+  .content {
+    margin: 0 auto;
+    width: 80%;
+    padding-left: 150px;
+  }
+  
+  .form-container-two {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 80px;
+  }
+
+  .form-container-three {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 80px;
+  }
+
+  .form-container-lonely {
+    display: grid;
+    margin-bottom: 20px;
+    justify-content: center;
+  }
+
+  .form-container-lonely .bp5-label {
+    display: block;
+    color: var(--nf-label-color);
+    font-size: var(--nf-label-font-size);
+    font-family: var(--nf-label-font-family);
+    margin-bottom: calc(var(--nf-input-size)/2);
+    white-space: normal;
+  }
+
+  .form-container-lonely textarea {
+    width: 100%;
+    max-width: 500px;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+  }
+
+  .form-container-two .bp5-form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0;
+  }
+  
+  .form-container-two .bp5-label {
+    text-align: center;
+    font-size: 16px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+  .form-container-three .bp5-form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0;
+  }
+  
+  .form-container-three .bp5-label {
+    text-align: center;
+    font-size: 16px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif
+  }
+
+  .form-container-two .bp5-input-group input,
+  .form-container-three .bp5-input-group input {
+    width: 170px;
+    max-width: 100%;
+    height: calc(var(--nf-input-size)*2.75);
+    padding: 8px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 6px;
+  }
+
+  .form-container-two .bp5-input-group input,
+  .form-container-three .bp5-input-group input:focus {
+    outline: none;
+    border-color: var(--nf-input-focus-border-color);
+  }
+
+  .form-container-lonely .bp5-input-group input {
+    width: 170px;
+    max-width: 500px;
+    height: calc(var(--nf-input-size)*2.75);
+    padding: 8px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+
+  .form-container-lonely .bp5-input-group input:focus {
+    outline: none;
+    border-color: var(--nf-input-focus-border-color);
+  }
+
+  .bp5-form-content .bp5-control{
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+  }
+
+  .bp5-form-content .bp5-control input{
+    width: 25px;
+    height: 25px;
+  }
+
+  .bp5-button.bp5-intent-primary{
+    background: #1a4870;
+    display: -webkit-inline-flex;
+    display: inline-flex;
+    color: #fff;
+    border-radius: 5px;
+    padding: .5em 1em;
+    text-decoration: none;
+    -webkit-align-items: center;
+    align-items: center;
+    transition: background .2s ease-out;
+    margin-bottom: 80px;
+    margin-top: 40px;
+    cursor: pointer;
+  }
+
+  .bp5-button.bp5-intent-primary:hover{
+    background: #103759;
+  }
+
+  .button-div{
+    display: grid;
+    justify-content: center;
+  }

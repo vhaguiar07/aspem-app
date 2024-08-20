@@ -21,58 +21,58 @@ model Autarquias {
   orgao                      String
   classificacao              String
   matricula                  String
-  matriculaSocial            Int
+  matriculaSocial            String
   dataAdmissao               DateTime
   nomeSocio                  String
   endereco                   String
-  numero                     Int
-  complemento                String
+  numero                     Int?
+  complemento                String?
   bairroResidencia           String
   cidadeResidencia           String
   uf                         String
-  cepResidencia              String
-  telefoneResidencia         String
-  telefoneCelular            String
-  telefoneComercial          String
-  falecido                   Boolean
-  cpf                        String   @unique
-  rg                         String
-  orgaoExpedidor             String
+  cepResidencia              String?
+  telefoneResidencia         String?
+  telefoneCelular            String?
+  telefoneComercial          String?
+  falecido                   Boolean?
+  cpf                        String?   @unique
+  rg                         String?
+  orgaoExpedidor             String?
   dataFalecimento            DateTime?
-  quantidadeAdventicios      Int
-  quantidadeCooperadores     Int
-  dentCross                  Int
-  odMed                      Int
-  seguro                     Int
-  reversivel                 Boolean
-  valorDescontoSeguro        String
-  morteNatural               String
-  morteAcidental             String
-  invalidezPermanenteAcidente String
-  ps                         Boolean
-  omitido                    Boolean
-  rioPax                     Int
+  quantidadeAdventicios      Int?
+  quantidadeCooperadores     Int?
+  dentCross                  Int?
+  odMed                      Int?
+  seguro                     Int?
+  reversivel                 Boolean?
+  valorDescontoSeguro        String?
+  morteNatural               String?
+  morteAcidental             String?
+  invalidezPermanenteAcidente String?
+  ps                         Boolean?
+  omitido                    Boolean?
+  rioPax                     Int?
   dataNascimento             DateTime
-  estadoCivil                String
-  email                      String   @unique
-  quantidadeDependentes      Int
-  conjuge                    String
-  descontoSocioEfetivo       String
-  historicoSocio             String
-  observacoesPagamentos      String
-  anoFiscal                  DateTime
-  totalJaneiro               Int
-  totalFevereiro             Int
-  totalMarco                 Int
-  totalAbril                 Int
-  totalMaio                  Int
-  totalJunho                 Int
-  totalJulho                 Int
-  totalAgosto                Int
-  totalSetembro              Int
-  totalOutubro               Int
-  totalNovembro              Int
-  totalDezembro              Int
+  estadoCivil                String?
+  email                      String?   @unique
+  quantidadeDependentes      Int?
+  conjuge                    String?
+  descontoSocioEfetivo       String?
+  historicoSocio             String?
+  observacoesPagamentos      String?
+  anoFiscal                  String
+  totalJaneiro               Int?
+  totalFevereiro             Int?
+  totalMarco                 Int?
+  totalAbril                 Int?
+  totalMaio                  Int?
+  totalJunho                 Int?
+  totalJulho                 Int?
+  totalAgosto                Int?
+  totalSetembro              Int?
+  totalOutubro               Int?
+  totalNovembro              Int?
+  totalDezembro              Int?
   createdAt                  DateTime @default(now())
   updatedAt                  DateTime @updatedAt
   deletedAt                  DateTime?
@@ -89,58 +89,58 @@ model BC {
   orgao                      String
   classificacao              String
   matricula                  String
-  matriculaSocial            Int
+  matriculaSocial            String
   dataAdmissao               DateTime
   nomeSocio                  String
   endereco                   String
-  numero                     Int
-  complemento                String
+  numero                     Int?
+  complemento                String?
   bairroResidencia           String
   cidadeResidencia           String
   uf                         String
-  cepResidencia              String
-  telefoneResidencia         String
-  telefoneCelular            String
-  telefoneComercial          String
-  falecido                   Boolean
-  cpf                        String   @unique
-  rg                         String
-  orgaoExpedidor             String
+  cepResidencia              String?
+  telefoneResidencia         String?
+  telefoneCelular            String?
+  telefoneComercial          String?
+  falecido                   Boolean?
+  cpf                        String?   @unique
+  rg                         String?
+  orgaoExpedidor             String?
   dataFalecimento            DateTime?
-  quantidadeAdventicios      Int
-  quantidadeCooperadores     Int
-  dentCross                  Int
-  odMed                      Int
-  seguro                     Int
-  reversivel                 Boolean
-  valorDescontoSeguro        String
-  morteNatural               String
-  morteAcidental             String
-  invalidezPermanenteAcidente String
-  ps                         Boolean
-  omitido                    Boolean
-  rioPax                     Int
+  quantidadeAdventicios      Int?
+  quantidadeCooperadores     Int?
+  dentCross                  Int?
+  odMed                      Int?
+  seguro                     Int?
+  reversivel                 Boolean?
+  valorDescontoSeguro        String?
+  morteNatural               String?
+  morteAcidental             String?
+  invalidezPermanenteAcidente String?
+  ps                         Boolean?
+  omitido                    Boolean?
+  rioPax                     Int?
   dataNascimento             DateTime
-  estadoCivil                String
-  email                      String   @unique
-  quantidadeDependentes      Int
-  conjuge                    String
-  descontoSocioEfetivo       String
-  historicoSocio             String
-  observacoesPagamentos      String
-  anoFiscal                  DateTime
-  totalJaneiro               Int
-  totalFevereiro             Int
-  totalMarco                 Int
-  totalAbril                 Int
-  totalMaio                  Int
-  totalJunho                 Int
-  totalJulho                 Int
-  totalAgosto                Int
-  totalSetembro              Int
-  totalOutubro               Int
-  totalNovembro              Int
-  totalDezembro              Int
+  estadoCivil                String?
+  email                      String?   @unique
+  quantidadeDependentes      Int?
+  conjuge                    String?
+  descontoSocioEfetivo       String?
+  historicoSocio             String?
+  observacoesPagamentos      String?
+  anoFiscal                  String
+  totalJaneiro               Int?
+  totalFevereiro             Int?
+  totalMarco                 Int?
+  totalAbril                 Int?
+  totalMaio                  Int?
+  totalJunho                 Int?
+  totalJulho                 Int?
+  totalAgosto                Int?
+  totalSetembro              Int?
+  totalOutubro               Int?
+  totalNovembro              Int?
+  totalDezembro              Int?
   createdAt                  DateTime @default(now())
   updatedAt                  DateTime @updatedAt
   deletedAt                  DateTime?
@@ -158,58 +158,58 @@ model Estados {
   orgao                      String
   classificacao              String
   matricula                  String
-  matriculaSocial            Int
+  matriculaSocial            String
   dataAdmissao               DateTime
   nomeSocio                  String
   endereco                   String
-  numero                     Int
-  complemento                String
+  numero                     Int?
+  complemento                String?
   bairroResidencia           String
   cidadeResidencia           String
   uf                         String
-  cepResidencia              String
-  telefoneResidencia         String
-  telefoneCelular            String
-  telefoneComercial          String
-  falecido                   Boolean
-  cpf                        String   @unique
-  rg                         String
-  orgaoExpedidor             String
+  cepResidencia              String?
+  telefoneResidencia         String?
+  telefoneCelular            String?
+  telefoneComercial          String?
+  falecido                   Boolean?
+  cpf                        String?   @unique
+  rg                         String?
+  orgaoExpedidor             String?
   dataFalecimento            DateTime?
-  quantidadeAdventicios      Int
-  quantidadeCooperadores     Int
-  dentCross                  Int
-  odMed                      Int
-  seguro                     Int
-  reversivel                 Boolean
-  valorDescontoSeguro        String
-  morteNatural               String
-  morteAcidental             String
-  invalidezPermanenteAcidente String
-  ps                         Boolean
-  omitido                    Boolean
-  rioPax                     Int
+  quantidadeAdventicios      Int?
+  quantidadeCooperadores     Int?
+  dentCross                  Int?
+  odMed                      Int?
+  seguro                     Int?
+  reversivel                 Boolean?
+  valorDescontoSeguro        String?
+  morteNatural               String?
+  morteAcidental             String?
+  invalidezPermanenteAcidente String?
+  ps                         Boolean?
+  omitido                    Boolean?
+  rioPax                     Int?
   dataNascimento             DateTime
-  estadoCivil                String
-  email                      String   @unique
-  quantidadeDependentes      Int
-  conjuge                    String
-  descontoSocioEfetivo       String
-  historicoSocio             String
-  observacoesPagamentos      String
-  anoFiscal                  DateTime
-  totalJaneiro               Int
-  totalFevereiro             Int
-  totalMarco                 Int
-  totalAbril                 Int
-  totalMaio                  Int
-  totalJunho                 Int
-  totalJulho                 Int
-  totalAgosto                Int
-  totalSetembro              Int
-  totalOutubro               Int
-  totalNovembro              Int
-  totalDezembro              Int
+  estadoCivil                String?
+  email                      String?   @unique
+  quantidadeDependentes      Int?
+  conjuge                    String?
+  descontoSocioEfetivo       String?
+  historicoSocio             String?
+  observacoesPagamentos      String?
+  anoFiscal                  String
+  totalJaneiro               Int?
+  totalFevereiro             Int?
+  totalMarco                 Int?
+  totalAbril                 Int?
+  totalMaio                  Int?
+  totalJunho                 Int?
+  totalJulho                 Int?
+  totalAgosto                Int?
+  totalSetembro              Int?
+  totalOutubro               Int?
+  totalNovembro              Int?
+  totalDezembro              Int?
   createdAt                  DateTime @default(now())
   updatedAt                  DateTime @updatedAt
   deletedAt                  DateTime?
@@ -227,58 +227,58 @@ model Municipios {
   orgao                      String
   classificacao              String
   matricula                  String
-  matriculaSocial            Int
+  matriculaSocial            String
   dataAdmissao               DateTime
   nomeSocio                  String
   endereco                   String
-  numero                     Int
-  complemento                String
+  numero                     Int?
+  complemento                String?
   bairroResidencia           String
   cidadeResidencia           String
   uf                         String
-  cepResidencia              String
-  telefoneResidencia         String
-  telefoneCelular            String
-  telefoneComercial          String
-  falecido                   Boolean
-  cpf                        String   @unique
-  rg                         String
-  orgaoExpedidor             String
+  cepResidencia              String?
+  telefoneResidencia         String?
+  telefoneCelular            String?
+  telefoneComercial          String?
+  falecido                   Boolean?
+  cpf                        String?   @unique
+  rg                         String?
+  orgaoExpedidor             String?
   dataFalecimento            DateTime?
-  quantidadeAdventicios      Int
-  quantidadeCooperadores     Int
-  dentCross                  Int
-  odMed                      Int
-  seguro                     Int
-  reversivel                 Boolean
-  valorDescontoSeguro        String
-  morteNatural               String
-  morteAcidental             String
-  invalidezPermanenteAcidente String
-  ps                         Boolean
-  omitido                    Boolean
-  rioPax                     Int
+  quantidadeAdventicios      Int?
+  quantidadeCooperadores     Int?
+  dentCross                  Int?
+  odMed                      Int?
+  seguro                     Int?
+  reversivel                 Boolean?
+  valorDescontoSeguro        String?
+  morteNatural               String?
+  morteAcidental             String?
+  invalidezPermanenteAcidente String?
+  ps                         Boolean?
+  omitido                    Boolean?
+  rioPax                     Int?
   dataNascimento             DateTime
-  estadoCivil                String
-  email                      String   @unique
-  quantidadeDependentes      Int
-  conjuge                    String
-  descontoSocioEfetivo       String
-  historicoSocio             String
-  observacoesPagamentos      String
-  anoFiscal                  DateTime
-  totalJaneiro               Int
-  totalFevereiro             Int
-  totalMarco                 Int
-  totalAbril                 Int
-  totalMaio                  Int
-  totalJunho                 Int
-  totalJulho                 Int
-  totalAgosto                Int
-  totalSetembro              Int
-  totalOutubro               Int
-  totalNovembro              Int
-  totalDezembro              Int
+  estadoCivil                String?
+  email                      String?   @unique
+  quantidadeDependentes      Int?
+  conjuge                    String?
+  descontoSocioEfetivo       String?
+  historicoSocio             String?
+  observacoesPagamentos      String?
+  anoFiscal                  String
+  totalJaneiro               Int?
+  totalFevereiro             Int?
+  totalMarco                 Int?
+  totalAbril                 Int?
+  totalMaio                  Int?
+  totalJunho                 Int?
+  totalJulho                 Int?
+  totalAgosto                Int?
+  totalSetembro              Int?
+  totalOutubro               Int?
+  totalNovembro              Int?
+  totalDezembro              Int?
   createdAt                  DateTime @default(now())
   updatedAt                  DateTime @updatedAt
   deletedAt                  DateTime?

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param, NotFoundException, ValidationPipe } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, NotFoundException, ValidationPipe, ConflictException, InternalServerErrorException, HttpException, HttpStatus } from '@nestjs/common';
 import { AutarquiasService } from './autarquias.service';
 import { Autarquias } from '@prisma/client';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
@@ -58,7 +58,7 @@ export class AutarquiasController {
         descontoSocioEfetivo: '200,00',
         historicoSocio: 'Histórico do sócio',
         observacoesPagamentos: 'Sem observações',
-        anoFiscal: '2024-01-01T00:00:00.000Z',
+        anoFiscal: '2024',
         totalJaneiro: 1000,
         totalFevereiro: 1100,
         totalMarco: 1200,
@@ -129,7 +129,7 @@ export class AutarquiasController {
           descontoSocioEfetivo: '200,00',
           historicoSocio: 'Histórico do sócio',
           observacoesPagamentos: 'Sem observações',
-          anoFiscal: '2024-01-01T00:00:00.000Z',
+          anoFiscal: '2024',
           totalJaneiro: 1000,
           totalFevereiro: 1100,
           totalMarco: 1200,
@@ -150,8 +150,31 @@ export class AutarquiasController {
   async createAutarquia(
     @Body(new ValidationPipe()) createAutarquiasDto: CreateAutarquiasDto,
   ): Promise<Autarquias> {
-    return this.autarquiasService.createAutarquia(createAutarquiasDto);
+    try {
+      return await this.autarquiasService.createAutarquia(createAutarquiasDto);
+    } catch (error) {
+      if (error.code === 'P2002') {
+        if (error.meta?.target.includes('email')) {
+          throw new HttpException(
+            'O email já está em uso.',
+            HttpStatus.CONFLICT,
+          );
+        } else if (error.meta?.target.includes('cpf')) {
+          throw new HttpException(
+            'O CPF já está em uso.',
+            HttpStatus.CONFLICT,
+          );
+        } else {
+          throw new HttpException(
+            'Dados únicos já estão em uso.',
+            HttpStatus.CONFLICT,
+          );
+        }
+      }
+      throw new InternalServerErrorException('Erro interno ao criar a autarquia.');
+    }
   }
+
 
   @ApiOperation({ summary: 'Lista todas as autarquias' })
   @ApiResponse({ 
@@ -203,7 +226,7 @@ export class AutarquiasController {
           descontoSocioEfetivo: '200,00',
           historicoSocio: 'Histórico do sócio',
           observacoesPagamentos: 'Sem observações',
-          anoFiscal: '2024-01-01T00:00:00.000Z',
+          anoFiscal: '2024',
           totalJaneiro: 1000,
           totalFevereiro: 1100,
           totalMarco: 1200,
@@ -285,7 +308,7 @@ export class AutarquiasController {
         descontoSocioEfetivo: '200,00',
         historicoSocio: 'Histórico do sócio',
         observacoesPagamentos: 'Sem observações',
-        anoFiscal: '2024-01-01T00:00:00.000Z',
+        anoFiscal: '2024',
         totalJaneiro: 1000,
         totalFevereiro: 1100,
         totalMarco: 1200,
