@@ -18,18 +18,18 @@ model User {
 
 model Autarquias {
   id                         String   @id @default(uuid())
-  orgao                      String
-  classificacao              String
-  matricula                  String
-  matriculaSocial            String
-  dataAdmissao               DateTime
+  orgao                      String?
+  classificacao              String?
+  matricula                  String?
+  matriculaSocial            String?
+  dataAdmissao               DateTime?
   nomeSocio                  String
-  endereco                   String
+  endereco                   String?
   numero                     Int?
   complemento                String?
-  bairroResidencia           String
-  cidadeResidencia           String
-  uf                         String
+  bairroResidencia           String?
+  cidadeResidencia           String?
+  uf                         String?
   cepResidencia              String?
   telefoneResidencia         String?
   telefoneCelular            String?
@@ -41,8 +41,8 @@ model Autarquias {
   dataFalecimento            DateTime?
   quantidadeAdventicios      Int?
   quantidadeCooperadores     Int?
-  dentCross                  Int?
-  odMed                      Int?
+  quantidadeDentCross                  Int?
+  quantidadeOdMed                      Int?
   seguro                     Int?
   reversivel                 Boolean?
   valorDescontoSeguro        String?
@@ -51,8 +51,8 @@ model Autarquias {
   invalidezPermanenteAcidente String?
   ps                         Boolean?
   omitido                    Boolean?
-  rioPax                     Int?
-  dataNascimento             DateTime
+  quantidadeRioPax                     Int?
+  dataNascimento             DateTime?
   estadoCivil                String?
   email                      String?   @unique
   quantidadeDependentes      Int?
@@ -78,6 +78,7 @@ model Autarquias {
   deletedAt                  DateTime?
 
   adventiciosAutarquia       AdventicioAutarquia[]
+  cooperadoresAutarquia      CooperadorAutarquia[]
   dentCrossesAutarquia       DentCrossAutarquia[]
   odMedsAutarquia            OdMedAutarquia[]
   rioPaxesAutarquia          RioPaxAutarquia[]
@@ -86,18 +87,18 @@ model Autarquias {
 
 model BC {
   id                         String   @id @default(uuid())
-  orgao                      String
-  classificacao              String
-  matricula                  String
-  matriculaSocial            String
-  dataAdmissao               DateTime
+  orgao                      String?
+  classificacao              String?
+  matricula                  String?
+  matriculaSocial            String?
+  dataAdmissao               DateTime?
   nomeSocio                  String
-  endereco                   String
+  endereco                   String?
   numero                     Int?
   complemento                String?
-  bairroResidencia           String
-  cidadeResidencia           String
-  uf                         String
+  bairroResidencia           String?
+  cidadeResidencia           String?
+  uf                         String?
   cepResidencia              String?
   telefoneResidencia         String?
   telefoneCelular            String?
@@ -109,8 +110,8 @@ model BC {
   dataFalecimento            DateTime?
   quantidadeAdventicios      Int?
   quantidadeCooperadores     Int?
-  dentCross                  Int?
-  odMed                      Int?
+  quantidadeDentCross                  Int?
+  quantidadeOdMed                      Int?
   seguro                     Int?
   reversivel                 Boolean?
   valorDescontoSeguro        String?
@@ -119,8 +120,8 @@ model BC {
   invalidezPermanenteAcidente String?
   ps                         Boolean?
   omitido                    Boolean?
-  rioPax                     Int?
-  dataNascimento             DateTime
+  quantidadeRioPax                     Int?
+  dataNascimento             DateTime?
   estadoCivil                String?
   email                      String?   @unique
   quantidadeDependentes      Int?
@@ -155,18 +156,18 @@ model BC {
 
 model Estados {
   id                         String   @id @default(uuid())
-  orgao                      String
-  classificacao              String
-  matricula                  String
-  matriculaSocial            String
-  dataAdmissao               DateTime
+  orgao                      String?
+  classificacao              String?
+  matricula                  String?
+  matriculaSocial            String?
+  dataAdmissao               DateTime?
   nomeSocio                  String
-  endereco                   String
+  endereco                   String?
   numero                     Int?
   complemento                String?
-  bairroResidencia           String
-  cidadeResidencia           String
-  uf                         String
+  bairroResidencia           String?
+  cidadeResidencia           String?
+  uf                         String?
   cepResidencia              String?
   telefoneResidencia         String?
   telefoneCelular            String?
@@ -178,8 +179,8 @@ model Estados {
   dataFalecimento            DateTime?
   quantidadeAdventicios      Int?
   quantidadeCooperadores     Int?
-  dentCross                  Int?
-  odMed                      Int?
+  quantidadeDentCross                  Int?
+  quantidadeOdMed                      Int?
   seguro                     Int?
   reversivel                 Boolean?
   valorDescontoSeguro        String?
@@ -188,8 +189,8 @@ model Estados {
   invalidezPermanenteAcidente String?
   ps                         Boolean?
   omitido                    Boolean?
-  rioPax                     Int?
-  dataNascimento             DateTime
+  quantidadeRioPax                     Int?
+  dataNascimento             DateTime?
   estadoCivil                String?
   email                      String?   @unique
   quantidadeDependentes      Int?
@@ -224,18 +225,18 @@ model Estados {
 
 model Municipios {
   id                         String   @id @default(uuid())
-  orgao                      String
-  classificacao              String
-  matricula                  String
-  matriculaSocial            String
-  dataAdmissao               DateTime
+  orgao                      String?
+  classificacao              String?
+  matricula                  String?
+  matriculaSocial            String?
+  dataAdmissao               DateTime?
   nomeSocio                  String
-  endereco                   String
+  endereco                   String?
   numero                     Int?
   complemento                String?
-  bairroResidencia           String
-  cidadeResidencia           String
-  uf                         String
+  bairroResidencia           String?
+  cidadeResidencia           String?
+  uf                         String?
   cepResidencia              String?
   telefoneResidencia         String?
   telefoneCelular            String?
@@ -247,8 +248,8 @@ model Municipios {
   dataFalecimento            DateTime?
   quantidadeAdventicios      Int?
   quantidadeCooperadores     Int?
-  dentCross                  Int?
-  odMed                      Int?
+  quantidadeDentCross                  Int?
+  quantidadeOdMed                      Int?
   seguro                     Int?
   reversivel                 Boolean?
   valorDescontoSeguro        String?
@@ -257,8 +258,8 @@ model Municipios {
   invalidezPermanenteAcidente String?
   ps                         Boolean?
   omitido                    Boolean?
-  rioPax                     Int?
-  dataNascimento             DateTime
+  quantidadeRioPax                     Int?
+  dataNascimento             DateTime?
   estadoCivil                String?
   email                      String?   @unique
   quantidadeDependentes      Int?
@@ -313,7 +314,7 @@ model OdMedAutarquia {
   autarquiaId     String
   Autarquias      Autarquias @relation(fields: [autarquiaId], references: [id])
   nomeCompleto    String
-  data  DateTime
+  data  DateTime?
 }
 
 model RioPaxAutarquia {
@@ -321,7 +322,14 @@ model RioPaxAutarquia {
   autarquiaId     String
   Autarquias      Autarquias @relation(fields: [autarquiaId], references: [id])
   nomeCompleto    String
-  data  DateTime
+  data  DateTime?
+}
+
+model CooperadorAutarquia {
+  id              String   @id @default(uuid())
+  autarquiaId     String
+  Autarquias      Autarquias @relation(fields: [autarquiaId], references: [id])
+  nomeCompleto    String
 }
 
 model DependenteAutarquia {
@@ -329,7 +337,7 @@ model DependenteAutarquia {
   autarquiaId     String
   Autarquias      Autarquias @relation(fields: [autarquiaId], references: [id])
   nomeCompleto    String
-  dataNascimento  DateTime
+  dataNascimento  DateTime?
 }
 
 // Modelos Dinâmicos BC
@@ -344,30 +352,38 @@ model CooperadorBC {
   id       String @id @default(uuid())
   bcId     String
   BC       BC     @relation(fields: [bcId], references: [id])
+  nomeCompleto    String
 }
 
 model DentCrossBC {
   id          String   @id @default(uuid())
   bcId String
   BC  BC @relation(fields: [bcId], references: [id])
+  nomeCompleto    String
 }
 
 model OdMedBC {
   id          String   @id @default(uuid())
   bcId String
   BC  BC @relation(fields: [bcId], references: [id])
+  nomeCompleto    String
+  data  DateTime?
 }
 
 model RioPaxBC {
   id          String   @id @default(uuid())
   bcId String
   BC  BC @relation(fields: [bcId], references: [id])
+  nomeCompleto    String
+  data  DateTime?
 }
 
 model DependenteBC {
   id          String   @id @default(uuid())
   bcId String
   BC  BC @relation(fields: [bcId], references: [id])
+  nomeCompleto    String
+  dataNascimento  DateTime?
 }
 
 // Modelos Dinâmicos Estados
@@ -376,36 +392,45 @@ model AdventicioEstados {
   id          String @id @default(uuid())
   estadosId   String
   Estados     Estados @relation(fields: [estadosId], references: [id])
+  nomeCompleto    String
 }
 
 model CooperadorEstados {
   id          String @id @default(uuid())
   estadosId   String
   Estados     Estados @relation(fields: [estadosId], references: [id])
+  nomeCompleto    String
 }
 
 model DentCrossEstados {
   id          String   @id @default(uuid())
   estadosId String
   Estados  Estados @relation(fields: [estadosId], references: [id])
+  nomeCompleto    String
 }
 
 model OdMedEstados {
   id          String   @id @default(uuid())
   estadosId String
   Estados  Estados @relation(fields: [estadosId], references: [id])
+  nomeCompleto    String
+  data  DateTime?
 }
 
 model RioPaxEstados {
   id          String   @id @default(uuid())
   estadosId String
   Estados  Estados @relation(fields: [estadosId], references: [id])
+  nomeCompleto    String
+  data  DateTime?
 }
 
 model DependenteEstados {
   id          String   @id @default(uuid())
   estadosId String
   Estados  Estados @relation(fields: [estadosId], references: [id])
+  nomeCompleto    String
+  dataNascimento  DateTime?
 }
 
 // Modelos Dinâmicos Municipios
@@ -414,34 +439,43 @@ model AdventicioMunicipios {
   id           String @id @default(uuid())
   municipiosId String
   Municipios   Municipios @relation(fields: [municipiosId], references: [id])
+  nomeCompleto    String
 }
 
 model CooperadorMunicipios {
   id           String @id @default(uuid())
   municipiosId String
   Municipios   Municipios @relation(fields: [municipiosId], references: [id])
+  nomeCompleto    String
 }
 
 model DentCrossMunicipios {
   id          String   @id @default(uuid())
   municipiosId String
   Municipios  Municipios @relation(fields: [municipiosId], references: [id])
+  nomeCompleto    String
 }
 
 model OdMedMunicipios {
   id          String   @id @default(uuid())
   municipiosId String
   Municipios  Municipios @relation(fields: [municipiosId], references: [id])
+  nomeCompleto    String
+  data  DateTime?
 }
 
 model RioPaxMunicipios {
   id          String   @id @default(uuid())
   municipiosId String
   Municipios  Municipios @relation(fields: [municipiosId], references: [id])
+  nomeCompleto    String
+  data  DateTime?
 }
 
 model DependenteMunicipios {
   id          String   @id @default(uuid())
   municipiosId String
   Municipios  Municipios @relation(fields: [municipiosId], references: [id])
+  nomeCompleto    String
+  dataNascimento  DateTime?
 }

@@ -1,0 +1,56 @@
+-- AlterTable
+ALTER TABLE "Autarquias" ALTER COLUMN "orgao" DROP NOT NULL,
+ALTER COLUMN "classificacao" DROP NOT NULL,
+ALTER COLUMN "matricula" DROP NOT NULL,
+ALTER COLUMN "matriculaSocial" DROP NOT NULL,
+ALTER COLUMN "dataAdmissao" DROP NOT NULL,
+ALTER COLUMN "endereco" DROP NOT NULL,
+ALTER COLUMN "bairroResidencia" DROP NOT NULL,
+ALTER COLUMN "cidadeResidencia" DROP NOT NULL,
+ALTER COLUMN "uf" DROP NOT NULL,
+ALTER COLUMN "dataNascimento" DROP NOT NULL;
+
+-- AlterTable
+ALTER TABLE "BC" ALTER COLUMN "orgao" DROP NOT NULL,
+ALTER COLUMN "classificacao" DROP NOT NULL,
+ALTER COLUMN "matricula" DROP NOT NULL,
+ALTER COLUMN "matriculaSocial" DROP NOT NULL,
+ALTER COLUMN "dataAdmissao" DROP NOT NULL,
+ALTER COLUMN "endereco" DROP NOT NULL,
+ALTER COLUMN "bairroResidencia" DROP NOT NULL,
+ALTER COLUMN "cidadeResidencia" DROP NOT NULL,
+ALTER COLUMN "uf" DROP NOT NULL,
+ALTER COLUMN "dataNascimento" DROP NOT NULL;
+
+-- AlterTable
+ALTER TABLE "DependenteAutarquia" ALTER COLUMN "dataNascimento" DROP NOT NULL;
+
+-- AlterTable
+ALTER TABLE "Estados" ALTER COLUMN "orgao" DROP NOT NULL,
+ALTER COLUMN "classificacao" DROP NOT NULL,
+ALTER COLUMN "matricula" DROP NOT NULL,
+ALTER COLUMN "matriculaSocial" DROP NOT NULL,
+ALTER COLUMN "dataAdmissao" DROP NOT NULL,
+ALTER COLUMN "endereco" DROP NOT NULL,
+ALTER COLUMN "bairroResidencia" DROP NOT NULL,
+ALTER COLUMN "cidadeResidencia" DROP NOT NULL,
+ALTER COLUMN "uf" DROP NOT NULL,
+ALTER COLUMN "dataNascimento" DROP NOT NULL;
+
+-- AlterTable
+ALTER TABLE "Municipios" ALTER COLUMN "orgao" DROP NOT NULL,
+ALTER COLUMN "classificacao" DROP NOT NULL,
+ALTER COLUMN "matricula" DROP NOT NULL,
+ALTER COLUMN "matriculaSocial" DROP NOT NULL,
+ALTER COLUMN "dataAdmissao" DROP NOT NULL,
+ALTER COLUMN "endereco" DROP NOT NULL,
+ALTER COLUMN "bairroResidencia" DROP NOT NULL,
+ALTER COLUMN "cidadeResidencia" DROP NOT NULL,
+ALTER COLUMN "uf" DROP NOT NULL,
+ALTER COLUMN "dataNascimento" DROP NOT NULL;
+
+-- AlterTable
+ALTER TABLE "OdMedAutarquia" ALTER COLUMN "data" DROP NOT NULL;
+
+-- AlterTable
+ALTER TABLE "RioPaxAutarquia" ALTER COLUMN "data" DROP NOT NULL;

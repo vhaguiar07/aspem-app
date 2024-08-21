@@ -33,8 +33,8 @@ export class AutarquiasService {
         dataFalecimento: data.dataFalecimento,
         quantidadeAdventicios: data.quantidadeAdventicios,
         quantidadeCooperadores: data.quantidadeCooperadores,
-        dentCross: data.dentCross,
-        odMed: data.odMed,
+        quantidadeDentCross: data.quantidadeDentCross,
+        quantidadeOdMed: data.quantidadeOdMed,
         seguro: data.seguro,
         reversivel: data.reversivel,
         valorDescontoSeguro: data.valorDescontoSeguro,
@@ -43,7 +43,7 @@ export class AutarquiasService {
         invalidezPermanenteAcidente: data.invalidezPermanenteAcidente,
         ps: data.ps,
         omitido: data.omitido,
-        rioPax: data.rioPax,
+        quantidadeRioPax: data.quantidadeRioPax,
         dataNascimento: data.dataNascimento,
         estadoCivil: data.estadoCivil,
         email: data.email,
@@ -68,6 +68,34 @@ export class AutarquiasService {
         adventiciosAutarquia: {
           create: data.adventicios?.map(adventicio => ({
             nomeCompleto: adventicio.nomeCompleto,
+          })) || [],
+        },
+        dentCrossesAutarquia: {
+          create: data.dentCross?.map(beneficiario => ({
+            nomeCompleto: beneficiario.nomeCompleto,
+          })) || [],
+        },
+        odMedsAutarquia: {
+          create: data.odMed?.map(item => ({
+            nomeCompleto: item.nomeCompleto,
+            data: item.data,
+          })) || [],
+        },
+        rioPaxesAutarquia: {
+          create: data.rioPax?.map(item => ({
+            nomeCompleto: item.nomeCompleto,
+            data: item.data,
+          })) || [],
+        },
+        dependentesAutarquia: {
+          create: data.dependentes?.map(dependente => ({
+            nomeCompleto: dependente.nomeCompleto,
+            dataNascimento: dependente.dataNascimento,
+          })) || [],
+        },
+        cooperadoresAutarquia: {
+          create: data.cooperadores?.map(cooperador => ({
+            nomeCompleto: cooperador.nomeCompleto,
           })) || [],
         },
       },

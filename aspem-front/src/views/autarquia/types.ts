@@ -23,8 +23,8 @@ export interface Autarquia {
     dataFalecimento?: Date;
     quantidadeAdventicios: number;
     quantidadeCooperadores: number;
-    dentCross: number;
-    odMed: number;
+    quantidadeDentCross: number;
+    quantidadeOdMed: number;
     seguro: number;
     reversivel: boolean;
     valorDescontoSeguro: string;
@@ -33,7 +33,7 @@ export interface Autarquia {
     invalidezPermanenteAcidente: string;
     ps: boolean;
     omitido: boolean;
-    rioPax: number;
+    quantidadeRioPax: number;
     dataNascimento: Date;
     estadoCivil: string;
     email: string;
@@ -58,37 +58,50 @@ export interface Autarquia {
     createdAt: Date;
     updatedAt: Date;
     deletedAt?: Date;
-  
-    // Adicionando as relações
+
     adventiciosAutarquia?: AdventicioAutarquia[];
+    cooperadoresAutarquia?: CooperadorAutarquia[];
     dentCrossesAutarquia?: DentCrossAutarquia[];
     odMedsAutarquia?: OdMedAutarquia[];
     rioPaxesAutarquia?: RioPaxAutarquia[];
     dependentesAutarquia?: DependenteAutarquia[];
   }
-  
-  // Definições básicas para as interfaces relacionadas
+
   export interface AdventicioAutarquia {
     id: string;
-    descricao: string; // Substitua conforme necessário
+    autarquiaId: string;
+    nomeCompleto: string;
   }
   
+  export interface CooperadorAutarquia {
+    id: string;
+    autarquiaId: string;
+    nomeCompleto: string;
+  }
+
   export interface DentCrossAutarquia {
     id: string;
-    valor: number; // Substitua conforme necessário
+    autarquiaId: string;
+    nomeCompleto: string;
   }
   
   export interface OdMedAutarquia {
     id: string;
-    valor: number; // Substitua conforme necessário
+    autarquiaId: string;
+    nomeCompleto: string;
+    data?: Date;
   }
   
   export interface RioPaxAutarquia {
     id: string;
-    valor: number; // Substitua conforme necessário
+    autarquiaId: string;
+    nomeCompleto: string;
+    data?: Date;
   }
   
   export interface DependenteAutarquia {
     id: string;
-    nome: string; // Substitua conforme necessário
+    autarquiaId: string;
+    nomeCompleto: string;
+    dataNascimento?: Date;
   }
