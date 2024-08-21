@@ -15,65 +15,96 @@ export class AutarquiasController {
     description: 'Autarquia criada com sucesso.',
     schema: {
       example: {
-        id: 'uuid-1234-5678-91011',
-        orgao: 'Nome do Órgão',
-        classificacao: 'Classificação do Órgão',
-        matricula: '12345678',
-        matriculaSocial: 1234,
-        dataAdmissao: '2024-08-14T12:34:56.789Z',
-        nomeSocio: 'Nome do Sócio',
-        endereco: 'Rua Exemplo, 123',
-        numero: 456,
-        complemento: 'Apto 789',
-        bairroResidencia: 'Bairro Exemplo',
-        cidadeResidencia: 'Cidade Exemplo',
-        uf: 'SP',
-        cepResidencia: '12345-678',
-        telefoneResidencia: '(11) 1234-5678',
-        telefoneCelular: '(11) 91234-5678',
-        telefoneComercial: '(11) 31234-5678',
-        falecido: false,
-        cpf: '123.456.789-00',
-        rg: '12.345.678-9',
-        orgaoExpedidor: 'SSP',
-        dataFalecimento: null,
-        quantidadeAdventicios: 10,
-        quantidadeCooperadores: 5,
-        dentCross: 2,
-        odMed: 3,
-        seguro: 1,
-        reversivel: true,
-        valorDescontoSeguro: '100,00',
-        morteNatural: '50000,00',
-        morteAcidental: '100000,00',
-        invalidezPermanenteAcidente: '75000,00',
-        ps: true,
-        omitido: false,
-        rioPax: 2,
-        dataNascimento: '1980-01-01T00:00:00.000Z',
-        estadoCivil: 'Casado',
-        email: 'socio@exemplo.com',
-        quantidadeDependentes: 2,
-        conjuge: 'Nome do Cônjuge',
-        descontoSocioEfetivo: '200,00',
-        historicoSocio: 'Histórico do sócio',
-        observacoesPagamentos: 'Sem observações',
-        anoFiscal: '2024',
-        totalJaneiro: 1000,
-        totalFevereiro: 1100,
-        totalMarco: 1200,
-        totalAbril: 1300,
-        totalMaio: 1400,
-        totalJunho: 1500,
-        totalJulho: 1600,
-        totalAgosto: 1700,
-        totalSetembro: 1800,
-        totalOutubro: 1900,
-        totalNovembro: 2000,
-        totalDezembro: 2100,
-        createdAt: '2024-08-14T12:34:56.789Z',
-        updatedAt: '2024-08-14T12:34:56.789Z',
-        deletedAt: null,
+        "id": "uuid-1234-5678-91011",
+        "orgao": "Nome do Órgão",
+        "classificacao": "Classificação do Órgão",
+        "matricula": "12345678",
+        "matriculaSocial": 1234,
+        "dataAdmissao": "2024-08-14T12:34:56.789Z",
+        "nomeSocio": "Nome do Sócio",
+        "endereco": "Rua Exemplo, 123",
+        "numero": 456,
+        "complemento": "Apto 789",
+        "bairroResidencia": "Bairro Exemplo",
+        "cidadeResidencia": "Cidade Exemplo",
+        "uf": "SP",
+        "cepResidencia": "12345-678",
+        "telefoneResidencia": "(11) 1234-5678",
+        "telefoneCelular": "(11) 91234-5678",
+        "telefoneComercial": "(11) 31234-5678",
+        "falecido": false,
+        "cpf": "123.456.789-00",
+        "rg": "12.345.678-9",
+        "orgaoExpedidor": "SSP",
+        "dataFalecimento": null,
+        "quantidadeAdventicios": 1,
+        "quantidadeCooperadores": 1,
+        "quantidadeDentCross": 1,
+        "quantidadeOdMed": 1,
+        "quantidadeRioPax": 1,
+        "quantidadeDependentes": 1,
+        "reversivel": true,
+        "valorDescontoSeguro": "100,00",
+        "morteNatural": "50000,00",
+        "morteAcidental": "100000,00",
+        "invalidezPermanenteAcidente": "75000,00",
+        "ps": true,
+        "omitido": false,
+        "estadoCivil": "Casado",
+        "email": "socio@exemplo.com",
+        "conjuge": "Nome do Cônjuge",
+        "descontoSocioEfetivo": "200,00",
+        "historicoSocio": "Histórico do sócio",
+        "observacoesPagamentos": "Sem observações",
+        "anoFiscal": "2024",
+        "totalJaneiro": 1000,
+        "totalFevereiro": 1100,
+        "totalMarco": 1200,
+        "totalAbril": 1300,
+        "totalMaio": 1400,
+        "totalJunho": 1500,
+        "totalJulho": 1600,
+        "totalAgosto": 1700,
+        "totalSetembro": 1800,
+        "totalOutubro": 1900,
+        "totalNovembro": 2000,
+        "totalDezembro": 2100,
+        "createdAt": "2024-08-14T12:34:56.789Z",
+        "updatedAt": "2024-08-14T12:34:56.789Z",
+        "deletedAt": null,
+        "adventicios": [
+          {
+            "nomeCompleto": "Adventício Teste"
+          }
+        ],
+        "cooperadores": [
+          {
+            "nomeCompleto": "Cooperador Teste"
+          }
+        ],
+        "dependentes": [
+          {
+            "nomeCompleto": "Dependente Teste",
+            "dataNascimento": "2024-08-14T12:34:56.789Z"
+          }
+        ],
+        "dentCross": [
+          {
+            "nomeCompleto": "DentCross Teste"
+          }
+        ],
+        "odMed": [
+          {
+            "nomeCompleto": "OD Med Teste",
+            "data": "2024-08-14T12:34:56.789Z"
+          }
+        ],
+        "rioPax": [
+          {
+            "nomeCompleto": "Rio Pax Teste",
+            "data": "2024-08-14T12:34:56.789Z"
+          }
+        ]
       },
     },
   })
@@ -108,11 +139,12 @@ export class AutarquiasController {
           cpf: '123.456.789-00',
           rg: '12.345.678-9',
           orgaoExpedidor: 'SSP',
-          quantidadeAdventicios: 10,
-          quantidadeCooperadores: 5,
-          dentCross: 2,
-          odMed: 3,
-          seguro: 1,
+          quantidadeAdventicios: 1,
+          quantidadeCooperadores: 1,
+          quantidadeDentCross: 1,
+          quantidadeOdMed: 1,
+          quantidadeRioPax: 1,
+          quantidadeDependentes: 1,
           reversivel: true,
           valorDescontoSeguro: '100,00',
           morteNatural: '50000,00',
@@ -120,11 +152,8 @@ export class AutarquiasController {
           invalidezPermanenteAcidente: '75000,00',
           ps: true,
           omitido: false,
-          rioPax: 2,
-          dataNascimento: '1980-01-01T00:00:00.000Z',
           estadoCivil: 'Casado',
           email: 'socio@exemplo.com',
-          quantidadeDependentes: 2,
           conjuge: 'Nome do Cônjuge',
           descontoSocioEfetivo: '200,00',
           historicoSocio: 'Histórico do sócio',
@@ -142,11 +171,44 @@ export class AutarquiasController {
           totalOutubro: 1900,
           totalNovembro: 2000,
           totalDezembro: 2100,
-        },
-      },
-    },
+          adventicios: [
+            {
+              nomeCompleto: 'Adventício Teste'
+            }
+          ],
+          cooperadores: [
+            {
+              nomeCompleto: 'Cooperador Teste'
+            }
+          ],
+          dependentes: [
+            {
+              nomeCompleto: 'Dependente Teste',
+              dataNascimento: '2024-08-14T12:34:56.789Z'
+            }
+          ],
+          dentCross: [
+            {
+              nomeCompleto: 'DentCross Teste'
+            }
+          ],
+          odMed: [
+            {
+              nomeCompleto: 'OD Med Teste',
+              data: '2024-08-14T12:34:56.789Z'
+            }
+          ],
+          rioPax: [
+            {
+              nomeCompleto: 'Rio Pax Teste',
+              data: '2024-08-14T12:34:56.789Z'
+            }
+          ]
+        }
+      }
+    }
   })
-  @Post()
+  @Post('add')
   async createAutarquia(
     @Body(new ValidationPipe()) createAutarquiasDto: CreateAutarquiasDto,
   ): Promise<Autarquias> {
@@ -205,11 +267,12 @@ export class AutarquiasController {
           rg: '12.345.678-9',
           orgaoExpedidor: 'SSP',
           dataFalecimento: null,
-          quantidadeAdventicios: 10,
-          quantidadeCooperadores: 5,
-          dentCross: 2,
-          odMed: 3,
-          seguro: 1,
+          quantidadeAdventicios: 1,
+          quantidadeCooperadores: 1,
+          quantidadeDentCross: 1,
+          quantidadeOdMed: 1,
+          quantidadeRioPax: 1,
+          quantidadeDependentes: 1,
           reversivel: true,
           valorDescontoSeguro: '100,00',
           morteNatural: '50000,00',
@@ -217,11 +280,8 @@ export class AutarquiasController {
           invalidezPermanenteAcidente: '75000,00',
           ps: true,
           omitido: false,
-          rioPax: 2,
-          dataNascimento: '1980-01-01T00:00:00.000Z',
           estadoCivil: 'Casado',
           email: 'socio@exemplo.com',
-          quantidadeDependentes: 2,
           conjuge: 'Nome do Cônjuge',
           descontoSocioEfetivo: '200,00',
           historicoSocio: 'Histórico do sócio',
@@ -239,13 +299,46 @@ export class AutarquiasController {
           totalOutubro: 1900,
           totalNovembro: 2000,
           totalDezembro: 2100,
+          adventicios: [
+            {
+              nomeCompleto: 'Adventício Teste'
+            }
+          ],
+          cooperadores: [
+            {
+              nomeCompleto: 'Cooperador Teste'
+            }
+          ],
+          dependentes: [
+            {
+              nomeCompleto: 'Dependente Teste',
+              dataNascimento: '2024-08-14T12:34:56.789Z'
+            }
+          ],
+          dentCross: [
+            {
+              nomeCompleto: 'DentCross Teste'
+            }
+          ],
+          odMed: [
+            {
+              nomeCompleto: 'OD Med Teste',
+              data: '2024-08-14T12:34:56.789Z'
+            }
+          ],
+          rioPax: [
+            {
+              nomeCompleto: 'Rio Pax Teste',
+              data: '2024-08-14T12:34:56.789Z'
+            }
+          ],
           createdAt: '2024-08-14T12:34:56.789Z',
           updatedAt: '2024-08-14T12:34:56.789Z',
           deletedAt: null,
-        },
-      ],
-    },
-  })
+        }
+      ]
+    }
+  })  
   @ApiResponse({ 
     status: 404, 
     description: 'Nenhuma autarquia encontrada.' 
@@ -287,11 +380,12 @@ export class AutarquiasController {
         rg: '12.345.678-9',
         orgaoExpedidor: 'SSP',
         dataFalecimento: null,
-        quantidadeAdventicios: 10,
-        quantidadeCooperadores: 5,
-        dentCross: 2,
-        odMed: 3,
-        seguro: 1,
+        quantidadeAdventicios: 1,
+        quantidadeCooperadores: 1,
+        quantidadeDentCross: 1,
+        quantidadeOdMed: 1,
+        quantidadeRioPax: 1,
+        quantidadeDependentes: 1,
         reversivel: true,
         valorDescontoSeguro: '100,00',
         morteNatural: '50000,00',
@@ -299,11 +393,8 @@ export class AutarquiasController {
         invalidezPermanenteAcidente: '75000,00',
         ps: true,
         omitido: false,
-        rioPax: 2,
-        dataNascimento: '1980-01-01T00:00:00.000Z',
         estadoCivil: 'Casado',
         email: 'socio@exemplo.com',
-        quantidadeDependentes: 2,
         conjuge: 'Nome do Cônjuge',
         descontoSocioEfetivo: '200,00',
         historicoSocio: 'Histórico do sócio',
@@ -321,12 +412,45 @@ export class AutarquiasController {
         totalOutubro: 1900,
         totalNovembro: 2000,
         totalDezembro: 2100,
+        adventicios: [
+          {
+            nomeCompleto: 'Adventício Teste'
+          }
+        ],
+        cooperadores: [
+          {
+            nomeCompleto: 'Cooperador Teste'
+          }
+        ],
+        dependentes: [
+          {
+            nomeCompleto: 'Dependente Teste',
+            dataNascimento: '2024-08-14T12:34:56.789Z'
+          }
+        ],
+        dentCross: [
+          {
+            nomeCompleto: 'DentCross Teste'
+          }
+        ],
+        odMed: [
+          {
+            nomeCompleto: 'OD Med Teste',
+            data: '2024-08-14T12:34:56.789Z'
+          }
+        ],
+        rioPax: [
+          {
+            nomeCompleto: 'Rio Pax Teste',
+            data: '2024-08-14T12:34:56.789Z'
+          }
+        ],
         createdAt: '2024-08-14T12:34:56.789Z',
         updatedAt: '2024-08-14T12:34:56.789Z',
         deletedAt: null,
-      },
-    },
-  })
+      }
+    }
+  })  
   @ApiResponse({ 
     status: 404, 
     description: 'Autarquia não encontrada com o ID fornecido.' 

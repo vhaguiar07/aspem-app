@@ -17,6 +17,10 @@ export class CreateCooperadorAutarquiaDto {
   @IsString()
   @IsOptional()
   nomeCompleto?: string;
+
+  @IsOptional()
+  @IsDate()
+  @Type(() => Date)
   data?: Date;
 }
 
@@ -24,6 +28,10 @@ export class CreateDependenteAutarquiaDto {
   @IsString()
   @IsOptional()
   nomeCompleto?: string;
+
+  @IsOptional()
+  @IsDate()
+  @Type(() => Date)
   dataNascimento?: Date;
 }
 
@@ -37,6 +45,10 @@ export class CreateRioPaxAutarquiaDto {
   @IsString()
   @IsOptional()
   nomeCompleto?: string;
+
+  @IsOptional()
+  @IsDate()
+  @Type(() => Date)
   data?: Date;
 }
 
@@ -44,40 +56,45 @@ export class CreateOdMedAutarquiaDto {
   @IsString()
   @IsOptional()
   nomeCompleto?: string;
+
+  @IsOptional()
+  @IsDate()
+  @Type(() => Date)
   data?: Date;
 }
-
 
 export class CreateAutarquiasDto {
   @IsString()
   @IsOptional()
-  orgao: string;
+  orgao?: string;
 
   @IsString()
   @IsOptional()
-  classificacao: string;
+  classificacao?: string;
 
   @IsString()
   @IsOptional()
-  matricula: string;
+  matricula?: string;
 
   @IsString()
   @IsOptional()
-  matriculaSocial: string;
+  matriculaSocial?: string;
 
   @IsOptional()
-  dataAdmissao: Date;
+  @IsDate()
+  @Type(() => Date)
+  dataAdmissao?: Date;
 
   @IsString()
   nomeSocio: string;
 
   @IsString()
   @IsOptional()
-  endereco: string;
+  endereco?: string;
 
   @IsNumber()
   @IsOptional()
-  numero: number;
+  numero?: number;
 
   @IsString()
   @IsOptional()
@@ -85,19 +102,19 @@ export class CreateAutarquiasDto {
 
   @IsString()
   @IsOptional()
-  bairroResidencia: string;
+  bairroResidencia?: string;
 
   @IsString()
   @IsOptional()
-  cidadeResidencia: string;
+  cidadeResidencia?: string;
 
   @IsString()
   @IsOptional()
-  uf: string;
+  uf?: string;
 
   @IsString()
   @IsOptional()
-  cepResidencia: string;
+  cepResidencia?: string;
 
   @IsString()
   @IsOptional()
@@ -117,22 +134,27 @@ export class CreateAutarquiasDto {
 
   @IsString()
   @IsOptional()
-  cpf: string;
+  cpf?: string;
 
   @IsString()
   @IsOptional()
-  rg: string;
+  rg?: string;
 
   @IsString()
   @IsOptional()
-  orgaoExpedidor: string;
+  orgaoExpedidor?: string;
 
   @IsOptional()
+  @IsDate()
+  @Type(() => Date)
   dataFalecimento?: Date;
+
+  @IsOptional()
+  dataNascimento: Date;
 
   @IsNumber()
   @IsOptional()
-  quantidadeAdventicios: number;
+  quantidadeAdventicios?: number;
 
   @IsNumber()
   @IsOptional()
@@ -148,7 +170,53 @@ export class CreateAutarquiasDto {
 
   @IsNumber()
   @IsOptional()
-  seguro?: number;
+  quantidadeRioPax?: number;
+
+  @IsNumber()
+  @IsOptional()
+  quantidadeDependentes?: number;
+
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => CreateAdventicioAutarquiaDto)
+  @IsArray()
+  @IsAdventiciosCountValid('quantidadeAdventicios')
+  adventicios?: CreateAdventicioAutarquiaDto[];
+
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => CreateCooperadorAutarquiaDto)
+  @IsArray()
+  @IsCooperadoresCountValid('quantidadeCooperadores')
+  cooperadores?: CreateCooperadorAutarquiaDto[];
+
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => CreateDependenteAutarquiaDto)
+  @IsArray()
+  @IsDependentesCountValid('quantidadeDependentes')
+  dependentes?: CreateDependenteAutarquiaDto[];
+
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => CreateDentCrossAutarquiaDto)
+  @IsArray()
+  @IsDentCrossCountValid('quantidadeDentCross')
+  dentCross?: CreateDentCrossAutarquiaDto[];
+
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => CreateRioPaxAutarquiaDto)
+  @IsArray()
+  @IsRioPaxCountValid('quantidadeRioPax')
+  rioPax?: CreateRioPaxAutarquiaDto[];
+
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => CreateOdMedAutarquiaDto)
+  @IsArray()
+  @IsOdMedCountValid('quantidadeOdMed')
+  odMed?: CreateOdMedAutarquiaDto[];
 
   @IsBoolean()
   @IsOptional()
@@ -180,22 +248,15 @@ export class CreateAutarquiasDto {
 
   @IsNumber()
   @IsOptional()
-  quantidadeRioPax?: number;
-
-  @IsOptional()
-  dataNascimento: Date;
+  seguro?: number;
 
   @IsString()
   @IsOptional()
-  estadoCivil: string;
+  estadoCivil?: string;
 
   @IsEmail()
   @IsOptional()
-  email: string;
-
-  @IsNumber()
-  @IsOptional()
-  quantidadeDependentes?: number;
+  email?: string;
 
   @IsString()
   @IsOptional()
@@ -213,6 +274,7 @@ export class CreateAutarquiasDto {
   @IsOptional()
   observacoesPagamentos?: string;
 
+  @IsString()
   @IsOptional()
   anoFiscal?: string;
 
@@ -263,26 +325,4 @@ export class CreateAutarquiasDto {
   @IsNumber()
   @IsOptional()
   totalDezembro?: number;
-
-  @IsOptional()
-  @ValidateNested({ each: true })
-  @Type(() => CreateAdventicioAutarquiaDto)
-  @Type(() => CreateCooperadorAutarquiaDto)
-  @Type(() => CreateDependenteAutarquiaDto)
-  @Type(() => CreateDentCrossAutarquiaDto)
-  @Type(() => CreateRioPaxAutarquiaDto)
-  @Type(() => CreateOdMedAutarquiaDto)
-  @IsArray()
-  @IsAdventiciosCountValid('quantidadeAdventicios')
-  @IsCooperadoresCountValid('quantidadeCooperadores')
-  @IsDependentesCountValid('quantidadeDependentes')
-  @IsDentCrossCountValid('quantidadeDentCross')
-  @IsRioPaxCountValid('quantidadeRioPax')
-  @IsOdMedCountValid('quantidadeOdMed')
-  adventicios?: CreateAdventicioAutarquiaDto[];
-  cooperadores?: CreateCooperadorAutarquiaDto[];
-  dependentes?: CreateDependenteAutarquiaDto[];
-  dentCross?: CreateDentCrossAutarquiaDto[];
-  rioPax?: CreateRioPaxAutarquiaDto[];
-  odMed?: CreateOdMedAutarquiaDto[];
 }
