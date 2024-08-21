@@ -2,9 +2,9 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Autarquia } from '../types';
+import { Autarquia, AdventicioAutarquia, DentCrossAutarquia, OdMedAutarquia, RioPaxAutarquia, DependenteAutarquia, CooperadorAutarquia } from '../types';
 import { createAutarquia } from '../autarquiaApi';
-import { Button, FormGroup, Intent, InputGroup, Switch } from '@blueprintjs/core';
+import { Button, FormGroup, Intent, InputGroup } from '@blueprintjs/core';
 import { ptBR } from 'date-fns/locale';
 import { parse } from 'date-fns';
 import './addAutarquiaStyles.css';
@@ -20,6 +20,12 @@ const AddAutarquia: React.FC = () => {
   const [dependentes, setDependentes] = useState<{ [key: string]: string }[]>([]);
   const [error, setError] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const [adventiciosAutarquia] = useState<AdventicioAutarquia[]>([]);
+  const [cooperadoresAutarquia] = useState<CooperadorAutarquia[]>([]);
+  const [dentCrossesAutarquia] = useState<DentCrossAutarquia[]>([]);
+  const [odMedsAutarquia] = useState<OdMedAutarquia[]>([]);
+  const [rioPaxesAutarquia] = useState<RioPaxAutarquia[]>([]);
+  const [dependentesAutarquia] = useState<DependenteAutarquia[]>([]);
   const navigate = useNavigate();
 
   const handleChange = (name: string, value: any) => {
@@ -37,6 +43,30 @@ const AddAutarquia: React.FC = () => {
     }
   };
 
+  const handleDateDependentesChange = (date: Date | null, index: number) => {
+    if (date) {
+      const newDependentes = [...dependentes];
+      newDependentes[index] = { ...newDependentes[index], dataNascimento: date.toISOString() };
+      setDependentes(newDependentes);
+    }
+  };
+
+  const handleDateRioPaxChange = (date: Date | null, index: number) => {
+    if (date) {
+      const newRioPax = [...rioPax];
+      newRioPax[index] = { ...newRioPax[index], data: date.toISOString() };
+      setRioPax(newRioPax);
+    }
+  };
+
+  const handleDateOdMedChange = (date: Date | null, index: number) => {
+    if (date) {
+      const newOdMed = [...odMed];
+      newOdMed[index] = { ...newOdMed[index], data: date.toISOString() };
+      setOdMed(newOdMed);
+    }
+  };
+
   const parseDate = (dateString: string) => {
     return parse(dateString, 'dd/MM/yyyy', new Date());
   };
@@ -49,7 +79,7 @@ const AddAutarquia: React.FC = () => {
       parsedValue = parseDate(value).toISOString();
     } 
 
-    if (name === 'numero' || name === 'quantidadeAdventicios' || name === 'seguro' || name === 'totalJaneiro' || name === 'totalFevereiro' || name === 'totalMarco' || name === 'totalAbril' || name === 'totalMaio' || name === 'totalJunho' || name === 'totalJulho' || name === 'totalAgosto' || name === 'totalSetembro' || name === 'totalOutubro' || name === 'totalNovembro' || name === 'totalDezembro') {
+    if (name === 'numero' || name === 'quantidadeAdventicios' || name === 'quantidadeDentCross' || name === 'quantidadeOdMed' || name === 'quantidadeRioPax' || name === 'quantidadeCooperadores' || name === 'quantidadeDependentes' || name === 'seguro' || name === 'totalJaneiro' || name === 'totalFevereiro' || name === 'totalMarco' || name === 'totalAbril' || name === 'totalMaio' || name === 'totalJunho' || name === 'totalJulho' || name === 'totalAgosto' || name === 'totalSetembro' || name === 'totalOutubro' || name === 'totalNovembro' || name === 'totalDezembro') {
       parsedValue = parseInt(value, 10);
       if (isNaN(parsedValue)) parsedValue = 0;
     }
@@ -102,8 +132,46 @@ const AddAutarquia: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const autarquiaToSend: Partial<Autarquia> = { ...autarquia };
+
+    if (adventiciosAutarquia.length === 0) {
+      delete autarquiaToSend.adventiciosAutarquia;
+    } else {
+      autarquiaToSend.adventiciosAutarquia = adventiciosAutarquia;
+    }
+  
+    if (cooperadoresAutarquia.length === 0) {
+      delete autarquiaToSend.cooperadoresAutarquia;
+    } else {
+      autarquiaToSend.cooperadoresAutarquia = cooperadoresAutarquia;
+    }
+
+    if (dentCrossesAutarquia.length === 0) {
+      delete autarquiaToSend.dentCrossesAutarquia;
+    } else {
+      autarquiaToSend.dentCrossesAutarquia = dentCrossesAutarquia;
+    }
+  
+    if (odMedsAutarquia.length === 0) {
+      delete autarquiaToSend.odMedsAutarquia;
+    } else {
+      autarquiaToSend.odMedsAutarquia = odMedsAutarquia;
+    }
+  
+    if (rioPaxesAutarquia.length === 0) {
+      delete autarquiaToSend.rioPaxesAutarquia;
+    } else {
+      autarquiaToSend.rioPaxesAutarquia = rioPaxesAutarquia;
+    }
+  
+    if (dependentesAutarquia.length === 0) {
+      delete autarquiaToSend.dependentesAutarquia;
+    } else {
+      autarquiaToSend.dependentesAutarquia = dependentesAutarquia;
+    }
+  
     try {
-      await createAutarquia({ ...autarquia, adventicios } as Autarquia);
+      await createAutarquia({ ...autarquia, adventicios, cooperadores, dependentes, dentCross, odMed, rioPax } as Autarquia);
       navigate('/autarquias');
     } catch (err) {
       setError('Erro ao adicionar autarquia.');
@@ -336,6 +404,7 @@ const AddAutarquia: React.FC = () => {
               className="nice-input" 
               type="email"
               onChange={(e) => handleChange('email', e.target.value)} 
+              required
             />
           </div>
 
@@ -387,8 +456,7 @@ const AddAutarquia: React.FC = () => {
               name="estadoCivil" 
               className="nice-input" 
               type="text"
-              onChange={(e) => handleChange('estadoCivil', e.target.value)} 
-              required 
+              onChange={(e) => handleChange('estadoCivil', e.target.value)}
             />
           </div>
 
@@ -442,8 +510,7 @@ const AddAutarquia: React.FC = () => {
               name="orgaoExpedidor" 
               className="nice-input" 
               type="text"
-              onChange={(e) => handleChange('orgaoExpedidor', e.target.value)} 
-              required 
+              onChange={(e) => handleChange('orgaoExpedidor', e.target.value)}
             />
           </div>
         </div>
@@ -602,8 +669,7 @@ const AddAutarquia: React.FC = () => {
               name="anoFiscal" 
               className="nice-input" 
               type="text"
-              onChange={(e) => handleChange('anoFiscal', e.target.value)} 
-              required 
+              onChange={(e) => handleChange('anoFiscal', e.target.value)}
             />
           </div>
         </div>
@@ -803,10 +869,10 @@ const AddAutarquia: React.FC = () => {
 
         <div className="form-container-lonely">
           <div className="nice-form-group">
-            <FormGroup label="Faixa Dente Cross" labelFor="dentCross">
+            <FormGroup label="Faixa Dente Cross" labelFor="quantidadeDentCross">
               <InputGroup
-                id="dentCross"
-                name="dentCross"
+                id="quantidadeDentCross"
+                name="quantidadeDentCross"
                 type="number"
                 onChange={(e) => {
                   handleInputChange(e);
@@ -838,10 +904,10 @@ const AddAutarquia: React.FC = () => {
 
         <div className="form-container-lonely">
           <div className="nice-form-group">
-            <FormGroup label="Faixa OD Med" labelFor="odMed">
+            <FormGroup label="Faixa OD Med" labelFor="quantidadeOdMed">
               <InputGroup
-                id="odMed"
-                name="odMed"
+                id="quantidadeOdMed"
+                name="quantidadeOdMed"
                 type="number"
                 onChange={(e) => {
                   handleInputChange(e);
@@ -857,14 +923,25 @@ const AddAutarquia: React.FC = () => {
             </FormGroup>
           </div>
 
-          {odMed.map((_, index) => (
+          {odMed.map((odMed, index) => (
             <div key={index} className="odMed-group">
               <FormGroup label={`Beneficiário ${index + 1}`} labelFor={`nomeCompleto${index}`}>
                 <InputGroup
                   id={`nomeCompleto${index}`}
                   name="nomeCompleto"
+                  value={odMed.nomeCompleto}
                   onChange={(e) => handleOdMedChange(index, e)}
                   required
+                />
+              </FormGroup>
+              <FormGroup label={`Data de Nascimento ${index + 1}`} labelFor={`data${index}`}>
+                <DatePicker
+                  selected={odMed.data ? new Date(odMed.data) : null}
+                  onChange={(date) => handleDateOdMedChange(date, index)}
+                  dateFormat="dd/MM/yyyy"
+                  placeholderText="DD/MM/AAAA"
+                  locale={ptBR}
+                  customInput={<InputGroup id={`data${index}`} name="data" onChange={(e) => handleOdMedChange(index, e)} />}
                 />
               </FormGroup>
             </div>
@@ -873,10 +950,10 @@ const AddAutarquia: React.FC = () => {
 
         <div className="form-container-lonely">
           <div className="nice-form-group">
-            <FormGroup label="Rio Pax" labelFor="rioPax">
+            <FormGroup label="Rio Pax" labelFor="quantidadeRioPax">
               <InputGroup
-                id="rioPax"
-                name="rioPax"
+                id="quantidadeRioPax"
+                name="quantidadeRioPax"
                 type="number"
                 onChange={(e) => {
                   handleInputChange(e);
@@ -892,14 +969,25 @@ const AddAutarquia: React.FC = () => {
             </FormGroup>
           </div>
 
-          {rioPax.map((_, index) => (
+          {rioPax.map((rioPax, index) => (
             <div key={index} className="rioPax-group">
               <FormGroup label={`Beneficiário ${index + 1}`} labelFor={`nomeCompleto${index}`}>
                 <InputGroup
                   id={`nomeCompleto${index}`}
                   name="nomeCompleto"
+                  value={rioPax.nomeCompleto}
                   onChange={(e) => handleRioPaxChange(index, e)}
                   required
+                />
+              </FormGroup>
+              <FormGroup label={`Data de Nascimento ${index + 1}`} labelFor={`data${index}`}>
+                <DatePicker
+                  selected={rioPax.data ? new Date(rioPax.data) : null}
+                  onChange={(date) => handleDateRioPaxChange(date, index)}
+                  dateFormat="dd/MM/yyyy"
+                  placeholderText="DD/MM/AAAA"
+                  locale={ptBR}
+                  customInput={<InputGroup id={`data${index}`} name="data" onChange={(e) => handleRioPaxChange(index, e)} />}
                 />
               </FormGroup>
             </div>
@@ -908,10 +996,10 @@ const AddAutarquia: React.FC = () => {
 
         <div className="form-container-lonely">
           <div className="nice-form-group">
-            <FormGroup label="Cooperadores" labelFor="cooperadores">
+            <FormGroup label="Cooperadores" labelFor="quantiadadeCooperadores">
               <InputGroup
-                id="cooperadores"
-                name="cooperadores"
+                id="quantidadeCooperadores"
+                name="quantidadeCooperadores"
                 type="number"
                 onChange={(e) => {
                   handleInputChange(e);
@@ -943,10 +1031,10 @@ const AddAutarquia: React.FC = () => {
 
         <div className="form-container-lonely">
           <div className="nice-form-group">
-            <FormGroup label="Dependentes" labelFor="dependentes">
+            <FormGroup label="Dependentes" labelFor="quantidadeDependentes">
               <InputGroup
-                id="dependentes"
-                name="dependentes"
+                id="quantidadeDependentes"
+                name="quantidadeDependentes"
                 type="number"
                 onChange={(e) => {
                   handleInputChange(e);
@@ -962,14 +1050,25 @@ const AddAutarquia: React.FC = () => {
             </FormGroup>
           </div>
 
-          {dependentes.map((_, index) => (
+          {dependentes.map((dependente, index) => (
             <div key={index} className="dependentes-group">
-              <FormGroup label={`Beneficiário ${index + 1}`} labelFor={`nomeCompleto${index}`}>
+              <FormGroup label={`Dependente ${index + 1}`} labelFor={`nomeCompleto${index}`}>
                 <InputGroup
                   id={`nomeCompleto${index}`}
                   name="nomeCompleto"
+                  value={dependente.nomeCompleto}
                   onChange={(e) => handleDependentesChange(index, e)}
                   required
+                />
+              </FormGroup>
+              <FormGroup label={`Data de Nascimento ${index + 1}`} labelFor={`dataNascimento${index}`}>
+                <DatePicker
+                  selected={dependente.dataNascimento ? new Date(dependente.dataNascimento) : null}
+                  onChange={(date) => handleDateDependentesChange(date, index)}
+                  dateFormat="dd/MM/yyyy"
+                  placeholderText="DD/MM/AAAA"
+                  locale={ptBR}
+                  customInput={<InputGroup id={`dataNascimento${index}`} name="dataNascimento" onChange={(e) => handleDependentesChange(index, e)} />}
                 />
               </FormGroup>
             </div>
