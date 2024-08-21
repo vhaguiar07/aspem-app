@@ -103,12 +103,29 @@ export class AutarquiasService {
   }
 
   async getAllAutarquias(): Promise<Autarquias[]> {
-    return this.prisma.autarquias.findMany();
+    return this.prisma.autarquias.findMany({
+      include: {
+        adventiciosAutarquia: true,
+        dentCrossesAutarquia: true,
+        odMedsAutarquia: true,
+        rioPaxesAutarquia: true,
+        dependentesAutarquia: true,
+        cooperadoresAutarquia: true,
+      },
+    });
   }
 
   async getAutarquiaById(id: string): Promise<Autarquias> {
     const autarquia = await this.prisma.autarquias.findUnique({
       where: { id },
+      include: {
+        adventiciosAutarquia: true,
+        dentCrossesAutarquia: true,
+        odMedsAutarquia: true,
+        rioPaxesAutarquia: true,
+        dependentesAutarquia: true,
+        cooperadoresAutarquia: true,
+      },
     });
     if (!autarquia) {
       throw new NotFoundException('Autarquia não encontrada');
