@@ -7,6 +7,6 @@ export const fetchAutarquias = async (url: string): Promise<Autarquia[]> => {
 };
 
 export const createAutarquia = async (autarquia: Autarquia) => {
-  const response = await axios.post('/autarquias', autarquia);
+  const response = await axios.post('/autarquias/add', autarquia);
   return response.data;
 };

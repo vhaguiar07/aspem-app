@@ -14,6 +14,7 @@ import PrivateRoute from './components/routes/PrivateRoute';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AuthNotifier from './components/auth/AuthNotifier';
+import AutarquiaNotifier from './components/autarquias/AutarquiaNotifier';
 import { ADD_AUTARQUIAS, AUTARQUIAS } from './views/autarquia/routes';
 import AutarquiaPage from './views/autarquia/pages/Autarquia';
 import AddAutarquia from './views/autarquia/pages/AddAutarquia';
@@ -37,6 +38,7 @@ const App: React.FC = () => {
       </div>
       <ToastContainer />
       <AuthNotifier />
+      <AutarquiaNotifier />
     </Router>
   );
 };

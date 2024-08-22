@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
+import { AppDispatch } from '../../../store';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Autarquia, AdventicioAutarquia, DentCrossAutarquia, OdMedAutarquia, RioPaxAutarquia, DependenteAutarquia, CooperadorAutarquia } from '../types';
 import { createAutarquia } from '../autarquiaApi';
@@ -9,8 +11,10 @@ import { ptBR } from 'date-fns/locale';
 import { parse } from 'date-fns';
 import './addAutarquiaStyles.css';
 import './nice-form.css'
+import { addAutarquiaSuccess, addAutarquiaFailure } from '../reducer';
 
 const AddAutarquia: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const [autarquia, setAutarquia] = useState<Partial<Autarquia>>({});
   const [adventicios, setAdventicios] = useState<{ [key: string]: string }[]>([]);
   const [dentCross, setDentCross] = useState<{ [key: string]: string }[]>([]);
@@ -131,8 +135,8 @@ const AddAutarquia: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     const autarquiaToSend: Partial<Autarquia> = { ...autarquia };
+    autarquiaToSend.quantidadeAdventicios = autarquia.quantidadeAdventicios ?? 0;
 
     if (adventiciosAutarquia.length === 0) {
       delete autarquiaToSend.adventiciosAutarquia;
@@ -171,11 +175,19 @@ const AddAutarquia: React.FC = () => {
     }
   
     try {
-      await createAutarquia({ ...autarquia, adventicios, cooperadores, dependentes, dentCross, odMed, rioPax } as Autarquia);
+      const newAutarquia = await createAutarquia({ ...autarquia, adventicios, cooperadores, dependentes, dentCross, odMed, rioPax } as Autarquia);
+      dispatch(addAutarquiaSuccess(newAutarquia));
       navigate('/autarquias');
-    } catch (err) {
-      setError('Erro ao adicionar autarquia.');
-      console.error(err);
+    } catch (err: any) {
+      const errorResponse = err.response?.data;
+
+      const errorMessage = Array.isArray(errorResponse?.message)
+        ? errorResponse.message.join(' ')
+        : errorResponse?.message || 'Erro ao adicionar autarquia.';
+
+      dispatch(addAutarquiaFailure(errorMessage));
+
+      console.error(errorMessage);
     }
   };
 
