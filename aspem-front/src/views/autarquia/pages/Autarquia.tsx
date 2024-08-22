@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { fetchAutarquias } from '../autarquiaApi';
 import { Autarquia } from '../types';
-import { Icon } from '@blueprintjs/core';
+import { Icon, Button, Intent } from '@blueprintjs/core';
 import './autarquiaStyles.css';
 
 const AutarquiaPage: React.FC = () => {
   const [autarquias, setAutarquias] = useState<Autarquia[]>([]);
   const [filteredAutarquias, setFilteredAutarquias] = useState<Autarquia[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleAddAutarquiaClick = () => {
+    navigate('/autarquias/add');
+  };
 
   useEffect(() => {
     const loadAutarquias = async () => {
@@ -33,6 +39,16 @@ const AutarquiaPage: React.FC = () => {
       </div>
       <div className="div-title">
         <h1>Autarquias</h1>
+      </div>
+      <div className="button-div">
+        <Button
+          type="submit"
+          intent={Intent.PRIMARY}
+          style={{ marginTop: 'unset', marginBottom: '20px' }}
+          onClick={handleAddAutarquiaClick}
+        >
+          Adicionar Servidor
+        </Button>
       </div>
       {error && <p>{error}</p>}
       <div className="table-container">
