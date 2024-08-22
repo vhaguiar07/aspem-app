@@ -1,4 +1,4 @@
-import { IsOptional, IsArray, ValidateNested, IsString, IsNumber, IsBoolean, IsDate, IsEmail } from 'class-validator';
+import { IsOptional, IsArray, ValidateNested, IsString, IsNumber, IsBoolean, IsDate, IsEmail, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 import { IsAdventiciosCountValid } from './IsAdventiciosCountValid';
 import { IsCooperadoresCountValid } from './IsCooperadoresCountValid';
@@ -154,27 +154,33 @@ export class CreateAutarquiasDto {
 
   @IsNumber()
   @IsOptional()
-  quantidadeAdventicios?: number;
+  @Min(0)
+  quantidadeAdventicios?: number = 0;
 
   @IsNumber()
   @IsOptional()
-  quantidadeCooperadores?: number;
+  @Min(0)
+  quantidadeCooperadores?: number = 0;
 
   @IsNumber()
   @IsOptional()
-  quantidadeDentCross?: number;
+  @Min(0)
+  quantidadeDentCross?: number = 0;
 
   @IsNumber()
   @IsOptional()
-  quantidadeOdMed?: number;
+  @Min(0)
+  quantidadeOdMed?: number = 0;
 
   @IsNumber()
   @IsOptional()
-  quantidadeRioPax?: number;
+  @Min(0)
+  quantidadeRioPax?: number = 0;
 
   @IsNumber()
   @IsOptional()
-  quantidadeDependentes?: number;
+  @Min(0)
+  quantidadeDependentes?: number = 0;
 
   @IsOptional()
   @ValidateNested({ each: true })
