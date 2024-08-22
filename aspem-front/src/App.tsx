@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import CustomerPage from './views/customer/pages/customer';
+import HomePage from './views/home/pages/home';
 import CustomerDetailsPage from './views/customer/pages/customerDetails';
 import UserPage from './views/user/pages/user';
 import LoginPage from './views/auth/pages/login';
@@ -26,7 +26,7 @@ const App: React.FC = () => {
         <Sidebar className="sidebar" />
         <div className="content">
           <Routes>
-            <Route path="/" element={<PrivateRoute element={<CustomerPage />} />} />
+            <Route path="/" element={<PrivateRoute element={<HomePage />} />} />
             <Route path='/customers/:id' element={<PrivateRoute element={<CustomerDetailsPage />} />} />
             <Route path={USERS()} element={<PrivateRoute element={<UserPage />} />} />
             <Route path={AUTARQUIAS()} element={<PrivateRoute element={<AutarquiaPage />} />} />
