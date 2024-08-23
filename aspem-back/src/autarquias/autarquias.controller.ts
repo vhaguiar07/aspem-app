@@ -1,8 +1,8 @@
-import { Controller, Post, Body, Get, Param, NotFoundException, ValidationPipe, ConflictException, InternalServerErrorException, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, Get, Patch, Param, NotFoundException, ValidationPipe, BadRequestException, InternalServerErrorException, HttpException, HttpStatus } from '@nestjs/common';
 import { AutarquiasService } from './autarquias.service';
 import { Autarquias } from '@prisma/client';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
-import { CreateAutarquiasDto } from './dto/create-autarquias.dto';
+import { CreateAutarquiasDto, UpdateAutarquiasDto} from './dto/create-autarquias.dto';
 
 @ApiTags('autarquias')
 @Controller('autarquias')
@@ -464,4 +464,230 @@ export class AutarquiasController {
     }
     return autarquia;
   }
+
+  @ApiOperation({ summary: 'Atualiza uma autarquia existente' })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Autarquia atualizada com sucesso.',
+    schema: {
+      example: {
+        id: 'uuid-1234-5678-91011',
+        orgao: 'Nome do Órgão',
+        classificacao: 'Classificação do Órgão',
+        matricula: '12345678',
+        matriculaSocial: 1234,
+        dataAdmissao: '2024-08-14T12:34:56.789Z',
+        nomeSocio: 'Nome do Sócio',
+        endereco: 'Rua Exemplo, 123',
+        numero: 456,
+        complemento: 'Apto 789',
+        bairroResidencia: 'Bairro Exemplo',
+        cidadeResidencia: 'Cidade Exemplo',
+        uf: 'SP',
+        cepResidencia: '12345-678',
+        telefoneResidencia: '(11) 1234-5678',
+        telefoneCelular: '(11) 91234-5678',
+        telefoneComercial: '(11) 31234-5678',
+        falecido: false,
+        cpf: '123.456.789-00',
+        rg: '12.345.678-9',
+        orgaoExpedidor: 'SSP',
+        dataFalecimento: null,
+        quantidadeAdventicios: 1,
+        quantidadeCooperadores: 1,
+        quantidadeDentCross: 1,
+        quantidadeOdMed: 1,
+        quantidadeRioPax: 1,
+        quantidadeDependentes: 1,
+        reversivel: true,
+        valorDescontoSeguro: '100,00',
+        morteNatural: '50000,00',
+        morteAcidental: '100000,00',
+        invalidezPermanenteAcidente: '75000,00',
+        ps: true,
+        omitido: false,
+        estadoCivil: 'Casado',
+        email: 'socio@exemplo.com',
+        conjuge: 'Nome do Cônjuge',
+        descontoSocioEfetivo: '200,00',
+        historicoSocio: 'Histórico do sócio',
+        observacoesPagamentos: 'Sem observações',
+        anoFiscal: '2024',
+        totalJaneiro: 1000,
+        totalFevereiro: 1100,
+        totalMarco: 1200,
+        totalAbril: 1300,
+        totalMaio: 1400,
+        totalJunho: 1500,
+        totalJulho: 1600,
+        totalAgosto: 1700,
+        totalSetembro: 1800,
+        totalOutubro: 1900,
+        totalNovembro: 2000,
+        totalDezembro: 2100,
+        adventicios: [
+          {
+            nomeCompleto: 'Adventício Teste'
+          }
+        ],
+        cooperadores: [
+          {
+            nomeCompleto: 'Cooperador Teste'
+          }
+        ],
+        dependentes: [
+          {
+            nomeCompleto: 'Dependente Teste',
+            dataNascimento: '2024-08-14T12:34:56.789Z'
+          }
+        ],
+        dentCross: [
+          {
+            nomeCompleto: 'DentCross Teste'
+          }
+        ],
+        odMed: [
+          {
+            nomeCompleto: 'OD Med Teste',
+            data: '2024-08-14T12:34:56.789Z'
+          }
+        ],
+        rioPax: [
+          {
+            nomeCompleto: 'Rio Pax Teste',
+            data: '2024-08-14T12:34:56.789Z'
+          }
+        ],
+        createdAt: '2024-08-14T12:34:56.789Z',
+        updatedAt: '2024-08-14T12:34:56.789Z',
+        deletedAt: null,
+      }
+    }
+  })
+  @ApiResponse({ 
+    status: 400, 
+    description: 'Dados inválidos. Verifique os campos obrigatórios e a validade dos dados fornecidos.' 
+  })
+  @ApiResponse({ 
+    status: 404, 
+    description: 'Autarquia com o ID fornecido não encontrada.' 
+  })
+  @ApiParam({ 
+    name: 'id', 
+    description: 'ID da autarquia a ser atualizada', 
+    type: String 
+  })
+  @ApiBody({
+    description: 'Dados necessários para atualizar a autarquia.',
+    type: UpdateAutarquiasDto,
+    examples: {
+      example: {
+        summary: 'Exemplo de dados para atualização de uma autarquia',
+        value: {
+          orgao: 'Nome do Órgão Atualizado',
+          classificacao: 'Classificação do Órgão Atualizada',
+          matricula: '87654321',
+          matriculaSocial: 5678,
+          dataAdmissao: '2024-08-15T12:34:56.789Z',
+          nomeSocio: 'Nome do Sócio Atualizado',
+          endereco: 'Rua Exemplo Atualizada, 456',
+          numero: 789,
+          complemento: 'Apto 123',
+          bairroResidencia: 'Bairro Exemplo Atualizado',
+          cidadeResidencia: 'Cidade Exemplo Atualizada',
+          uf: 'RJ',
+          cepResidencia: '23456-789',
+          telefoneResidencia: '(21) 2345-6789',
+          telefoneCelular: '(21) 91234-5678',
+          telefoneComercial: '(21) 31234-5678',
+          falecido: true,
+          cpf: '987.654.321-00',
+          rg: '98.765.432-1',
+          orgaoExpedidor: 'SSP',
+          dataFalecimento: '2024-08-14T12:34:56.789Z',
+          quantidadeAdventicios: 2,
+          quantidadeCooperadores: 2,
+          quantidadeDentCross: 2,
+          quantidadeOdMed: 2,
+          quantidadeRioPax: 2,
+          quantidadeDependentes: 2,
+          reversivel: false,
+          valorDescontoSeguro: '200,00',
+          morteNatural: '60000,00',
+          morteAcidental: '120000,00',
+          invalidezPermanenteAcidente: '80000,00',
+          ps: false,
+          omitido: true,
+          estadoCivil: 'Solteiro',
+          email: 'socioatualizado@exemplo.com',
+          conjuge: 'Nome do Cônjuge Atualizado',
+          descontoSocioEfetivo: '250,00',
+          historicoSocio: 'Histórico atualizado do sócio',
+          observacoesPagamentos: 'Observações atualizadas',
+          anoFiscal: '2024',
+          totalJaneiro: 2000,
+          totalFevereiro: 2200,
+          totalMarco: 2400,
+          totalAbril: 2600,
+          totalMaio: 2800,
+          totalJunho: 3000,
+          totalJulho: 3200,
+          totalAgosto: 3400,
+          totalSetembro: 3600,
+          totalOutubro: 3800,
+          totalNovembro: 4000,
+          totalDezembro: 4200,
+          adventicios: [
+            {
+              nomeCompleto: 'Adventício Atualizado'
+            }
+          ],
+          cooperadores: [
+            {
+              nomeCompleto: 'Cooperador Atualizado'
+            }
+          ],
+          dependentes: [
+            {
+              nomeCompleto: 'Dependente Atualizado',
+              dataNascimento: '2024-08-15T12:34:56.789Z'
+            }
+          ],
+          dentCross: [
+            {
+              nomeCompleto: 'DentCross Atualizado'
+            }
+          ],
+          odMed: [
+            {
+              nomeCompleto: 'OD Med Atualizado',
+              data: '2024-08-15T12:34:56.789Z'
+            }
+          ],
+          rioPax: [
+            {
+              nomeCompleto: 'Rio Pax Atualizado',
+              data: '2024-08-15T12:34:56.789Z'
+            }
+          ]
+        }
+      }
+    }
+  })
+  @Patch(':id')
+  async updateAutarquia(
+    @Param('id') id: string,
+    @Body() updateAutarquiaDto: UpdateAutarquiasDto,
+  ) {
+    try {
+      const updatedAutarquia = await this.autarquiasService.updateAutarquia(id, updateAutarquiaDto);
+      if (!updatedAutarquia) {
+        throw new NotFoundException(`Autarquia with ID ${id} not found`);
+      }
+      return updatedAutarquia;
+    } catch (error) {
+      throw new BadRequestException(error.message || 'Failed to update autarquia');
+    }
+  }
+
 }

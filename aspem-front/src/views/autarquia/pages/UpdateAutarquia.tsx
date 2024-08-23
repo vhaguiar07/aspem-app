@@ -5,15 +5,15 @@ import DatePicker from 'react-datepicker';
 import { AppDispatch } from '../../../store';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Autarquia, AdventicioAutarquia, DentCrossAutarquia, OdMedAutarquia, RioPaxAutarquia, DependenteAutarquia, CooperadorAutarquia } from '../types';
-import { getAutarquiaById, createAutarquia } from '../autarquiaApi';
+import { getAutarquiaById, createAutarquia, updateAutarquia } from '../autarquiaApi';
 import { Button, FormGroup, Intent, InputGroup } from '@blueprintjs/core';
 import { ptBR } from 'date-fns/locale';
 import { parse } from 'date-fns';
 import './addAutarquiaStyles.css';
 import './nice-form.css'
-import { addAutarquiaSuccess, addAutarquiaFailure } from '../reducer';
+import { addAutarquiaFailure, updateAutarquiaSuccess } from '../reducer';
 
-const AddAutarquia: React.FC = () => {
+const UpdateAutarquia: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [autarquia, setAutarquia] = useState<Partial<Autarquia>>({});
   const [adventicios, setAdventicios] = useState<{ [key: string]: string }[]>([]);
@@ -151,9 +151,16 @@ const AddAutarquia: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+  
     const autarquiaToSend: Partial<Autarquia> = { ...autarquia };
-    autarquiaToSend.quantidadeAdventicios = autarquia.quantidadeAdventicios ?? 0;
-
+    delete autarquiaToSend.id;
+  
+    Object.keys(autarquiaToSend).forEach((key) => {
+      if (autarquiaToSend[key as keyof Autarquia] === null || autarquiaToSend[key as keyof Autarquia] === undefined) {
+        delete autarquiaToSend[key as keyof Autarquia];
+      }
+    });
+  
     if (adventiciosAutarquia.length === 0) {
       delete autarquiaToSend.adventiciosAutarquia;
     } else {
@@ -165,7 +172,7 @@ const AddAutarquia: React.FC = () => {
     } else {
       autarquiaToSend.cooperadoresAutarquia = cooperadoresAutarquia;
     }
-
+  
     if (dentCrossesAutarquia.length === 0) {
       delete autarquiaToSend.dentCrossesAutarquia;
     } else {
@@ -190,22 +197,29 @@ const AddAutarquia: React.FC = () => {
       autarquiaToSend.dependentesAutarquia = dependentesAutarquia;
     }
   
+    const id = autarquia.id;
+  
+    if (!id) {
+      console.error("ID da autarquia não está definido.");
+      return;
+    }
+  
     try {
-      const newAutarquia = await createAutarquia({ ...autarquia, adventicios, cooperadores, dependentes, dentCross, odMed, rioPax } as Autarquia);
-      dispatch(addAutarquiaSuccess(newAutarquia));
+      const updatedAutarquia = await updateAutarquia(id, autarquiaToSend);
+      dispatch(updateAutarquiaSuccess(updatedAutarquia));
       navigate('/autarquias');
     } catch (err: any) {
       const errorResponse = err.response?.data;
-
+  
       const errorMessage = Array.isArray(errorResponse?.message)
         ? errorResponse.message.join(' ')
-        : errorResponse?.message || 'Erro ao adicionar autarquia.';
-
+        : errorResponse?.message || 'Erro ao atualizar autarquia.';
+  
       dispatch(addAutarquiaFailure(errorMessage));
-
+  
       console.error(errorMessage);
     }
-  };
+  };  
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
@@ -234,6 +248,7 @@ const AddAutarquia: React.FC = () => {
               name="orgao" 
               className="nice-input" 
               type="text"
+              placeholder='Órgão'
               value={autarquia.orgao || ''}
               onChange={(e) => handleChange('orgao', e.target.value)} 
               required 
@@ -249,6 +264,7 @@ const AddAutarquia: React.FC = () => {
               name="classificacao" 
               className="nice-input" 
               type="text"
+              placeholder='Classificação'
               value={autarquia.classificacao || ''}
               onChange={(e) => handleChange('classificacao', e.target.value)} 
               required 
@@ -264,6 +280,7 @@ const AddAutarquia: React.FC = () => {
               name="matricula" 
               className="nice-input" 
               type="text"
+              placeholder="Matrícula"
               value={autarquia.matricula || ''}
               onChange={(e) => handleChange('matricula', e.target.value)} 
               required 
@@ -279,6 +296,7 @@ const AddAutarquia: React.FC = () => {
               name="matriculaSocial" 
               className="nice-input" 
               type="text"
+              placeholder="Matrícula Social"
               value={autarquia.matriculaSocial || ''}
               onChange={(e) => handleChange('matriculaSocial', e.target.value)} 
               required 
@@ -295,6 +313,7 @@ const AddAutarquia: React.FC = () => {
             name="nomeSocio" 
             className="nice-input"
             type="text"
+            placeholder="Nome do Sócio"
             value={autarquia.nomeSocio || ''}
             onChange={(e) => handleChange('nomeSocio', e.target.value)} 
             required 
@@ -311,6 +330,7 @@ const AddAutarquia: React.FC = () => {
               name="endereco" 
               className="nice-input" 
               type="text"
+              placeholder="Endereço"
               value={autarquia.endereco || ''}
               onChange={(e) => handleChange('endereco', e.target.value)} 
               required 
@@ -326,6 +346,7 @@ const AddAutarquia: React.FC = () => {
               name="numero" 
               className="nice-input" 
               type="text"
+              placeholder="Número"
               value={autarquia.numero || ''}
               onChange={handleInputChange} 
               required 
@@ -355,6 +376,7 @@ const AddAutarquia: React.FC = () => {
               name="bairroResidencia" 
               className="nice-input" 
               type="text"
+              placeholder="Bairro Residência"
               value={autarquia.bairroResidencia || ''}
               onChange={(e) => handleChange('bairroResidencia', e.target.value)} 
               required 
@@ -370,6 +392,7 @@ const AddAutarquia: React.FC = () => {
               name="cepResidencia" 
               className="nice-input" 
               type="text"
+              placeholder="CEP Residência"
               value={autarquia.cepResidencia || ''}
               onChange={(e) => handleChange('cepResidencia', e.target.value)} 
               required 
@@ -385,6 +408,7 @@ const AddAutarquia: React.FC = () => {
               name="cidadeResidencia" 
               className="nice-input" 
               type="text"
+              placeholder="Cidade Residência"
               value={autarquia.cidadeResidencia || ''}
               onChange={(e) => handleChange('cidadeResidencia', e.target.value)} 
               required 
@@ -400,6 +424,7 @@ const AddAutarquia: React.FC = () => {
               name="uf" 
               className="nice-input" 
               type="text"
+              placeholder="UF"
               value={autarquia.uf || ''}
               onChange={(e) => handleChange('uf', e.target.value)} 
               required 
@@ -443,6 +468,7 @@ const AddAutarquia: React.FC = () => {
               name="email" 
               className="nice-input" 
               type="email"
+              placeholder="Email"
               value={autarquia.email || ''}
               onChange={(e) => handleChange('email', e.target.value)} 
               required
@@ -458,6 +484,7 @@ const AddAutarquia: React.FC = () => {
               name="telefoneResidencia" 
               className="nice-input" 
               type="text"
+              placeholder="Telefone Residência"
               value={autarquia.telefoneResidencia || ''}
               onChange={(e) => handleChange('telefoneResidencia', e.target.value)} 
             />
@@ -472,6 +499,7 @@ const AddAutarquia: React.FC = () => {
               name="telefoneCelular" 
               className="nice-input" 
               type="text"
+              placeholder="Telefone Celular"
               value={autarquia.telefoneCelular || ''}
               onChange={(e) => handleChange('telefoneCelular', e.target.value)} 
             />
@@ -486,6 +514,7 @@ const AddAutarquia: React.FC = () => {
               name="telefoneComercial" 
               className="nice-input" 
               type="text"
+              placeholder="Telefone Comercial"
               value={autarquia.telefoneComercial || ''}
               onChange={(e) => handleChange('telefoneComercial', e.target.value)} 
             />
@@ -500,6 +529,7 @@ const AddAutarquia: React.FC = () => {
               name="estadoCivil" 
               className="nice-input" 
               type="text"
+              placeholder="Estado Civil"
               value={autarquia.estadoCivil || ''}
               onChange={(e) => handleChange('estadoCivil', e.target.value)}
             />
@@ -514,6 +544,7 @@ const AddAutarquia: React.FC = () => {
               name="conjuge" 
               className="nice-input" 
               type="text"
+              placeholder="Cônjuge"
               value={autarquia.conjuge || ''}
               onChange={(e) => handleChange('conjuge', e.target.value)} 
             />
@@ -528,6 +559,7 @@ const AddAutarquia: React.FC = () => {
               name="cpf" 
               className="nice-input" 
               type="text"
+              placeholder="CPF"
               value={autarquia.cpf || ''}
               onChange={(e) => handleChange('cpf', e.target.value)} 
               required 
@@ -543,6 +575,7 @@ const AddAutarquia: React.FC = () => {
               name="rg" 
               className="nice-input" 
               type="text"
+              placeholder="RG"
               value={autarquia.rg || ''}
               onChange={(e) => handleChange('rg', e.target.value)} 
               required 
@@ -558,6 +591,7 @@ const AddAutarquia: React.FC = () => {
               name="orgaoExpedidor" 
               className="nice-input" 
               type="text"
+              placeholder="Órgão Expedidor"
               value={autarquia.orgaoExpedidor || ''}
               onChange={(e) => handleChange('orgaoExpedidor', e.target.value)}
             />
@@ -571,6 +605,7 @@ const AddAutarquia: React.FC = () => {
                 id="historicoSocio"
                 name="historicoSocio"
                 onChange={(e) => handleChange('historicoSocio', e.target.value)}
+                placeholder="Histórico do Sócio"
                 value={autarquia.historicoSocio || ''}
                 rows={6}
                 cols={70}
@@ -582,6 +617,7 @@ const AddAutarquia: React.FC = () => {
               id="observacoesPagamentos"
               name="observacoesPagamentos"
               onChange={(e) => handleChange('observacoesPagamentos', e.target.value)}
+              placeholder="Observações sobre pagamentos"
               value={autarquia.observacoesPagamentos || ''}
               rows={6}
               cols={70}
@@ -619,6 +655,7 @@ const AddAutarquia: React.FC = () => {
               name="seguro" 
               className="nice-input" 
               type="text"
+              placeholder="Faixa Seguro"
               value={autarquia.seguro || ''}
               onChange={handleInputChange} 
             />
@@ -640,6 +677,7 @@ const AddAutarquia: React.FC = () => {
               name="valorDescontoSeguro" 
               className="nice-input" 
               type="text"
+              placeholder="Valor Desconto Seguro"
               value={autarquia.valorDescontoSeguro || ''}
               onChange={(e) => handleChange('valorDescontoSeguro', e.target.value)} 
             />
@@ -655,6 +693,7 @@ const AddAutarquia: React.FC = () => {
               className="nice-input" 
               type="text"
               value={autarquia.morteNatural || ''}
+              placeholder='Morte natural'
               onChange={(e) => handleChange('morteNatural', e.target.value)} 
             />
           </div>
@@ -668,6 +707,7 @@ const AddAutarquia: React.FC = () => {
               name="morteAcidental" 
               className="nice-input" 
               type="text"
+              placeholder="Morte Acidental"
               value={autarquia.morteAcidental || ''}
               onChange={(e) => handleChange('morteAcidental', e.target.value)} 
             />
@@ -682,6 +722,7 @@ const AddAutarquia: React.FC = () => {
               name="invalidezPermanenteAcidente" 
               className="nice-input" 
               type="text"
+              placeholder="Invalidez Permanente Acidente"
               value={autarquia.invalidezPermanenteAcidente || ''}
               onChange={(e) => handleChange('invalidezPermanenteAcidente', e.target.value)} 
             />
@@ -698,6 +739,7 @@ const AddAutarquia: React.FC = () => {
               name="descontoSocioEfetivo" 
               className="nice-input" 
               type="text"
+              placeholder="Desconto Sócio Efetivo"
               value={autarquia.descontoSocioEfetivo || ''}
               onChange={handleInputChange} 
             />
@@ -726,6 +768,7 @@ const AddAutarquia: React.FC = () => {
               name="anoFiscal" 
               className="nice-input" 
               type="text"
+              placeholder="Ano Fiscal"
               onChange={(e) => handleChange('anoFiscal', e.target.value)}
             />
           </div>
@@ -741,6 +784,7 @@ const AddAutarquia: React.FC = () => {
             name="totalJaneiro" 
             className="nice-input" 
             type="text"
+            placeholder="Total Janeiro"
             value={autarquia.totalJaneiro || ''}
             onChange={handleInputChange} 
           />
@@ -755,6 +799,7 @@ const AddAutarquia: React.FC = () => {
             name="totalFevereiro" 
             className="nice-input" 
             type="text"
+            placeholder="Total Fevereiro"
             value={autarquia.totalFevereiro || ''}
             onChange={handleInputChange} 
           />
@@ -769,6 +814,7 @@ const AddAutarquia: React.FC = () => {
             name="totalMarco" 
             className="nice-input" 
             type="text"
+            placeholder="Total Março"
             value={autarquia.totalMarco || ''}
             onChange={handleInputChange} 
           />
@@ -783,6 +829,7 @@ const AddAutarquia: React.FC = () => {
             name="totalAbril" 
             className="nice-input" 
             type="text"
+            placeholder="Total Abril"
             value={autarquia.totalAbril || ''}
             onChange={handleInputChange} 
           />
@@ -797,6 +844,7 @@ const AddAutarquia: React.FC = () => {
             name="totalMaio" 
             className="nice-input" 
             type="text"
+            placeholder="Total Maio"
             value={autarquia.totalMaio || ''}
             onChange={handleInputChange} 
           />
@@ -811,6 +859,7 @@ const AddAutarquia: React.FC = () => {
             name="totalJunho" 
             className="nice-input" 
             type="text"
+            placeholder="Total Junho"
             value={autarquia.totalJunho || ''}
             onChange={handleInputChange} 
           />
@@ -825,6 +874,7 @@ const AddAutarquia: React.FC = () => {
             name="totalJulho" 
             className="nice-input" 
             type="text"
+            placeholder="Total Julho"
             value={autarquia.totalJulho || ''}
             onChange={handleInputChange} 
           />
@@ -839,6 +889,7 @@ const AddAutarquia: React.FC = () => {
             name="totalAgosto" 
             className="nice-input" 
             type="text"
+            placeholder="Total Agosto"
             value={autarquia.totalAgosto || ''}
             onChange={handleInputChange} 
           />
@@ -853,6 +904,7 @@ const AddAutarquia: React.FC = () => {
             name="totalSetembro" 
             className="nice-input" 
             type="text"
+            placeholder="Total Setembro"
             value={autarquia.totalSetembro || ''}
             onChange={handleInputChange} 
           />
@@ -867,6 +919,7 @@ const AddAutarquia: React.FC = () => {
             name="totalOutubro" 
             className="nice-input" 
             type="text"
+            placeholder="Total Outubro"
             value={autarquia.totalOutubro || ''}
             onChange={handleInputChange} 
           />
@@ -881,6 +934,7 @@ const AddAutarquia: React.FC = () => {
             name="totalNovembro" 
             className="nice-input" 
             type="text"
+            placeholder="Total Novembro"
             value={autarquia.totalNovembro || ''}
             onChange={handleInputChange} 
           />
@@ -895,6 +949,7 @@ const AddAutarquia: React.FC = () => {
             name="totalDezembro" 
             className="nice-input" 
             type="text"
+            placeholder="Total Dezembro"
             value={autarquia.totalDezembro || ''}
             onChange={handleInputChange} 
           />
@@ -1146,7 +1201,7 @@ const AddAutarquia: React.FC = () => {
 
         <div className="button-div">
           <Button type="submit" intent={Intent.PRIMARY}>
-            Adicionar Servidor
+            Atualizar Servidor
           </Button>
         </div>
 
@@ -1155,4 +1210,4 @@ const AddAutarquia: React.FC = () => {
   );
 };
 
-export default AddAutarquia;
+export default UpdateAutarquia;

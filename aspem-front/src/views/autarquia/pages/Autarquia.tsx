@@ -15,6 +15,10 @@ const AutarquiaPage: React.FC = () => {
     navigate('/autarquias/add');
   };
 
+  const handleEdit = (id: string) => {
+    navigate(`/autarquias/${id}`);
+  };
+
   useEffect(() => {
     const loadAutarquias = async () => {
       try {
@@ -75,11 +79,6 @@ const AutarquiaPage: React.FC = () => {
       </div>
     </div>
   );
-
-  function handleEdit(id: string) {
-    // Aqui você pode adicionar a lógica para a ação de edição
-    console.log(`Editando autarquia com ID: ${id}`);
-  }
 };
 
 export default AutarquiaPage;

@@ -18,6 +18,7 @@ import AutarquiaNotifier from './components/autarquias/AutarquiaNotifier';
 import { ADD_AUTARQUIAS, AUTARQUIAS } from './views/autarquia/routes';
 import AutarquiaPage from './views/autarquia/pages/Autarquia';
 import AddAutarquia from './views/autarquia/pages/AddAutarquia';
+import UpdateAutarquia from './views/autarquia/pages/UpdateAutarquia';
 
 const App: React.FC = () => {
   return (
@@ -30,6 +31,7 @@ const App: React.FC = () => {
             <Route path='/customers/:id' element={<PrivateRoute element={<CustomerDetailsPage />} />} />
             <Route path={USERS()} element={<PrivateRoute element={<UserPage />} />} />
             <Route path={AUTARQUIAS()} element={<PrivateRoute element={<AutarquiaPage />} />} />
+            <Route path='/autarquias/:id' element={<PrivateRoute element={<UpdateAutarquia />} />} />
             <Route path={ADD_AUTARQUIAS()} element={<PrivateRoute element={<AddAutarquia />} />} />
             <Route path={LOGIN()} element={<LoginPage />} />
             <Route path={REGISTER()} element={<RegisterPage />} />
