@@ -3,15 +3,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../store';
 import { registerUserAsync } from '../reducer';
 import { RegisterUserData } from '../types';
+import { useNavigate, Link } from 'react-router-dom';
+import { Button, Intent } from '@blueprintjs/core';
+import './registerStyles.css';
 
 const RegisterPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const { loading, error, success } = useSelector((state: RootState) => state.register);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState(''); // Novo estado para confirmar a senha
 
   const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (password !== confirmPassword) { // Verifica se as senhas coincidem
+      console.error('As senhas não coincidem.');
+      return;
+    }
 
     const userData: RegisterUserData = { username, password };
 
@@ -24,34 +33,68 @@ const RegisterPage: React.FC = () => {
 
   return (
     <div>
-      <h1>Registro de Novo Usuário</h1>
       {success && <p>Usuário registrado com sucesso!</p>}
       {error && <p>Erro: {error}</p>}
-      <form onSubmit={handleRegister}>
-        <div>
-          <label htmlFor="username">Nome de usuário:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Senha:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" disabled={loading}>
-          {loading ? 'Registrando...' : 'Registrar'}
-        </button>
-      </form>
+
+      <div className="form-container">
+        <form className="form-register" onSubmit={handleRegister}>
+          <div className="register-div">
+          <h1 className="h1-register">Criar conta</h1>
+
+            <div className="register-fields">
+              <div className="nice-form-group register">
+                <input 
+                  id="username" 
+                  name="username" 
+                  className="nice-input" 
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Usuário"
+                  required 
+                />
+              </div>
+
+              <div className="nice-form-group register">
+                <input 
+                  id="password" 
+                  name="password" 
+                  className="nice-input" 
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Senha"
+                  required 
+                />
+              </div>
+
+              <div className="nice-form-group register">
+                <input 
+                  id="confirm-password" 
+                  name="confirmPassword" 
+                  className="nice-input" 
+                  type="password" // Campo para confirmar a senha
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Confirme a Senha"
+                  required 
+                />
+              </div>
+            </div>
+
+            <div className="button-div register">
+              <Button type="submit" intent={Intent.PRIMARY}>
+                Criar conta
+              </Button>
+            </div>
+
+            <p className="register-link">
+              Já possui uma conta? Clique <Link to="/login"> aqui </Link> para entrar
+            </p>
+
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
