@@ -19,12 +19,15 @@ import { ADD_AUTARQUIAS, AUTARQUIAS } from './views/autarquia/routes';
 import AutarquiaPage from './views/autarquia/pages/Autarquia';
 import AddAutarquia from './views/autarquia/pages/AddAutarquia';
 import UpdateAutarquia from './views/autarquia/pages/UpdateAutarquia';
+import useAuth from './hooks/useAuth';
 
 const App: React.FC = () => {
+  const { isAuthenticated } = useAuth(); // Pega o valor de isAuthenticated do hook
+
   return (
     <Router>
       <div className="app-container">
-        <Sidebar className="sidebar" />
+        {isAuthenticated && <Sidebar className="sidebar" />}
         <div className="content">
           <Routes>
             <Route path="/" element={<PrivateRoute element={<HomePage />} />} />

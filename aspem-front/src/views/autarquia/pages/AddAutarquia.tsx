@@ -1188,7 +1188,7 @@ const AddAutarquia: React.FC = () => {
 
         <div className="button-div">
           <Button type="submit" intent={Intent.PRIMARY}>
-            Atualizar Servidor
+            Adicionar Servidor
           </Button>
         </div>
 

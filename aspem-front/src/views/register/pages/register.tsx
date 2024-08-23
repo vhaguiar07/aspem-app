@@ -12,12 +12,12 @@ const RegisterPage: React.FC = () => {
   const { loading, error, success } = useSelector((state: RootState) => state.register);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState(''); // Novo estado para confirmar a senha
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (password !== confirmPassword) { // Verifica se as senhas coincidem
+    if (password !== confirmPassword) {
       console.error('As senhas não coincidem.');
       return;
     }
@@ -36,7 +36,7 @@ const RegisterPage: React.FC = () => {
       {success && <p>Usuário registrado com sucesso!</p>}
       {error && <p>Erro: {error}</p>}
 
-      <div className="form-container">
+      <div className="form-container-register">
         <form className="form-register" onSubmit={handleRegister}>
           <div className="register-div">
           <h1 className="h1-register">Criar conta</h1>
@@ -73,7 +73,7 @@ const RegisterPage: React.FC = () => {
                   id="confirm-password" 
                   name="confirmPassword" 
                   className="nice-input" 
-                  type="password" // Campo para confirmar a senha
+                  type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Confirme a Senha"
