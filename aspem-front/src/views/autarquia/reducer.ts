@@ -45,11 +45,8 @@ const autarquiaSlice = createSlice({
       state.success = null;
     },
     updateAutarquiaSuccess(state, action: PayloadAction<Autarquia>) {
-      const index = state.autarquias.findIndex(autarquia => autarquia.id === action.payload.id);
-      if (index !== -1) {
-        state.autarquias[index] = action.payload;
-        state.success = 'Autarquia atualizada com sucesso!';
-      }
+      state.autarquias.push(action.payload);
+      state.success = 'Autarquia atualizada com sucesso!';
       state.error = null;
     },
     deleteAutarquiaSuccess(state, action: PayloadAction<string>) {
