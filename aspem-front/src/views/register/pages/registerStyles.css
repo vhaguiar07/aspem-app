@@ -1,0 +1,43 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .register-fields {
+    display: grid;
+    justify-content: center;
+  }
+  
+  .nice-form-group.register {
+      max-width: 150px;
+  }
+  
+  .register-div {
+    display: grid;
+    justify-content: center;
+    text-align: center;
+    width: 300px;
+    height: 350px;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 80px;
+  }
+  
+  .h1-register {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 25px;
+  }
+  
+  .button-div.register .bp5-button.bp5-intent-primary {
+    width: 150px;
+    height: 44px;
+    display: grid;
+    justify-content: center;
+    margin-top: 28px;
+  }
+  
