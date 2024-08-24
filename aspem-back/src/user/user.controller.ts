@@ -1,8 +1,9 @@
-import { Controller, Post, Body, Get, Param, Delete, Patch, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Controller, UseGuards, Post, Body, Get, Param, Delete, Patch, NotFoundException, BadRequestException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AuthService } from '../auth/auth.service';
 import { User } from '@prisma/client';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 class CreateUserDto {
   username: string;
@@ -77,6 +78,8 @@ export class UserController {
     };
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Lista todos os usuários' })
   @ApiResponse({ 
     status: 200, 
@@ -106,6 +109,8 @@ export class UserController {
     return users;
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Obtém um usuário pelo ID' })
   @ApiResponse({ 
     status: 200, 
@@ -134,6 +139,8 @@ export class UserController {
     return user;
   }
   
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Remove um usuário pelo ID' })
   @ApiResponse({ 
     status: 200, 
@@ -153,6 +160,8 @@ export class UserController {
     await this.userService.deleteUser(id);
   }
   
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Atualiza um usuário pelo ID' })
   @ApiResponse({ 
     status: 200, 
