@@ -1,0 +1,12 @@
+.user-config-page {
+  display: grid;
+  justify-content: center;
+  text-align: center;
+}
+
+.user-details {
+  gap: 15px;
+  display: grid;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
