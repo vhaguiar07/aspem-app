@@ -1,10 +1,11 @@
-import { Controller, UseGuards, Post, Body, Get, Param, Delete, Patch, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Controller, UseGuards, Post, Body, Get, Param, Delete, Patch, NotFoundException, BadRequestException, ForbiddenException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AuthService } from '../auth/auth.service';
 import { User } from '@prisma/client';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreateUserDto, UpdateUserDto } from './dto/user-dto';
+import { GetUser } from '../auth/decorators/get-user.decorator';
 
 @ApiTags('users')
 @Controller('users')
@@ -175,6 +176,10 @@ export class UserController {
     status: 404, 
     description: 'Usuário não encontrado com o ID fornecido.' 
   })
+  @ApiResponse({ 
+    status: 403, 
+    description: 'Permissão negada. Somente administradores podem alterar permissões de administrador.' 
+  })
   @ApiParam({
     name: 'id',
     type: 'string',
@@ -196,8 +201,13 @@ export class UserController {
   @Patch(':id')
   async updateUser(
     @Param('id') id: string,
-    @Body() updateUserDto: UpdateUserDto
+    @Body() updateUserDto: UpdateUserDto,
+    @GetUser() currentUser: User,
   ): Promise<User> {
+    if (updateUserDto.isAdmin !== undefined && !currentUser.isAdmin) {
+      throw new ForbiddenException('Somente administradores podem alterar permissões de administrador.');
+    }
+
     const updatedUser = await this.userService.updateUser(id, updateUserDto);
     return updatedUser;
   }
