@@ -4,16 +4,7 @@ import { AuthService } from '../auth/auth.service';
 import { User } from '@prisma/client';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-
-class CreateUserDto {
-  username: string;
-  password: string;
-}
-
-class UpdateUserDto {
-  username?: string;
-  password?: string;
-}
+import { CreateUserDto, UpdateUserDto } from './dto/user-dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -101,13 +92,13 @@ export class UserController {
     description: 'Nenhum usuário encontrado.' 
   })
   @Get()
-  async getAllUsers(): Promise<User[]> {
+  async getAllUsers(): Promise<Omit<User, 'password'>[]> {
     const users = await this.userService.getAllUsers();
     if (users.length === 0) {
       throw new NotFoundException('Nenhum usuário encontrado.');
     }
     return users;
-  }
+  }  
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('JWT-auth')
@@ -131,7 +122,7 @@ export class UserController {
   })
   @ApiParam({ name: 'id', type: 'string', description: 'ID do usuário que será retornado.' })
   @Get(':id')
-  async getUserById(@Param('id') id: string): Promise<User> {
+  async getUserById(@Param('id') id: string): Promise<Omit<User, 'password'>> {
     const user = await this.userService.findUserById(id);
     if (!user) {
       throw new NotFoundException(`Usuário com ID ${id} não encontrado.`);
@@ -184,20 +175,30 @@ export class UserController {
     status: 404, 
     description: 'Usuário não encontrado com o ID fornecido.' 
   })
-  @ApiParam({ name: 'id', type: 'string', description: 'ID do usuário que será atualizado.' })
+  @ApiParam({
+    name: 'id',
+    type: 'string',
+    description: 'ID do usuário que será atualizado.'
+  })
+  @ApiBody({
+    description: 'Dados necessários para atualizar um user.',
+    type: UpdateUserDto,
+    examples: {
+      example: {
+        summary: 'Exemplo de dados para atualização de um user',
+        value: {
+          username: 'Username Atualizado',
+          isAdmin: true,
+        }
+      }
+    }
+  })
   @Patch(':id')
   async updateUser(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto
   ): Promise<User> {
-    const { username, password } = updateUserDto;
-    const user = await this.userService.findUserById(id);
-    if (!user) {
-      throw new NotFoundException(`Usuário com ID ${id} não encontrado.`);
-    }
-  
-    const updatedUser = await this.userService.updateUser(id, username, password);
-  
+    const updatedUser = await this.userService.updateUser(id, updateUserDto);
     return updatedUser;
   }
 }
