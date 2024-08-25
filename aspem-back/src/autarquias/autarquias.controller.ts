@@ -1,14 +1,17 @@
-import { Controller, Post, Body, Get, Patch, Param, NotFoundException, ValidationPipe, BadRequestException, InternalServerErrorException, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, UseGuards, Post, Body, Get, Patch, Param, NotFoundException, ValidationPipe, BadRequestException, InternalServerErrorException, HttpException, HttpStatus } from '@nestjs/common';
 import { AutarquiasService } from './autarquias.service';
 import { Autarquias } from '@prisma/client';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import { CreateAutarquiasDto, UpdateAutarquiasDto} from './dto/create-autarquias.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @ApiTags('autarquias')
+@ApiBearerAuth('JWT-auth')
 @Controller('autarquias')
 export class AutarquiasController {
   constructor(private readonly autarquiasService: AutarquiasService) {}
 
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Cria uma nova autarquia' })
   @ApiResponse({ 
     status: 201, 
@@ -238,6 +241,7 @@ export class AutarquiasController {
   }
 
 
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Lista todas as autarquias' })
   @ApiResponse({ 
     status: 200, 
