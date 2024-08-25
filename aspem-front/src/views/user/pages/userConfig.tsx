@@ -1,30 +1,44 @@
 import React, { useState, useEffect } from 'react';
-import { fetchUserById } from '../userApi';
+import { fetchUserById, updateUser } from '../userApi';
 import { User } from '../types';
 import { useParams } from 'react-router-dom';
 import { Icon, Button, Intent } from '@blueprintjs/core';
 import './userConfigStyles.css';
 
 const UserConfigPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id?: string }>();
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadUser = async () => {
-      try {
-        if (id) {
+      if (id) {
+        try {
           const userData = await fetchUserById(id);
           setUser(userData);
+        } catch (error) {
+          setError('Erro ao buscar as configurações do usuário.');
+          console.error(error);
         }
-      } catch (error) {
-        setError('Erro ao buscar as configurações do usuário.');
-        console.error(error);
+      } else {
+        setError('ID do usuário não fornecido.');
       }
     };
 
     loadUser();
   }, [id]);
+
+  const handleAdminToggle = async () => {
+    if (id && user) {
+      try {
+        const updatedUser = await updateUser(id, { isAdmin: !user.isAdmin });
+        setUser(updatedUser);
+      } catch (error) {
+        setError('Erro ao atualizar permissões de admin.');
+        console.error(error);
+      }
+    }
+  };
 
   if (error) {
     return <p>{error}</p>;
@@ -47,20 +61,20 @@ const UserConfigPage: React.FC = () => {
       </div>
       <div className="button-div">
         <Button
-          type="submit"
+          type="button"
           intent={Intent.PRIMARY}
           style={{ marginTop: 'unset', marginBottom: '20px' }}
-          // onClick={handleAddAutarquiaClick}
+          onClick={handleAdminToggle}
         >
-          Editar
+          {user.isAdmin ? 'Remover permissões de admin' : 'Dar permissões de admin'}
         </Button>
       </div>
       <div className="button-div">
         <Button
-          type="submit"
-          intent={Intent.PRIMARY}
+          type="button"
+          intent={Intent.DANGER}
           style={{ marginTop: 'unset', marginBottom: '20px' }}
-          // onClick={handleAddAutarquiaClick}
+          // Implementar lógica de exclusão se necessário
         >
           Excluir
         </Button>

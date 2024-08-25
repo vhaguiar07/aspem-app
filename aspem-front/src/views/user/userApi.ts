@@ -34,3 +34,13 @@ export const fetchUserById = async (id: string): Promise<User> => {
     throw error;
   }
 };
+
+export const updateUser = async (id: string, updateData: Partial<User>): Promise<User> => {
+  try {
+    const response = await api.patch(`/users/${id}`, updateData);
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao atualizar usuário:', error);
+    throw error;
+  }
+};
