@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { fetchUsers } from '../userApi';
 import { User } from '../types';
-import { Icon } from '@blueprintjs/core';
+import { Icon, Button } from '@blueprintjs/core';
+import { useNavigate } from 'react-router-dom';
 
 const UserPage: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate(); // Hook para navegação
 
   useEffect(() => {
     const loadUsers = async () => {
@@ -20,6 +22,10 @@ const UserPage: React.FC = () => {
 
     loadUsers();
   }, []);
+
+  const handleEditClick = (userId: number) => {
+    navigate(`/users/${userId.toString()}`); // Converter o ID para string
+  };
 
   return (
     <div className="user-page">
@@ -45,7 +51,7 @@ const UserPage: React.FC = () => {
               <tr key={user.id}>
                 <td>{user.username}</td>
                 <td>
-                  <Icon icon="edit" className="edit-icon" />
+                <Icon icon="edit" className="edit-icon" onClick={() => handleEditClick(user.id)} />
                 </td>
               </tr>
             ))}
