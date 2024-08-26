@@ -4,6 +4,7 @@ import { Autarquias } from '@prisma/client';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import { CreateAutarquiasDto, UpdateAutarquiasDto} from './dto/create-autarquias.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
 
 @ApiTags('autarquias')
 @ApiBearerAuth('JWT-auth')
@@ -11,7 +12,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 export class AutarquiasController {
   constructor(private readonly autarquiasService: AutarquiasService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Cria uma nova autarquia' })
   @ApiResponse({ 
     status: 201, 
@@ -356,6 +357,7 @@ export class AutarquiasController {
     return autarquias;
   }
 
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Obtém uma autarquia pelo ID' })
   @ApiResponse({ 
     status: 200, 
@@ -469,6 +471,7 @@ export class AutarquiasController {
     return autarquia;
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiOperation({ summary: 'Atualiza uma autarquia existente' })
   @ApiResponse({ 
     status: 200, 

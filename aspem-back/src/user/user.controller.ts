@@ -4,6 +4,7 @@ import { AuthService } from '../auth/auth.service';
 import { User } from '@prisma/client';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
 import { CreateUserDto, UpdateUserDto } from './dto/user-dto';
 import { GetUser } from '../auth/decorators/get-user.decorator';
 
@@ -131,7 +132,7 @@ export class UserController {
     return user;
   }
   
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Remove um usuário pelo ID' })
   @ApiResponse({ 
@@ -205,7 +206,7 @@ export class UserController {
     @GetUser() currentUser: User,
   ): Promise<User> {
     if (updateUserDto.isAdmin !== undefined && !currentUser.isAdmin) {
-      throw new ForbiddenException('Somente administradores podem alterar permissões de administrador.');
+      throw new ForbiddenException('Somente administradores podem alterar permissões de outros usuários.');
     }
 
     const updatedUser = await this.userService.updateUser(id, updateUserDto);
