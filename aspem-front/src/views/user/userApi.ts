@@ -24,3 +24,23 @@ export const fetchUsers = async (url: string): Promise<User[]> => {
     throw error;
   }
 };
+
+export const fetchUserById = async (id: string): Promise<User> => {
+  try {
+    const response = await api.get(`/users/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Erro ao buscar o usuário com ID ${id}:`, error);
+    throw error;
+  }
+};
+
+export const updateUser = async (id: string, updateData: Partial<User>): Promise<User> => {
+  try {
+    const response = await api.patch(`/users/${id}`, updateData);
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao atualizar usuário:', error);
+    throw error;
+  }
+};

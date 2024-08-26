@@ -7,6 +7,7 @@ import LoginPage from './views/auth/pages/login';
 import RegisterPage from './views/register/pages/register';
 import Sidebar from './components/sidebar/Sidebar';
 import { USERS } from './views/user/routes';
+import { USERS_CONFIG } from './views/user/routes';
 import { LOGIN } from './views/auth/routes';
 import { REGISTER } from './views/register/routes';
 import './styles/global.css';
@@ -20,9 +21,11 @@ import AutarquiaPage from './views/autarquia/pages/Autarquia';
 import AddAutarquia from './views/autarquia/pages/AddAutarquia';
 import UpdateAutarquia from './views/autarquia/pages/UpdateAutarquia';
 import useAuth from './hooks/useAuth';
+import UserConfigPage from './views/user/pages/userConfig';
+import UserNotifier from './components/user/UserNotifier';
 
 const App: React.FC = () => {
-  const { isAuthenticated } = useAuth(); // Pega o valor de isAuthenticated do hook
+  const { isAuthenticated } = useAuth();
 
   return (
     <Router>
@@ -33,6 +36,7 @@ const App: React.FC = () => {
             <Route path="/" element={<PrivateRoute element={<HomePage />} />} />
             <Route path='/customers/:id' element={<PrivateRoute element={<CustomerDetailsPage />} />} />
             <Route path={USERS()} element={<PrivateRoute element={<UserPage />} />} />
+            <Route path={USERS_CONFIG()} element={<PrivateRoute element={<UserConfigPage />} />} />
             <Route path={AUTARQUIAS()} element={<PrivateRoute element={<AutarquiaPage />} />} />
             <Route path='/autarquias/:id' element={<PrivateRoute element={<UpdateAutarquia />} />} />
             <Route path={ADD_AUTARQUIAS()} element={<PrivateRoute element={<AddAutarquia />} />} />
@@ -44,6 +48,7 @@ const App: React.FC = () => {
       <ToastContainer />
       <AuthNotifier />
       <AutarquiaNotifier />
+      <UserNotifier />
     </Router>
   );
 };

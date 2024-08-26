@@ -2,6 +2,7 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { PrismaService } from '../../prisma/prisma.service';
 import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
+import { UpdateUserDto } from './dto/user-dto';
 
 @Injectable()
 export class UserService {
@@ -18,21 +19,36 @@ export class UserService {
     });
   }
 
-  async getAllUsers(): Promise<User[]> {
-    return this.prisma.user.findMany();
+  async getAllUsers(): Promise<Omit<User, 'password'>[]> {
+    const users = await this.prisma.user.findMany();
+    return users.map(({ password, ...userWithoutPassword }) => userWithoutPassword);
   }
 
-  async findUserByUsername(username: string): Promise<User | null> {
-    return this.prisma.user.findUnique({
+  async findUserByUsername(username: string): Promise<Omit<User, 'password'> | null> {
+    const user = await this.prisma.user.findUnique({
       where: { username },
     });
+  
+    if (!user) return null;
+
+    const { password, ...userWithoutPassword } = user;
+    return userWithoutPassword;
   }
 
-  async findUserById(id: string): Promise<User | null> {
+  async findUserById(id: string): Promise<Omit<User, 'password'> | null> {
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+    });
+  
+    if (!user) return null;
+
+    const { password, ...userWithoutPassword } = user;
+    return userWithoutPassword;
+  }
+
+  async findUserWithPasswordByUsername(username: string): Promise<User | null> {
     return this.prisma.user.findUnique({
-      where: { 
-        id,
-      },
+      where: { username },
     });
   }
 
@@ -52,26 +68,30 @@ export class UserService {
     });
   }
 
-  async updateUser(id: string, username?: string, password?: string): Promise<User> {
+  async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.findUserById(id);
     if (!user) {
       throw new NotFoundException(`Usuário com ID ${id} não encontrado.`);
     }
-
+  
     const updateData: any = {};
-
-    if (username) {
-      const existingUser = await this.findUserByUsername(username);
+  
+    if (updateUserDto.username) {
+      const existingUser = await this.findUserByUsername(updateUserDto.username);
       if (existingUser && existingUser.id !== id) {
         throw new BadRequestException('Nome de usuário já está em uso.');
       }
-      updateData.username = username;
+      updateData.username = updateUserDto.username;
     }
-
-    if (password) {
-      updateData.password = await bcrypt.hash(password, 10);
+  
+    if (updateUserDto.password) {
+      updateData.password = await bcrypt.hash(updateUserDto.password, 10);
     }
-
+  
+    if (updateUserDto.isAdmin !== undefined) {
+      updateData.isAdmin = updateUserDto.isAdmin;
+    }
+  
     return this.prisma.user.update({
       where: { id },
       data: updateData,

@@ -17,20 +17,22 @@ export class AuthService {
   }
 
   async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.userService.findUserByUsername(username);
+    const user = await this.userService.findUserWithPasswordByUsername(username);
     if (!user) {
       throw new NotFoundException('Usuário não encontrado');
     }
+    
     const isPasswordValid = await bcrypt.compare(pass, user.password);
     if (!isPasswordValid) {
       throw new UnauthorizedException('Senha incorreta');
     }
+    
     const { password, ...result } = user;
     return result;
   }
 
   async login(user: any) {
-    const payload = { username: user.username, sub: user.id };
+    const payload = { username: user.username, sub: user.id, isAdmin: user.isAdmin };
     const accessToken = this.jwtService.sign(payload);
     return {
       access_token: accessToken,
