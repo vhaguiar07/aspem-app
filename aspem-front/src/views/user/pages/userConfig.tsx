@@ -91,7 +91,7 @@ const UserConfigPage: React.FC = () => {
           {user.isAdmin ? 'Remover permissões de admin' : 'Dar permissões de admin'}
         </Button>
       </div>
-      <div className="button-div">
+      {/* <div className="button-div">
         <Button
           type="button"
           intent={Intent.DANGER}
@@ -100,7 +100,7 @@ const UserConfigPage: React.FC = () => {
         >
           Excluir
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 };
