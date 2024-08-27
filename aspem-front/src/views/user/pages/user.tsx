@@ -9,13 +9,18 @@ const UserPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
+  const [total, setTotal] = useState<number>(0);
   const navigate = useNavigate();
+
+  // Substitua isso com a maneira de obter o token do localStorage ou de onde for apropriado
+  const token = localStorage.getItem('token') || '';
 
   useEffect(() => {
     const loadUsers = async () => {
       try {
-        const usersData = await fetchUsers(`/users?page=${page}&limit=${limit}`);
-        setUsers(usersData);
+        const { users: fetchedUsers, total: fetchedTotal } = await fetchUsers(`/users?page=${page}&limit=${limit}`, token);
+        setUsers(fetchedUsers);
+        setTotal(fetchedTotal);
       } catch (error) {
         setError('Erro ao buscar usuários.');
         console.error(error);
@@ -23,7 +28,7 @@ const UserPage: React.FC = () => {
     };
 
     loadUsers();
-  }, [page, limit]);
+  }, [page, limit, token]);
 
   const handleEditClick = (userId: string) => {
     navigate(`/users/${userId}`);
@@ -35,7 +40,10 @@ const UserPage: React.FC = () => {
 
   const handleLimitChange = (newLimit: number) => {
     setLimit(newLimit);
+    setPage(1); // Reset to the first page when changing the limit
   };
+
+  const totalPages = Math.ceil(total / limit);
 
   return (
     <div className="user-page">
@@ -69,11 +77,23 @@ const UserPage: React.FC = () => {
         </table>
       </div>
       <div className="pagination-controls">
-        <Button text="Anterior" onClick={() => handlePageChange(page - 1)} disabled={page === 1} />
-        <Button text="Próximo" onClick={() => handlePageChange(page + 1)} />
+        <Button
+          text="Anterior"
+          onClick={() => handlePageChange(page - 1)}
+          disabled={page === 1}
+        />
+        <Button
+          text="Próximo"
+          onClick={() => handlePageChange(page + 1)}
+          disabled={page >= totalPages}
+        />
         <div>
           <label htmlFor="limit">Itens por página:</label>
-          <select id="limit" value={limit} onChange={(e) => handleLimitChange(parseInt(e.target.value, 10))}>
+          <select
+            id="limit"
+            value={limit}
+            onChange={(e) => handleLimitChange(parseInt(e.target.value, 10))}
+          >
             <option value={10}>10</option>
             <option value={20}>20</option>
             <option value={50}>50</option>

@@ -100,12 +100,14 @@ export class UserController {
   async getAllUsers(
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 10,
-  ): Promise<Omit<User, 'password'>[]> {
-    const users = await this.userService.getAllUsers(page, limit);
-    if (users.length === 0) {
+  ): Promise<{ users: Omit<User, 'password'>[], total: number }> {
+    const { users, total } = await this.userService.getAllUsers(page, limit);
+
+    if (total === 0) {
       throw new NotFoundException('Nenhum usuário encontrado.');
     }
-    return users;
+
+    return { users, total };
   }
 
   @UseGuards(JwtAuthGuard)

@@ -15,10 +15,17 @@ api.interceptors.request.use(config => {
   return Promise.reject(error);
 });
 
-export const fetchUsers = async (url: string): Promise<User[]> => {
+export const fetchUsers = async (url: string, token: string): Promise<{ users: User[], total: number }> => {
   try {
-    const response = await api.get(url);
-    return response.data;
+    const response = await api.get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return {
+      users: response.data.users,
+      total: response.data.total,
+    };
   } catch (error) {
     console.error('Erro ao buscar usuários:', error);
     throw error;

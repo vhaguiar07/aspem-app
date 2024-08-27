@@ -19,29 +19,37 @@ export class UserService {
     });
   }
 
-  async getAllUsers(page: number = 1, limit: number = 10): Promise<Omit<User, 'password'>[]> {
+  async getAllUsers(page: number = 1, limit: number = 10): Promise<{ users: Omit<User, 'password'>[], total: number }> {
     const pageNumber = Number(page);
     const limitNumber = Number(limit);
   
     const skip = (pageNumber - 1) * limitNumber;
   
-    const users = await this.prisma.user.findMany({
-      skip: skip,
-      take: limitNumber,
-      select: {
-        id: true,
-        username: true,
-        isAdmin: true,
-        createdAt: true,
-        updatedAt: true,
-        deletedAt: true,
-      },
-      where: {
-        deletedAt: null,
-      },
-    });
+    // Consulta para obter os usuários paginados
+    const [users, total] = await Promise.all([
+      this.prisma.user.findMany({
+        skip: skip,
+        take: limitNumber,
+        select: {
+          id: true,
+          username: true,
+          isAdmin: true,
+          createdAt: true,
+          updatedAt: true,
+          deletedAt: true,
+        },
+        where: {
+          deletedAt: null,
+        },
+      }),
+      this.prisma.user.count({
+        where: {
+          deletedAt: null,
+        },
+      }),
+    ]);
   
-    return users;
+    return { users, total };
   }
 
   async findUserByUsername(username: string): Promise<Omit<User, 'password'> | null> {
