@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../store';
 import { registerUserAsync } from '../reducer';
@@ -13,12 +13,21 @@ const RegisterPage: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (password !== confirmPassword) {
+      setPasswordError('As senhas não coincidem.');
+    } else {
+      setPasswordError(null);
+    }
+  }, [password, confirmPassword]);
 
   const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (password !== confirmPassword) {
-      console.error('As senhas não coincidem.');
+    if (passwordError) {
+      console.error(passwordError);
       return;
     }
 
@@ -39,7 +48,7 @@ const RegisterPage: React.FC = () => {
       <div className="form-container-register">
         <form className="form-register" onSubmit={handleRegister}>
           <div className="register-div">
-          <h1 className="h1-register">Criar conta</h1>
+            <h1 className="h1-register">Criar conta</h1>
 
             <div className="register-fields">
               <div className="nice-form-group register">
@@ -79,11 +88,12 @@ const RegisterPage: React.FC = () => {
                   placeholder="Confirme a Senha"
                   required 
                 />
+                {passwordError && <p className="error-message">{passwordError}</p>}
               </div>
             </div>
 
             <div className="button-div register">
-              <Button type="submit" intent={Intent.PRIMARY}>
+              <Button type="submit" intent={Intent.PRIMARY} disabled={!!passwordError || loading}>
                 Criar conta
               </Button>
             </div>
