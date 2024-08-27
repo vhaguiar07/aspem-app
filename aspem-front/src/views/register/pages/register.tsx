@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../store';
 import { registerUserAsync } from '../reducer';
 import { RegisterUserData } from '../types';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button, Intent } from '@blueprintjs/core';
 import './registerStyles.css';
 
