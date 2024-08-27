@@ -5,7 +5,7 @@ import DatePicker from 'react-datepicker';
 import { AppDispatch } from '../../../store';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Autarquia, AdventicioAutarquia, DentCrossAutarquia, OdMedAutarquia, RioPaxAutarquia, DependenteAutarquia, CooperadorAutarquia } from '../types';
-import { getAutarquiaById, createAutarquia, updateAutarquia } from '../autarquiaApi';
+import { getAutarquiaById, updateAutarquia } from '../autarquiaApi';
 import { Button, FormGroup, Intent, InputGroup } from '@blueprintjs/core';
 import { ptBR } from 'date-fns/locale';
 import { parse } from 'date-fns';

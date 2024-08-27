@@ -3,14 +3,25 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dto/user-dto';
+import { PasswordMismatchException } from './exceptions/password-mismatch.exception';
 
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  async createUser(username: string, password: string): Promise<User> {
+  async createUser(username: string, password: string, confirmPassword: string): Promise<User> {
+    if (password !== confirmPassword) {
+      throw new PasswordMismatchException();
+    }
+  
+    const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/;
+  
+    if (!passwordRegex.test(password)) {
+      throw new BadRequestException('A senha deve conter no mínimo 8 caracteres, incluindo um número e um caractere especial pelo menos.');
+    }
+  
     const hashedPassword = await bcrypt.hash(password, 10);
-
+  
     return this.prisma.user.create({
       data: {
         username,
@@ -24,8 +35,7 @@ export class UserService {
     const limitNumber = Number(limit);
   
     const skip = (pageNumber - 1) * limitNumber;
-  
-    // Consulta para obter os usuários paginados
+
     const [users, total] = await Promise.all([
       this.prisma.user.findMany({
         skip: skip,

@@ -12,7 +12,6 @@ const UserPage: React.FC = () => {
   const [total, setTotal] = useState<number>(0);
   const navigate = useNavigate();
 
-  // Substitua isso com a maneira de obter o token do localStorage ou de onde for apropriado
   const token = localStorage.getItem('token') || '';
 
   useEffect(() => {

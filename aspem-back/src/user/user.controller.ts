@@ -44,23 +44,24 @@ export class UserController {
         value: {
           username: 'novoUsuario',
           password: 'senhaSegura123',
+          confirmPassword: 'senhaSegura123',
         },
       },
     },
   })
   @Post()
   async createUser(@Body() createUserDto: CreateUserDto): Promise<any> {
-    const { username, password } = createUserDto;
-
+    const { username, password, confirmPassword } = createUserDto;
+  
     if (await this.userService.userExists(username)) {
       throw new BadRequestException('Usuário já existe.');
     }
-
-    const user = await this.userService.createUser(username, password);
-
+  
+    const user = await this.userService.createUser(username, password, confirmPassword);
+  
     const payload = { username: user.username, sub: user.id };
     const accessToken = await this.authService.signToken(payload);
-
+  
     return {
       id: user.id,
       username: user.username,

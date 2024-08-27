@@ -3,27 +3,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../store';
 import { registerUserAsync } from '../reducer';
 import { RegisterUserData } from '../types';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button, Intent } from '@blueprintjs/core';
 import './registerStyles.css';
 
 const RegisterPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { loading, error, success } = useSelector((state: RootState) => state.register);
+  const { loading, error, successMessage } = useSelector((state: RootState) => state.register);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    if (password !== confirmPassword) {
-      console.error('As senhas não coincidem.');
-      return;
-    }
-
-    const userData: RegisterUserData = { username, password };
-
+  
+    const userData: RegisterUserData = { username, password, confirmPassword };
+  
     try {
       await dispatch(registerUserAsync(userData)).unwrap();
     } catch (err) {
@@ -33,13 +28,13 @@ const RegisterPage: React.FC = () => {
 
   return (
     <div>
-      {success && <p>Usuário registrado com sucesso!</p>}
-      {error && <p>Erro: {error}</p>}
+      {successMessage && <p>{successMessage}</p>}
+      {error && <p>{error}</p>}
 
       <div className="form-container-register">
         <form className="form-register" onSubmit={handleRegister}>
           <div className="register-div">
-          <h1 className="h1-register">Criar conta</h1>
+            <h1 className="h1-register">Criar conta</h1>
 
             <div className="register-fields">
               <div className="nice-form-group register">
@@ -83,7 +78,7 @@ const RegisterPage: React.FC = () => {
             </div>
 
             <div className="button-div register">
-              <Button type="submit" intent={Intent.PRIMARY}>
+              <Button type="submit" intent={Intent.PRIMARY} loading={loading}>
                 Criar conta
               </Button>
             </div>
