@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../store';
 import { registerUserAsync } from '../reducer';
@@ -9,30 +9,16 @@ import './registerStyles.css';
 
 const RegisterPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { loading, error, success } = useSelector((state: RootState) => state.register);
+  const { loading, error, successMessage } = useSelector((state: RootState) => state.register);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [passwordError, setPasswordError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (password !== confirmPassword) {
-      setPasswordError('As senhas não coincidem.');
-    } else {
-      setPasswordError(null);
-    }
-  }, [password, confirmPassword]);
 
   const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    if (passwordError) {
-      console.error(passwordError);
-      return;
-    }
-
-    const userData: RegisterUserData = { username, password };
-
+  
+    const userData: RegisterUserData = { username, password, confirmPassword };
+  
     try {
       await dispatch(registerUserAsync(userData)).unwrap();
     } catch (err) {
@@ -42,8 +28,8 @@ const RegisterPage: React.FC = () => {
 
   return (
     <div>
-      {success && <p>Usuário registrado com sucesso!</p>}
-      {error && <p>Erro: {error}</p>}
+      {successMessage && <p>{successMessage}</p>}
+      {error && <p>{error}</p>}
 
       <div className="form-container-register">
         <form className="form-register" onSubmit={handleRegister}>
@@ -88,12 +74,11 @@ const RegisterPage: React.FC = () => {
                   placeholder="Confirme a Senha"
                   required 
                 />
-                {passwordError && <p className="error-message">{passwordError}</p>}
               </div>
             </div>
 
             <div className="button-div register">
-              <Button type="submit" intent={Intent.PRIMARY} disabled={!!passwordError || loading}>
+              <Button type="submit" intent={Intent.PRIMARY} loading={loading}>
                 Criar conta
               </Button>
             </div>

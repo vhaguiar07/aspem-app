@@ -23,6 +23,7 @@ import UpdateAutarquia from './views/autarquia/pages/UpdateAutarquia';
 import useAuth from './hooks/useAuth';
 import UserConfigPage from './views/user/pages/userConfig';
 import UserNotifier from './components/user/UserNotifier';
+import RegisterNotifier from './components/register/RegisterNotifier';
 
 const App: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -49,6 +50,7 @@ const App: React.FC = () => {
       <AuthNotifier />
       <AutarquiaNotifier />
       <UserNotifier />
+      <RegisterNotifier />
     </Router>
   );
 };

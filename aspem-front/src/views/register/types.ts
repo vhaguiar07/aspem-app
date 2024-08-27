@@ -1,6 +1,7 @@
 export interface RegisterUserData {
     username: string;
     password: string;
+    confirmPassword: string;
   }
   
   export interface RegisterResponse {
@@ -16,5 +17,7 @@ export interface RegisterUserData {
     loading: boolean;
     error: string | null;
     success: boolean;
+    failure: any | null;
+    successMessage: string;
   }
   
