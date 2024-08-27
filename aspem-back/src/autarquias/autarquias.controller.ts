@@ -352,14 +352,16 @@ export class AutarquiasController {
   })
   @Get()
   async getAllAutarquias(
-    @Query('page') page = 1, 
+    @Query('page') page = 1,
     @Query('limit') limit = 10,
-  ): Promise<Autarquias[]> {
-    const autarquias = await this.autarquiasService.getAllAutarquias(page, limit);
-    if (autarquias.length === 0) {
+  ): Promise<{ total: number; data: Autarquias[] }> {
+    const result = await this.autarquiasService.getAllAutarquias(page, limit);
+    
+    if (result.data.length === 0) {
       throw new NotFoundException('Nenhuma autarquia encontrada.');
     }
-    return autarquias;
+    
+    return result;
   }
 
   @UseGuards(JwtAuthGuard)

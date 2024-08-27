@@ -12,14 +12,16 @@ const AutarquiaPage: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [totalItems, setTotalItems] = useState<number>(0);
   const navigate = useNavigate();
 
   useEffect(() => {
     const loadAutarquias = async () => {
       try {
-        const autarquiasData = await fetchAutarquias(`/autarquias?page=${page}&limit=${limit}`);
-        setAutarquias(autarquiasData);
-        setFilteredAutarquias(autarquiasData);
+        const { total, data } = await fetchAutarquias(`/autarquias?page=${page}&limit=${limit}`);
+        setAutarquias(data);
+        setFilteredAutarquias(data);
+        setTotalItems(total);
       } catch (error) {
         setError('Erro ao buscar autarquias.');
         console.error(error);
@@ -109,7 +111,7 @@ const AutarquiaPage: React.FC = () => {
       </div>
       <div className="pagination-controls">
         <Button text="Anterior" onClick={() => handlePageChange(page - 1)} disabled={page === 1} />
-        <Button text="Próximo" onClick={() => handlePageChange(page + 1)} />
+        <Button text="Próximo" onClick={() => handlePageChange(page + 1)} disabled={page * limit >= totalItems} />
         <div>
           <label htmlFor="limit">Itens por página:</label>
           <select id="limit" value={limit} onChange={(e) => handleLimitChange(parseInt(e.target.value, 10))}>
