@@ -7,12 +7,14 @@ import { useNavigate } from 'react-router-dom';
 const UserPage: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate(); // Hook para navegação
+  const [page, setPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(10);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadUsers = async () => {
       try {
-        const usersData = await fetchUsers('/users');
+        const usersData = await fetchUsers(`/users?page=${page}&limit=${limit}`);
         setUsers(usersData);
       } catch (error) {
         setError('Erro ao buscar usuários.');
@@ -21,10 +23,18 @@ const UserPage: React.FC = () => {
     };
 
     loadUsers();
-  }, []);
+  }, [page, limit]);
 
-  const handleEditClick = (userId: number) => {
-    navigate(`/users/${userId.toString()}`); // Converter o ID para string
+  const handleEditClick = (userId: string) => {
+    navigate(`/users/${userId}`);
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleLimitChange = (newLimit: number) => {
+    setLimit(newLimit);
   };
 
   return (
@@ -51,12 +61,24 @@ const UserPage: React.FC = () => {
               <tr key={user.id}>
                 <td>{user.username}</td>
                 <td>
-                <Icon icon="edit" className="edit-icon" onClick={() => handleEditClick(user.id)} />
+                  <Icon icon="edit" className="edit-icon" onClick={() => handleEditClick(user.id)} />
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+      </div>
+      <div className="pagination-controls">
+        <Button text="Anterior" onClick={() => handlePageChange(page - 1)} disabled={page === 1} />
+        <Button text="Próximo" onClick={() => handlePageChange(page + 1)} />
+        <div>
+          <label htmlFor="limit">Itens por página:</label>
+          <select id="limit" value={limit} onChange={(e) => handleLimitChange(parseInt(e.target.value, 10))}>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+            <option value={50}>50</option>
+          </select>
+        </div>
       </div>
     </div>
   );
