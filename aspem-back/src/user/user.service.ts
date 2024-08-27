@@ -19,9 +19,29 @@ export class UserService {
     });
   }
 
-  async getAllUsers(): Promise<Omit<User, 'password'>[]> {
-    const users = await this.prisma.user.findMany();
-    return users.map(({ password, ...userWithoutPassword }) => userWithoutPassword);
+  async getAllUsers(page: number = 1, limit: number = 10): Promise<Omit<User, 'password'>[]> {
+    const pageNumber = Number(page);
+    const limitNumber = Number(limit);
+  
+    const skip = (pageNumber - 1) * limitNumber;
+  
+    const users = await this.prisma.user.findMany({
+      skip: skip,
+      take: limitNumber,
+      select: {
+        id: true,
+        username: true,
+        isAdmin: true,
+        createdAt: true,
+        updatedAt: true,
+        deletedAt: true,
+      },
+      where: {
+        deletedAt: null,
+      },
+    });
+  
+    return users;
   }
 
   async findUserByUsername(username: string): Promise<Omit<User, 'password'> | null> {
