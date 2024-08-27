@@ -9,20 +9,15 @@ const AutarquiaPage: React.FC = () => {
   const [autarquias, setAutarquias] = useState<Autarquia[]>([]);
   const [filteredAutarquias, setFilteredAutarquias] = useState<Autarquia[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(10);
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const navigate = useNavigate();
-
-  const handleAddAutarquiaClick = () => {
-    navigate('/autarquias/add');
-  };
-
-  const handleEdit = (id: string) => {
-    navigate(`/autarquias/${id}`);
-  };
 
   useEffect(() => {
     const loadAutarquias = async () => {
       try {
-        const autarquiasData = await fetchAutarquias('/autarquias');
+        const autarquiasData = await fetchAutarquias(`/autarquias?page=${page}&limit=${limit}`);
         setAutarquias(autarquiasData);
         setFilteredAutarquias(autarquiasData);
       } catch (error) {
@@ -32,13 +27,48 @@ const AutarquiaPage: React.FC = () => {
     };
 
     loadAutarquias();
-  }, []);
+  }, [page, limit]);
+
+  useEffect(() => {
+    if (searchTerm) {
+      setFilteredAutarquias(
+        autarquias.filter(
+          autarquia =>
+            autarquia.nomeSocio.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            autarquia.cpf.includes(searchTerm)
+        )
+      );
+    } else {
+      setFilteredAutarquias(autarquias);
+    }
+  }, [searchTerm, autarquias]);
+
+  const handleAddAutarquiaClick = () => {
+    navigate('/autarquias/add');
+  };
+
+  const handleEdit = (id: string) => {
+    navigate(`/autarquias/${id}`);
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleLimitChange = (newLimit: number) => {
+    setLimit(newLimit);
+  };
 
   return (
     <div className="autarquia-page">
       <div className="search-container">
         <div className="nice-form-group">
-          <input type="search" placeholder="Nome/CPF" value="" />
+          <input
+            type="search"
+            placeholder="Nome/CPF"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
       </div>
       <div className="div-title">
@@ -76,6 +106,18 @@ const AutarquiaPage: React.FC = () => {
             ))}
           </tbody>
         </table>
+      </div>
+      <div className="pagination-controls">
+        <Button text="Anterior" onClick={() => handlePageChange(page - 1)} disabled={page === 1} />
+        <Button text="Próximo" onClick={() => handlePageChange(page + 1)} />
+        <div>
+          <label htmlFor="limit">Itens por página:</label>
+          <select id="limit" value={limit} onChange={(e) => handleLimitChange(parseInt(e.target.value, 10))}>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+            <option value={50}>50</option>
+          </select>
+        </div>
       </div>
     </div>
   );
