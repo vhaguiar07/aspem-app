@@ -1,8 +1,8 @@
-import { Controller, UseGuards, Post, Body, Get, Param, Delete, Patch, NotFoundException, BadRequestException, ForbiddenException } from '@nestjs/common';
+import { Controller, UseGuards, Post, Body, Get, Query, Param, Delete, Patch, NotFoundException, BadRequestException, ForbiddenException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AuthService } from '../auth/auth.service';
 import { User } from '@prisma/client';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { CreateUserDto, UpdateUserDto } from './dto/user-dto';
@@ -74,6 +74,8 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Lista todos os usuários' })
+  @ApiQuery({ name: 'page', required: false, example: 1 })
+  @ApiQuery({ name: 'limit', required: false, example: 10 })
   @ApiResponse({ 
     status: 200, 
     description: 'Lista de usuários encontrada com sucesso.',
@@ -82,6 +84,7 @@ export class UserController {
         {
           id: 1,
           username: 'exampleUser',
+          isAdmin: false,
           createdAt: '2024-08-14T12:34:56.789Z',
           updatedAt: '2024-08-14T12:34:56.789Z',
           deletedAt: null,
@@ -94,13 +97,18 @@ export class UserController {
     description: 'Nenhum usuário encontrado.' 
   })
   @Get()
-  async getAllUsers(): Promise<Omit<User, 'password'>[]> {
-    const users = await this.userService.getAllUsers();
-    if (users.length === 0) {
+  async getAllUsers(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ): Promise<{ users: Omit<User, 'password'>[], total: number }> {
+    const { users, total } = await this.userService.getAllUsers(page, limit);
+
+    if (total === 0) {
       throw new NotFoundException('Nenhum usuário encontrado.');
     }
-    return users;
-  }  
+
+    return { users, total };
+  }
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('JWT-auth')

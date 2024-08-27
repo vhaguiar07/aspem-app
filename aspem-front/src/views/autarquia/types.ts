@@ -105,3 +105,8 @@ export interface Autarquia {
     nomeCompleto: string;
     dataNascimento?: Date;
   }
+
+  export interface FetchAutarquiasResponse {
+    total: number;
+    data: Autarquia[];
+  }

@@ -1,5 +1,7 @@
 import axios from 'axios';
-import { Autarquia } from './types';
+import { Autarquia, FetchAutarquiasResponse } from './types';
+
+const getToken = () => localStorage.getItem('token');
 
 const api = axios.create({
   baseURL: 'http://localhost:8080',
@@ -15,12 +17,21 @@ api.interceptors.request.use(config => {
   return Promise.reject(error);
 });
 
-export const fetchAutarquias = async (url: string): Promise<Autarquia[]> => {
+export const fetchAutarquias = async (url: string): Promise<FetchAutarquiasResponse> => {
   try {
-    const response = await api.get(url);
+    const token = getToken();
+    const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+    const response = await axios.get(url, { headers });
+    console.log('Resposta da API:', response.data);
     return response.data;
   } catch (error) {
-    console.error('Erro ao buscar autarquias:', error);
+    if (axios.isAxiosError(error)) {
+      console.error('Erro ao buscar autarquias:', error.message);
+      console.error('Detalhes do erro:', error.response?.data || error.response?.status);
+    } else {
+      console.error('Erro desconhecido:', error);
+    }
     throw error;
   }
 };

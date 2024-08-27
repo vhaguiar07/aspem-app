@@ -7,13 +7,20 @@ import { useNavigate } from 'react-router-dom';
 const UserPage: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate(); // Hook para navegação
+  const [page, setPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(10);
+  const [total, setTotal] = useState<number>(0);
+  const navigate = useNavigate();
+
+  // Substitua isso com a maneira de obter o token do localStorage ou de onde for apropriado
+  const token = localStorage.getItem('token') || '';
 
   useEffect(() => {
     const loadUsers = async () => {
       try {
-        const usersData = await fetchUsers('/users');
-        setUsers(usersData);
+        const { users: fetchedUsers, total: fetchedTotal } = await fetchUsers(`/users?page=${page}&limit=${limit}`, token);
+        setUsers(fetchedUsers);
+        setTotal(fetchedTotal);
       } catch (error) {
         setError('Erro ao buscar usuários.');
         console.error(error);
@@ -21,11 +28,22 @@ const UserPage: React.FC = () => {
     };
 
     loadUsers();
-  }, []);
+  }, [page, limit, token]);
 
-  const handleEditClick = (userId: number) => {
-    navigate(`/users/${userId.toString()}`); // Converter o ID para string
+  const handleEditClick = (userId: string) => {
+    navigate(`/users/${userId}`);
   };
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleLimitChange = (newLimit: number) => {
+    setLimit(newLimit);
+    setPage(1); // Reset to the first page when changing the limit
+  };
+
+  const totalPages = Math.ceil(total / limit);
 
   return (
     <div className="user-page">
@@ -51,12 +69,36 @@ const UserPage: React.FC = () => {
               <tr key={user.id}>
                 <td>{user.username}</td>
                 <td>
-                <Icon icon="edit" className="edit-icon" onClick={() => handleEditClick(user.id)} />
+                  <Icon icon="edit" className="edit-icon" onClick={() => handleEditClick(user.id)} />
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+      </div>
+      <div className="pagination-controls">
+        <Button
+          text="Anterior"
+          onClick={() => handlePageChange(page - 1)}
+          disabled={page === 1}
+        />
+        <Button
+          text="Próximo"
+          onClick={() => handlePageChange(page + 1)}
+          disabled={page >= totalPages}
+        />
+        <div>
+          <label htmlFor="limit">Itens por página:</label>
+          <select
+            id="limit"
+            value={limit}
+            onChange={(e) => handleLimitChange(parseInt(e.target.value, 10))}
+          >
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+            <option value={50}>50</option>
+          </select>
+        </div>
       </div>
     </div>
   );
