@@ -84,7 +84,7 @@ export class UserController {
         {
           id: 1,
           username: 'exampleUser',
-          isAdmin: false, // Inclua o campo isAdmin no exemplo
+          isAdmin: false,
           createdAt: '2024-08-14T12:34:56.789Z',
           updatedAt: '2024-08-14T12:34:56.789Z',
           deletedAt: null,

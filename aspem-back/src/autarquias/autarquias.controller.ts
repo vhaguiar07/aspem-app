@@ -1,7 +1,7 @@
-import { Controller, UseGuards, Post, Body, Get, Patch, Param, NotFoundException, ValidationPipe, BadRequestException, InternalServerErrorException, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, UseGuards, Post, Body, Get, Query, Patch, Param, NotFoundException, ValidationPipe, BadRequestException, InternalServerErrorException, HttpException, HttpStatus } from '@nestjs/common';
 import { AutarquiasService } from './autarquias.service';
 import { Autarquias } from '@prisma/client';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { CreateAutarquiasDto, UpdateAutarquiasDto} from './dto/create-autarquias.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
@@ -244,6 +244,8 @@ export class AutarquiasController {
 
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Lista todas as autarquias' })
+  @ApiQuery({ name: 'page', required: false, example: 1 })
+  @ApiQuery({ name: 'limit', required: false, example: 10 })
   @ApiResponse({ 
     status: 200, 
     description: 'Lista de autarquias encontrada com sucesso.',
@@ -349,8 +351,11 @@ export class AutarquiasController {
     description: 'Nenhuma autarquia encontrada.' 
   })
   @Get()
-  async getAllAutarquias(): Promise<Autarquias[]> {
-    const autarquias = await this.autarquiasService.getAllAutarquias();
+  async getAllAutarquias(
+    @Query('page') page = 1, 
+    @Query('limit') limit = 10,
+  ): Promise<Autarquias[]> {
+    const autarquias = await this.autarquiasService.getAllAutarquias(page, limit);
     if (autarquias.length === 0) {
       throw new NotFoundException('Nenhuma autarquia encontrada.');
     }

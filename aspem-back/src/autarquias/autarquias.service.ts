@@ -102,8 +102,15 @@ export class AutarquiasService {
     });
   }
 
-  async getAllAutarquias(): Promise<Autarquias[]> {
+  async getAllAutarquias(page: number = 1, limit: number = 10): Promise<Autarquias[]> {
+    const pageNumber = Number(page);
+    const limitNumber = Number(limit);
+  
+    const skip = (pageNumber - 1) * limitNumber;
+  
     return this.prisma.autarquias.findMany({
+      skip: skip,
+      take: Number(limit),
       include: {
         adventiciosAutarquia: true,
         dentCrossesAutarquia: true,
@@ -111,6 +118,12 @@ export class AutarquiasService {
         rioPaxesAutarquia: true,
         dependentesAutarquia: true,
         cooperadoresAutarquia: true,
+      },
+      where: {
+        deletedAt: null,
+      },
+      orderBy: {
+        createdAt: 'asc',
       },
     });
   }
