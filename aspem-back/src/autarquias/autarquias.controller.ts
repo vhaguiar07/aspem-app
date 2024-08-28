@@ -365,6 +365,147 @@ export class AutarquiasController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({ summary: 'Busca autarquias com base no nome do sócio ou CPF' })
+  @ApiQuery({
+    name: 'nomeSocio',
+    type: String,
+    description: 'Nome do sócio para pesquisa. Se fornecido, `cpf` não é necessário.',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'cpf',
+    type: String,
+    description: 'CPF para pesquisa. Se fornecido, `nomeSocio` não é necessário.',
+    required: false,
+  })
+  @ApiQuery({ name: 'page', required: false, example: 1 })
+  @ApiQuery({ name: 'limit', required: false, example: 10 })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Autarquias encontradas com sucesso.',
+    schema: {
+      example: [
+        {
+          id: 'uuid-1234-5678-91011',
+          orgao: 'Nome do Órgão',
+          classificacao: 'Classificação do Órgão',
+          matricula: '12345678',
+          matriculaSocial: 1234,
+          dataAdmissao: '2024-08-14T12:34:56.789Z',
+          nomeSocio: 'Nome do Sócio',
+          endereco: 'Rua Exemplo, 123',
+          numero: 456,
+          complemento: 'Apto 789',
+          bairroResidencia: 'Bairro Exemplo',
+          cidadeResidencia: 'Cidade Exemplo',
+          uf: 'SP',
+          cepResidencia: '12345-678',
+          telefoneResidencia: '(11) 1234-5678',
+          telefoneCelular: '(11) 91234-5678',
+          telefoneComercial: '(11) 31234-5678',
+          falecido: false,
+          cpf: '123.456.789-00',
+          rg: '12.345.678-9',
+          orgaoExpedidor: 'SSP',
+          dataFalecimento: null,
+          quantidadeAdventicios: 1,
+          quantidadeCooperadores: 1,
+          quantidadeDentCross: 1,
+          quantidadeOdMed: 1,
+          quantidadeRioPax: 1,
+          quantidadeDependentes: 1,
+          reversivel: true,
+          valorDescontoSeguro: '100,00',
+          morteNatural: '50000,00',
+          morteAcidental: '100000,00',
+          invalidezPermanenteAcidente: '75000,00',
+          ps: true,
+          omitido: false,
+          estadoCivil: 'Casado',
+          email: 'socio@exemplo.com',
+          conjuge: 'Nome do Cônjuge',
+          descontoSocioEfetivo: '200,00',
+          historicoSocio: 'Histórico do sócio',
+          observacoesPagamentos: 'Sem observações',
+          anoFiscal: '2024',
+          totalJaneiro: 1000,
+          totalFevereiro: 1100,
+          totalMarco: 1200,
+          totalAbril: 1300,
+          totalMaio: 1400,
+          totalJunho: 1500,
+          totalJulho: 1600,
+          totalAgosto: 1700,
+          totalSetembro: 1800,
+          totalOutubro: 1900,
+          totalNovembro: 2000,
+          totalDezembro: 2100,
+          adventicios: [
+            {
+              nomeCompleto: 'Adventício Teste'
+            }
+          ],
+          cooperadores: [
+            {
+              nomeCompleto: 'Cooperador Teste'
+            }
+          ],
+          dependentes: [
+            {
+              nomeCompleto: 'Dependente Teste',
+              dataNascimento: '2024-08-14T12:34:56.789Z'
+            }
+          ],
+          dentCross: [
+            {
+              nomeCompleto: 'DentCross Teste'
+            }
+          ],
+          odMed: [
+            {
+              nomeCompleto: 'OD Med Teste',
+              data: '2024-08-14T12:34:56.789Z'
+            }
+          ],
+          rioPax: [
+            {
+              nomeCompleto: 'Rio Pax Teste',
+              data: '2024-08-14T12:34:56.789Z'
+            }
+          ],
+          createdAt: '2024-08-14T12:34:56.789Z',
+          updatedAt: '2024-08-14T12:34:56.789Z',
+          deletedAt: null,
+        }
+      ]
+    }
+  })
+  @ApiResponse({ 
+    status: 404, 
+    description: 'Nenhuma autarquia encontrada com os critérios fornecidos.' 
+  })
+  @Get('search')
+  async searchAutarquias(
+    @Query('nomeSocio') nomeSocio?: string,
+    @Query('cpf') cpf?: string,
+    @Query('page') page = 1,
+    @Query('limit') limit = 10,
+  ): Promise<{ total: number; data: Autarquias[] }> {
+    if (!nomeSocio && !cpf) {
+      throw new NotFoundException('É necessário fornecer pelo menos um critério de pesquisa.');
+    }
+    const result = await this.autarquiasService.searchAutarquias(nomeSocio, cpf, page, limit);
+    
+    if (result.data.length === 0) {
+      throw new NotFoundException('Nenhuma autarquia encontrada com os critérios fornecidos.');
+    }
+    
+    return result;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Obtém uma autarquia pelo ID' })
   @ApiResponse({ 
     status: 200, 
@@ -463,7 +604,7 @@ export class AutarquiasController {
         deletedAt: null,
       }
     }
-  })  
+  })
   @ApiResponse({ 
     status: 404, 
     description: 'Autarquia não encontrada com o ID fornecido.' 

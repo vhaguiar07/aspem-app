@@ -17,14 +17,41 @@ api.interceptors.request.use(config => {
 
 export const fetchUsers = async (url: string, token: string): Promise<{ users: User[], total: number }> => {
   try {
-    const response = await api.get(url, {
+    const response = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+
     return {
-      users: response.data.users,
-      total: response.data.total,
+      users: response.data.users || [],
+      total: response.data.total || 0,
+    };
+  } catch (error) {
+    console.error('Erro ao buscar usuários:', error);
+    throw error;
+  }
+};
+
+export const searchUsers = async (
+  query: string,
+  token: string,
+  page: number = 1,
+  limit: number = 10
+): Promise<{ users: User[], total: number }> => {
+  try {
+    const params = { username: query, page, limit };
+
+    const response = await axios.get('/users/search', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params,
+    });
+
+    return {
+      users: response.data.users || [],
+      total: response.data.total || 0,
     };
   } catch (error) {
     console.error('Erro ao buscar usuários:', error);

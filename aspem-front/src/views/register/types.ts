@@ -21,3 +21,7 @@ export interface RegisterUserData {
     successMessage: string;
   }
   
+  export interface SearchResult {
+    nomeSocio: string;
+    cpf: string;
+  }
