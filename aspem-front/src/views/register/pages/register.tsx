@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../store';
 import { registerUserAsync } from '../reducer';
-import { RegisterUserData } from '../types';
+import { RegisterUserData, SearchResult } from '../types'; // Importe o novo tipo
 import { Link } from 'react-router-dom';
 import { Button, Intent } from '@blueprintjs/core';
+import { searchByNomeSocioOrCpf } from '../registerApi';
 import './registerStyles.css';
 
 const RegisterPage: React.FC = () => {
@@ -13,16 +14,27 @@ const RegisterPage: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]); // Defina o tipo aqui
 
   const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
-  
+
     const userData: RegisterUserData = { username, password, confirmPassword };
-  
+
     try {
       await dispatch(registerUserAsync(userData)).unwrap();
     } catch (err) {
       console.error('Failed to register:', err);
+    }
+  };
+
+  const handleSearch = async () => {
+    try {
+      const results = await searchByNomeSocioOrCpf(searchQuery);
+      setSearchResults(results);
+    } catch (err) {
+      console.error('Failed to search:', err);
     }
   };
 
@@ -75,6 +87,27 @@ const RegisterPage: React.FC = () => {
                   required 
                 />
               </div>
+
+              <div className="nice-form-group register">
+                <input 
+                  id="search" 
+                  name="search" 
+                  className="nice-input" 
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Buscar por nome ou CPF"
+                />
+                <Button onClick={handleSearch} intent={Intent.PRIMARY} loading={loading}>
+                  Buscar
+                </Button>
+              </div>
+
+              <ul>
+                {searchResults.map((result, index) => (
+                  <li key={index}>{result.nomeSocio} - {result.cpf}</li>
+                ))}
+              </ul>
             </div>
 
             <div className="button-div register">
