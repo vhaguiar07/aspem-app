@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchUsers } from '../userApi';
+import { fetchUsers, searchUsers } from '../userApi';
 import { User } from '../types';
 import { Icon, Button } from '@blueprintjs/core';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,9 @@ const UserPage: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
   const [total, setTotal] = useState<number>(0);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [triggerSearch, setTriggerSearch] = useState<boolean>(false);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token') || '';
@@ -17,17 +20,23 @@ const UserPage: React.FC = () => {
   useEffect(() => {
     const loadUsers = async () => {
       try {
-        const { users: fetchedUsers, total: fetchedTotal } = await fetchUsers(`/users?page=${page}&limit=${limit}`, token);
-        setUsers(fetchedUsers);
-        setTotal(fetchedTotal);
+        let data;
+        if (isSearching) {
+          data = await searchUsers(searchQuery, token, page, limit);
+        } else {
+          data = await fetchUsers(`/users?page=${page}&limit=${limit}`, token);
+        }
+        setUsers(data.users);
+        setTotal(data.total);
       } catch (error) {
-        setError('Erro ao buscar usuários.');
         console.error(error);
+      } finally {
+        setTriggerSearch(false);
       }
     };
 
     loadUsers();
-  }, [page, limit, token]);
+  }, [page, limit, token, triggerSearch, isSearching]);
 
   const handleEditClick = (userId: string) => {
     navigate(`/users/${userId}`);
@@ -42,13 +51,31 @@ const UserPage: React.FC = () => {
     setPage(1);
   };
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      setPage(1);
+      setIsSearching(true);
+      setTriggerSearch(true);
+    }
+  };
+
   const totalPages = Math.ceil(total / limit);
 
   return (
     <div className="user-page">
       <div className="search-container">
         <div className="nice-form-group">
-          <input type="search" placeholder="Nome de usuário" value="" />
+          <input
+            type="search"
+            placeholder="Nome de usuário"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            onKeyPress={handleKeyPress}
+          />
         </div>
       </div>
       <div className="div-title">
