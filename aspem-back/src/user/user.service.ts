@@ -84,6 +84,44 @@ export class UserService {
     return userWithoutPassword;
   }
 
+  async searchUsers(username: string, page: number, limit: number): Promise<{ users: Omit<User, 'password'>[], total: number }> {
+    const pageNumber = Number(page);
+    const limitNumber = Number(limit);
+  
+    const skip = (pageNumber - 1) * limitNumber;
+
+    const [users, total] = await Promise.all([
+      this.prisma.user.findMany({
+        where: {
+          username: {
+            contains: username,
+            mode: 'insensitive',
+          },
+        },
+        skip: skip,
+        take: limitNumber,
+        select: {
+          id: true,
+          username: true,
+          isAdmin: true,
+          createdAt: true,
+          updatedAt: true,
+          deletedAt: true,
+        },
+      }),
+      this.prisma.user.count({
+        where: {
+          username: {
+            contains: username,
+            mode: 'insensitive',
+          },
+        },
+      }),
+    ]);
+
+    return { users, total };
+  }
+
   async findUserWithPasswordByUsername(username: string): Promise<User | null> {
     return this.prisma.user.findUnique({
       where: { username },

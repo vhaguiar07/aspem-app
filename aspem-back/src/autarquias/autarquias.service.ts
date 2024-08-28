@@ -280,4 +280,38 @@ export class AutarquiasService {
     });
   }
 
+  async searchAutarquias(
+    nomeSocio?: string,
+    cpf?: string,
+    page = 1,
+    limit = 10
+  ): Promise<{ total: number; data: Autarquias[] }> {
+    const pageNumber = Number(page);
+    const limitNumber = Number(limit);
+
+    const skip = (pageNumber - 1) * limitNumber;
+
+    const total = await this.prisma.autarquias.count({
+      where: {
+        AND: [
+          nomeSocio ? { nomeSocio: { contains: nomeSocio, mode: 'insensitive' } } : {},
+          cpf ? { cpf: { equals: cpf } } : {},
+        ],
+      },
+    });
+
+    const data = await this.prisma.autarquias.findMany({
+      where: {
+        AND: [
+          nomeSocio ? { nomeSocio: { contains: nomeSocio, mode: 'insensitive' } } : {},
+          cpf ? { cpf: { equals: cpf } } : {},
+        ],
+      },
+      skip,
+      take: limitNumber,
+    });
+  
+    return { total, data };
+  }
+
 }

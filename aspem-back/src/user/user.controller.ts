@@ -110,6 +110,52 @@ export class UserController {
 
     return { users, total };
   }
+  
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({ summary: 'Busca usuários com base no username' })
+  @ApiResponse({ 
+    status: 200, 
+    description: 'Usuários encontrados com sucesso.',
+    schema: {
+      example: [
+        {
+          id: '1',
+          username: 'exampleUser',
+          createdAt: '2024-08-14T12:34:56.789Z',
+          updatedAt: '2024-08-14T12:34:56.789Z',
+          deletedAt: null,
+        }
+      ],
+    },
+  })
+  @ApiResponse({ 
+    status: 404, 
+    description: 'Nenhum usuário encontrado com o critério fornecido.' 
+  })
+  @ApiQuery({
+    name: 'username',
+    type: String,
+    description: 'Nome de usuário para pesquisa.',
+    required: false,
+  })
+  @ApiQuery({ name: 'page', required: false, example: 1 })
+  @ApiQuery({ name: 'limit', required: false, example: 10 })
+  @Get('search')
+  async searchUsers(
+    @Query('username') username?: string,
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ): Promise<{ users: Omit<User, 'password'>[], total: number }> {
+    if (!username) {
+      throw new NotFoundException('É necessário fornecer o critério de pesquisa `username`.');
+    }
+    const { users, total } = await this.userService.searchUsers(username, page, limit);
+    if (total === 0) {
+      throw new NotFoundException('Nenhum usuário encontrado com o critério fornecido.');
+    }
+    return { users, total };
+  }
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('JWT-auth')
@@ -140,7 +186,7 @@ export class UserController {
     }
     return user;
   }
-  
+
   @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Remove um usuário pelo ID' })

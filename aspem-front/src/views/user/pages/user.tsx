@@ -39,7 +39,7 @@ const UserPage: React.FC = () => {
 
   const handleLimitChange = (newLimit: number) => {
     setLimit(newLimit);
-    setPage(1); // Reset to the first page when changing the limit
+    setPage(1);
   };
 
   const totalPages = Math.ceil(total / limit);
