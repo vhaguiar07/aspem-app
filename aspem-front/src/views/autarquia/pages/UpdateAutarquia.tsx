@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import { AppDispatch } from '../../../store';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Autarquia, AdventicioAutarquia, DentCrossAutarquia, OdMedAutarquia, RioPaxAutarquia, DependenteAutarquia, CooperadorAutarquia } from '../types';
+import { Autarquia } from '../typesUpdate';
 import { getAutarquiaById, updateAutarquia } from '../autarquiaApi';
 import { Button, FormGroup, Intent, InputGroup } from '@blueprintjs/core';
 import { ptBR } from 'date-fns/locale';
@@ -16,20 +16,26 @@ import { addAutarquiaFailure, updateAutarquiaSuccess } from '../reducer';
 const UpdateAutarquia: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [autarquia, setAutarquia] = useState<Partial<Autarquia>>({});
-  const [adventicios, setAdventicios] = useState<{ [key: string]: string }[]>([]);
-  const [dentCross, setDentCross] = useState<{ [key: string]: string }[]>([]);
-  const [odMed, setOdMed] = useState<{ [key: string]: string }[]>([]);
-  const [rioPax, setRioPax] = useState<{ [key: string]: string }[]>([]);
-  const [cooperadores, setCooperadores] = useState<{ [key: string]: string }[]>([]);
-  const [dependentes, setDependentes] = useState<{ [key: string]: string }[]>([]);
+  const [adventicios, setAdventicios] = useState<{ nomeCompleto: string }[]>([
+    { nomeCompleto: '' }
+  ]);
+  const [dentCross, setDentCross] = useState<{ nomeCompleto: string }[]>([
+    { nomeCompleto: '' }
+  ]);
+  const [odMed, setOdMed] = useState<{ nomeCompleto: string, data: Date | null }[]>([
+    { nomeCompleto: '', data: null }
+  ]);
+  const [rioPax, setRioPax] = useState<{ nomeCompleto: string, data: Date | null }[]>([
+    { nomeCompleto: '', data: null }
+  ]);
+  const [cooperadores, setCooperadores] = useState<{ nomeCompleto: string }[]>([
+    { nomeCompleto: '' }
+  ]);
+  const [dependentes, setDependentes] = useState<{ nomeCompleto: string, dataNascimento: Date | null }[]>([
+    { nomeCompleto: '', dataNascimento: null }
+  ]);
   const [error, setError] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
-  const [adventiciosAutarquia] = useState<AdventicioAutarquia[]>([]);
-  const [cooperadoresAutarquia] = useState<CooperadorAutarquia[]>([]);
-  const [dentCrossesAutarquia] = useState<DentCrossAutarquia[]>([]);
-  const [odMedsAutarquia] = useState<OdMedAutarquia[]>([]);
-  const [rioPaxesAutarquia] = useState<RioPaxAutarquia[]>([]);
-  const [dependentesAutarquia] = useState<DependenteAutarquia[]>([]);
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
@@ -39,6 +45,46 @@ const UpdateAutarquia: React.FC = () => {
         try {
           const existingAutarquia = await getAutarquiaById(id);
           setAutarquia(existingAutarquia);
+
+          if (existingAutarquia.adventiciosAutarquia) {
+            setAdventicios(existingAutarquia.adventiciosAutarquia);
+          }
+
+          if (existingAutarquia.dentCrossesAutarquia) {
+            setDentCross(existingAutarquia.dentCrossesAutarquia);
+          }
+
+          if (existingAutarquia.odMedsAutarquia) {
+            // Mapeia os dados para o formato esperado
+            const formattedOdMed = existingAutarquia.odMedsAutarquia.map(item => ({
+              nomeCompleto: item.nomeCompleto,
+              data: item.data ?? null, // Converte undefined para null
+            }));
+            setOdMed(formattedOdMed);
+          }
+          
+          if (existingAutarquia.rioPaxesAutarquia) {
+            // Mapeia os dados para o formato esperado
+            const formattedRioPax = existingAutarquia.rioPaxesAutarquia.map(item => ({
+              nomeCompleto: item.nomeCompleto,
+              data: item.data ?? null, // Converte undefined para null
+            }));
+            setRioPax(formattedRioPax);
+          }
+
+          if (existingAutarquia.cooperadoresAutarquia) {
+            setCooperadores(existingAutarquia.cooperadoresAutarquia);
+          }
+
+          if (existingAutarquia.dependentesAutarquia) {
+            // Mapeia os dados para o formato esperado
+            const formattedDependentes = existingAutarquia.dependentesAutarquia.map(item => ({
+              nomeCompleto: item.nomeCompleto,
+              dataNascimento: item.dataNascimento ?? null,
+            }));
+            setDependentes(formattedDependentes);
+          }
+
         } catch (err) {
           console.error('Erro ao carregar autarquia:', err);
           setError('Erro ao carregar autarquia.');
@@ -66,15 +112,22 @@ const UpdateAutarquia: React.FC = () => {
   const handleDateDependentesChange = (date: Date | null, index: number) => {
     if (date) {
       const newDependentes = [...dependentes];
-      newDependentes[index] = { ...newDependentes[index], dataNascimento: date.toISOString() };
+      newDependentes[index] = { ...newDependentes[index], dataNascimento: date };
+      setDependentes(newDependentes);
+    } else {
+      const newDependentes = [...dependentes];
+      newDependentes[index] = { ...newDependentes[index], dataNascimento: null };
       setDependentes(newDependentes);
     }
   };
-
   const handleDateRioPaxChange = (date: Date | null, index: number) => {
     if (date) {
       const newRioPax = [...rioPax];
-      newRioPax[index] = { ...newRioPax[index], data: date.toISOString() };
+      newRioPax[index] = { ...newRioPax[index], data: date };
+      setRioPax(newRioPax);
+    } else {
+      const newRioPax = [...rioPax];
+      newRioPax[index] = { ...newRioPax[index], data: null };
       setRioPax(newRioPax);
     }
   };
@@ -82,7 +135,11 @@ const UpdateAutarquia: React.FC = () => {
   const handleDateOdMedChange = (date: Date | null, index: number) => {
     if (date) {
       const newOdMed = [...odMed];
-      newOdMed[index] = { ...newOdMed[index], data: date.toISOString() };
+      newOdMed[index] = { ...newOdMed[index], data: date };
+      setOdMed(newOdMed);
+    } else {
+      const newOdMed = [...odMed];
+      newOdMed[index] = { ...newOdMed[index], data: null };
       setOdMed(newOdMed);
     }
   };
@@ -153,7 +210,6 @@ const UpdateAutarquia: React.FC = () => {
     e.preventDefault();
   
     const autarquiaToSend: Partial<Autarquia> = { ...autarquia };
-    delete autarquiaToSend.id;
   
     Object.keys(autarquiaToSend).forEach((key) => {
       if (autarquiaToSend[key as keyof Autarquia] === null || autarquiaToSend[key as keyof Autarquia] === undefined) {
@@ -161,40 +217,49 @@ const UpdateAutarquia: React.FC = () => {
       }
     });
   
-    if (adventiciosAutarquia.length === 0) {
-      delete autarquiaToSend.adventiciosAutarquia;
+    if (adventicios.length === 0) {
+      delete autarquiaToSend.adventicios;
     } else {
-      autarquiaToSend.adventiciosAutarquia = adventiciosAutarquia;
+      autarquiaToSend.adventicios = adventicios;
     }
   
-    if (cooperadoresAutarquia.length === 0) {
-      delete autarquiaToSend.cooperadoresAutarquia;
+    if (cooperadores.length === 0) {
+      delete autarquiaToSend.cooperadores;
     } else {
-      autarquiaToSend.cooperadoresAutarquia = cooperadoresAutarquia;
+      autarquiaToSend.cooperadores = cooperadores;
     }
   
-    if (dentCrossesAutarquia.length === 0) {
-      delete autarquiaToSend.dentCrossesAutarquia;
+    if (dentCross.length === 0) {
+      delete autarquiaToSend.dentCross;
     } else {
-      autarquiaToSend.dentCrossesAutarquia = dentCrossesAutarquia;
+      autarquiaToSend.dentCross = dentCross;
     }
   
-    if (odMedsAutarquia.length === 0) {
-      delete autarquiaToSend.odMedsAutarquia;
+    if (odMed.length === 0) {
+      delete autarquiaToSend.odMed;
     } else {
-      autarquiaToSend.odMedsAutarquia = odMedsAutarquia;
+      autarquiaToSend.odMed = odMed.map(item => ({
+        ...item,
+        data: item.data === null ? undefined : item.data,
+      }));
     }
   
-    if (rioPaxesAutarquia.length === 0) {
-      delete autarquiaToSend.rioPaxesAutarquia;
+    if (rioPax.length === 0) {
+      delete autarquiaToSend.rioPax;
     } else {
-      autarquiaToSend.rioPaxesAutarquia = rioPaxesAutarquia;
+      autarquiaToSend.rioPax = rioPax.map(item => ({
+        ...item,
+        data: item.data === null ? undefined : item.data,
+      }));
     }
-  
-    if (dependentesAutarquia.length === 0) {
-      delete autarquiaToSend.dependentesAutarquia;
+    
+    if (dependentes.length === 0) {
+      delete autarquiaToSend.dependentes;
     } else {
-      autarquiaToSend.dependentesAutarquia = dependentesAutarquia;
+      autarquiaToSend.dependentes = dependentes.map(item => ({
+        ...item,
+        dataNascimento: item.dataNascimento === null ? undefined : item.dataNascimento,
+      }));
     }
   
     const id = autarquia.id;
@@ -203,7 +268,7 @@ const UpdateAutarquia: React.FC = () => {
       console.error("ID da autarquia não está definido.");
       return;
     }
-  
+    
     try {
       const updatedAutarquia = await updateAutarquia(id, autarquiaToSend);
       dispatch(updateAutarquiaSuccess(updatedAutarquia));
@@ -964,6 +1029,7 @@ const UpdateAutarquia: React.FC = () => {
                 id="quantidadeAdventicios"
                 name="quantidadeAdventicios"
                 type="number"
+                value={autarquia.quantidadeAdventicios ? autarquia.quantidadeAdventicios.toString() : ''}
                 onChange={(e) => {
                   handleInputChange(e);
 
@@ -978,12 +1044,13 @@ const UpdateAutarquia: React.FC = () => {
             </FormGroup>
           </div>
 
-          {adventicios.map((_, index) => (
+          {adventicios.map((adventicio, index) => (
             <div key={index} className="adventicio-group">
               <FormGroup label={`Adventício ${index + 1}`} labelFor={`nomeCompleto${index}`}>
                 <InputGroup
                   id={`nomeCompleto${index}`}
                   name="nomeCompleto"
+                  value={adventicio.nomeCompleto}
                   onChange={(e) => handleAdventicioChange(index, e)}
                   required
                 />
@@ -999,6 +1066,7 @@ const UpdateAutarquia: React.FC = () => {
                 id="quantidadeDentCross"
                 name="quantidadeDentCross"
                 type="number"
+                value={autarquia.quantidadeDentCross ? autarquia.quantidadeDentCross.toString() : ''}
                 onChange={(e) => {
                   handleInputChange(e);
 
@@ -1013,18 +1081,22 @@ const UpdateAutarquia: React.FC = () => {
             </FormGroup>
           </div>
 
-          {dentCross.map((_, index) => (
-            <div key={index} className="dentCross-group">
-              <FormGroup label={`Beneficiário ${index + 1}`} labelFor={`nomeCompleto${index}`}>
-                <InputGroup
-                  id={`nomeCompleto${index}`}
-                  name="nomeCompleto"
-                  onChange={(e) => handleDentCrossChange(index, e)}
-                  required
-                />
-              </FormGroup>
-            </div>
-          ))}
+          {dentCross.map((dentCrossItem, index) => {
+            console.log(`Beneficiário ${index + 1}:`, dentCrossItem); // Adiciona o console.log aqui
+            return (
+              <div key={index} className="dentCross-group">
+                <FormGroup label={`Beneficiário ${index + 1}`} labelFor={`nomeCompleto${index}`}>
+                  <InputGroup
+                    id={`nomeCompleto${index}`}
+                    name="nomeCompleto"
+                    value={dentCrossItem.nomeCompleto || ''} // Use || para garantir que o valor não seja undefined
+                    onChange={(e) => handleDentCrossChange(index, e)}
+                    required
+                  />
+                </FormGroup>
+              </div>
+            );
+          })}
         </div>
 
         <div className="form-container-lonely">
@@ -1034,6 +1106,7 @@ const UpdateAutarquia: React.FC = () => {
                 id="quantidadeOdMed"
                 name="quantidadeOdMed"
                 type="number"
+                value={autarquia.quantidadeOdMed ? autarquia.quantidadeOdMed.toString() : ''}
                 onChange={(e) => {
                   handleInputChange(e);
 
@@ -1080,6 +1153,7 @@ const UpdateAutarquia: React.FC = () => {
                 id="quantidadeRioPax"
                 name="quantidadeRioPax"
                 type="number"
+                value={autarquia.quantidadeRioPax ? autarquia.quantidadeRioPax.toString() : ''}
                 onChange={(e) => {
                   handleInputChange(e);
 
@@ -1126,6 +1200,7 @@ const UpdateAutarquia: React.FC = () => {
                 id="quantidadeCooperadores"
                 name="quantidadeCooperadores"
                 type="number"
+                value={autarquia.quantidadeCooperadores ? autarquia.quantidadeCooperadores.toString() : ''}
                 onChange={(e) => {
                   handleInputChange(e);
 
@@ -1140,12 +1215,13 @@ const UpdateAutarquia: React.FC = () => {
             </FormGroup>
           </div>
 
-          {cooperadores.map((_, index) => (
+          {cooperadores.map((cooperador, index) => (
             <div key={index} className="cooperadores-group">
               <FormGroup label={`Beneficiário ${index + 1}`} labelFor={`nomeCompleto${index}`}>
                 <InputGroup
                   id={`nomeCompleto${index}`}
                   name="nomeCompleto"
+                  value={cooperador.nomeCompleto}
                   onChange={(e) => handleCooperadoresChange(index, e)}
                   required
                 />
@@ -1161,6 +1237,7 @@ const UpdateAutarquia: React.FC = () => {
                 id="quantidadeDependentes"
                 name="quantidadeDependentes"
                 type="number"
+                value={autarquia.quantidadeDependentes ? autarquia.quantidadeDependentes.toString() : ''}
                 onChange={(e) => {
                   handleInputChange(e);
 
