@@ -336,10 +336,18 @@ export class CreateAutarquiasDto {
 export class UpdateAdventicioAutarquiaDto {
   @IsString()
   @IsOptional()
+  id?: string; // Adicione esta linha
+
+  @IsString()
+  @IsOptional()
   nomeCompleto?: string;
 }
 
 export class UpdateCooperadorAutarquiaDto {
+  @IsString()
+  @IsOptional()
+  id?: string; // Adicione esta linha
+
   @IsString()
   @IsOptional()
   nomeCompleto?: string;
@@ -353,6 +361,10 @@ export class UpdateCooperadorAutarquiaDto {
 export class UpdateDependenteAutarquiaDto {
   @IsString()
   @IsOptional()
+  id?: string; // Adicione esta linha
+
+  @IsString()
+  @IsOptional()
   nomeCompleto?: string;
 
   @IsOptional()
@@ -364,10 +376,18 @@ export class UpdateDependenteAutarquiaDto {
 export class UpdateDentCrossAutarquiaDto {
   @IsString()
   @IsOptional()
+  id?: string; // Adicione esta linha
+
+  @IsString()
+  @IsOptional()
   nomeCompleto?: string;
 }
 
 export class UpdateRioPaxAutarquiaDto {
+  @IsString()
+  @IsOptional()
+  id?: string; // Adicione esta linha
+
   @IsString()
   @IsOptional()
   nomeCompleto?: string;
@@ -381,6 +401,10 @@ export class UpdateRioPaxAutarquiaDto {
 export class UpdateOdMedAutarquiaDto {
   @IsString()
   @IsOptional()
+  id?: string; // Adicione esta linha
+
+  @IsString()
+  @IsOptional()
   nomeCompleto?: string;
 
   @IsOptional()
@@ -390,6 +414,10 @@ export class UpdateOdMedAutarquiaDto {
 }
 
 export class UpdateAutarquiasDto {
+  @IsString()
+  @IsOptional()
+  id?: string;
+
   @IsString()
   @IsOptional()
   orgao?: string;

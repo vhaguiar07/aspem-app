@@ -1,4 +1,4 @@
-export interface Autarquia {
+  export interface Autarquia {
     id: string;
     orgao: string;
     classificacao: string;
@@ -59,49 +59,49 @@ export interface Autarquia {
     updatedAt: Date;
     deletedAt?: Date;
 
-    adventiciosAutarquia?: AdventicioAutarquia[];
-    cooperadoresAutarquia?: CooperadorAutarquia[];
-    dentCrossesAutarquia?: DentCrossAutarquia[];
-    odMedsAutarquia?: OdMedAutarquia[];
-    rioPaxesAutarquia?: RioPaxAutarquia[];
-    dependentesAutarquia?: DependenteAutarquia[];
+    adventicios?: AdventicioAutarquia[];
+    cooperadores?: CooperadorAutarquia[];
+    dentCross?: DentCrossAutarquia[];
+    odMed?: OdMedAutarquia[];
+    rioPax?: RioPaxAutarquia[];
+    dependentes?: DependenteAutarquia[];
   }
 
   export interface AdventicioAutarquia {
-    id?: number;
-    autarquiaId?: number;
+    id?: string;
+    autarquiaId?: string;
     nomeCompleto: string;
   }
   
   export interface CooperadorAutarquia {
-    id: string;
-    autarquiaId: string;
+    id?: string;
+    autarquiaId?: string;
     nomeCompleto: string;
   }
 
   export interface DentCrossAutarquia {
-    id: string;
-    autarquiaId: string;
+    id?: string;
+    autarquiaId?: string;
     nomeCompleto: string;
   }
   
   export interface OdMedAutarquia {
-    id: string;
-    autarquiaId: string;
+    id?: string;
+    autarquiaId?: string;
     nomeCompleto: string;
     data?: Date;
   }
   
   export interface RioPaxAutarquia {
-    id: string;
-    autarquiaId: string;
+    id?: string;
+    autarquiaId?: string;
     nomeCompleto: string;
     data?: Date;
   }
   
   export interface DependenteAutarquia {
-    id: string;
-    autarquiaId: string;
+    id?: string;
+    autarquiaId?: string;
     nomeCompleto: string;
     dataNascimento?: Date;
   }
