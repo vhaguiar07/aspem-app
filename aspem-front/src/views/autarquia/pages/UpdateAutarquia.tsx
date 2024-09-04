@@ -1082,14 +1082,13 @@ const UpdateAutarquia: React.FC = () => {
           </div>
 
           {dentCross.map((dentCrossItem, index) => {
-            console.log(`Beneficiário ${index + 1}:`, dentCrossItem); // Adiciona o console.log aqui
             return (
               <div key={index} className="dentCross-group">
                 <FormGroup label={`Beneficiário ${index + 1}`} labelFor={`nomeCompleto${index}`}>
                   <InputGroup
                     id={`nomeCompleto${index}`}
                     name="nomeCompleto"
-                    value={dentCrossItem.nomeCompleto || ''} // Use || para garantir que o valor não seja undefined
+                    value={dentCrossItem.nomeCompleto || ''}
                     onChange={(e) => handleDentCrossChange(index, e)}
                     required
                   />
