@@ -9,17 +9,20 @@ import { ConfigModule } from '@nestjs/config';
 import { AutarquiasService } from './autarquias/autarquias.service';
 import { AutarquiasController } from './autarquias/autarquias.controller';
 import { AutarquiasModule } from './autarquias/autarquias.module';
+import { EstadosService } from './estados/estados.service';
+import { EstadosController } from './estados/estados.controller';
+import { EstadosModule } from './estados/estados.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     UserModule,
     AutarquiasModule,
+    EstadosModule,
     AuthModule,
     PassportModule,
-    AutarquiasModule,
   ],
-  controllers: [AppController, AutarquiasController],
-  providers: [AppService, PrismaService, AutarquiasService],
+  controllers: [AppController, AutarquiasController, EstadosController],
+  providers: [AppService, PrismaService, AutarquiasService, EstadosService],
 })
 export class AppModule {}

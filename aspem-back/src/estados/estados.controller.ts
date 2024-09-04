@@ -1,22 +1,22 @@
 import { Controller, UseGuards, Post, Body, Get, Query, Patch, Param, NotFoundException, ValidationPipe, BadRequestException, InternalServerErrorException, HttpException, HttpStatus } from '@nestjs/common';
-import { AutarquiasService } from './autarquias.service';
-import { Autarquias } from '@prisma/client';
+import { EstadosService } from './estados.service';
+import { Estados } from '@prisma/client';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiParam, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
-import { CreateAutarquiasDto, UpdateAutarquiasDto} from './dto/create-autarquias.dto';
+import { CreateEstadosDto, UpdateEstadosDto} from './dto/create-estados.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 
-@ApiTags('autarquias')
+@ApiTags('estados')
 @ApiBearerAuth('JWT-auth')
-@Controller('autarquias')
-export class AutarquiasController {
-  constructor(private readonly autarquiasService: AutarquiasService) {}
+@Controller('estados')
+export class EstadosController {
+  constructor(private readonly estadosService: EstadosService) {}
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @ApiOperation({ summary: 'Cria uma nova autarquia' })
+  @ApiOperation({ summary: 'Cria um novo servidor' })
   @ApiResponse({ 
     status: 201, 
-    description: 'Autarquia criada com sucesso.',
+    description: 'Estado criada com sucesso.',
     schema: {
       example: {
         "id": "uuid-1234-5678-91011",
@@ -117,11 +117,11 @@ export class AutarquiasController {
     description: 'Dados inválidos. Verifique os campos obrigatórios e a unicidade dos dados como CPF e Email.' 
   })
   @ApiBody({
-    description: 'Dados necessários para criar uma nova autarquia.',
-    type: CreateAutarquiasDto,
+    description: 'Dados necessários para criar um novo servidor.',
+    type: CreateEstadosDto,
     examples: {
       example: {
-        summary: 'Exemplo de dados para criação de uma autarquia',
+        summary: 'Exemplo de dados para criação de um servidor',
         value: {
           orgao: 'Nome do Órgão',
           classificacao: 'Classificação do Órgão',
@@ -213,11 +213,11 @@ export class AutarquiasController {
     }
   })
   @Post('add')
-  async createAutarquia(
-    @Body(new ValidationPipe()) createAutarquiasDto: CreateAutarquiasDto,
-  ): Promise<Autarquias> {
+  async createEstado(
+    @Body(new ValidationPipe()) createEstadosDto: CreateEstadosDto,
+  ): Promise<Estados> {
     try {
-      return await this.autarquiasService.createAutarquia(createAutarquiasDto);
+      return await this.estadosService.createEstado(createEstadosDto);
     } catch (error) {
       if (error.code === 'P2002') {
         if (error.meta?.target.includes('email')) {
@@ -237,18 +237,18 @@ export class AutarquiasController {
           );
         }
       }
-      throw new InternalServerErrorException('Erro interno ao criar a autarquia.');
+      throw new InternalServerErrorException('Erro interno ao criar o servidor.');
     }
   }
 
 
   @UseGuards(JwtAuthGuard)
-  @ApiOperation({ summary: 'Lista todas as autarquias' })
+  @ApiOperation({ summary: 'Lista todos os servidores' })
   @ApiQuery({ name: 'page', required: false, example: 1 })
   @ApiQuery({ name: 'limit', required: false, example: 10 })
   @ApiResponse({ 
     status: 200, 
-    description: 'Lista de autarquias encontrada com sucesso.',
+    description: 'Lista de servidores encontrado com sucesso.',
     schema: {
       example: [
         {
@@ -348,17 +348,17 @@ export class AutarquiasController {
   })  
   @ApiResponse({ 
     status: 404, 
-    description: 'Nenhuma autarquia encontrada.' 
+    description: 'Nenhum servidor encontrado.' 
   })
   @Get()
-  async getAllAutarquias(
+  async getAllEstados(
     @Query('page') page = 1,
     @Query('limit') limit = 10,
-  ): Promise<{ total: number; data: Autarquias[] }> {
-    const result = await this.autarquiasService.getAllAutarquias(page, limit);
+  ): Promise<{ total: number; data: Estados[] }> {
+    const result = await this.estadosService.getAllEstados(page, limit);
     
     if (result.data.length === 0) {
-      throw new NotFoundException('Nenhuma autarquia encontrada.');
+      throw new NotFoundException('Nenhum servidor encontrado.');
     }
     
     return result;
@@ -366,7 +366,7 @@ export class AutarquiasController {
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('JWT-auth')
-  @ApiOperation({ summary: 'Busca autarquias com base no nome do sócio ou CPF' })
+  @ApiOperation({ summary: 'Busca servidores com base no nome do sócio ou CPF' })
   @ApiQuery({
     name: 'nomeSocio',
     type: String,
@@ -383,7 +383,7 @@ export class AutarquiasController {
   @ApiQuery({ name: 'limit', required: false, example: 10 })
   @ApiResponse({ 
     status: 200, 
-    description: 'Autarquias encontradas com sucesso.',
+    description: 'Servidores encontrados com sucesso.',
     schema: {
       example: [
         {
@@ -483,22 +483,22 @@ export class AutarquiasController {
   })
   @ApiResponse({ 
     status: 404, 
-    description: 'Nenhuma autarquia encontrada com os critérios fornecidos.' 
+    description: 'Nenhum servidor encontrado com os critérios fornecidos.' 
   })
   @Get('search')
-  async searchAutarquias(
+  async searchEstados(
     @Query('nomeSocio') nomeSocio?: string,
     @Query('cpf') cpf?: string,
     @Query('page') page = 1,
     @Query('limit') limit = 10,
-  ): Promise<{ total: number; data: Autarquias[] }> {
+  ): Promise<{ total: number; data: Estados[] }> {
     if (!nomeSocio && !cpf) {
       throw new NotFoundException('É necessário fornecer pelo menos um critério de pesquisa.');
     }
-    const result = await this.autarquiasService.searchAutarquias(nomeSocio, cpf, page, limit);
+    const result = await this.estadosService.searchEstados(nomeSocio, cpf, page, limit);
     
     if (result.data.length === 0) {
-      throw new NotFoundException('Nenhuma autarquia encontrada com os critérios fornecidos.');
+      throw new NotFoundException('Nenhum servidor encontrado com os critérios fornecidos.');
     }
     
     return result;
@@ -506,10 +506,10 @@ export class AutarquiasController {
 
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('JWT-auth')
-  @ApiOperation({ summary: 'Obtém uma autarquia pelo ID' })
+  @ApiOperation({ summary: 'Obtém um servidor pelo ID' })
   @ApiResponse({ 
     status: 200, 
-    description: 'Autarquia encontrada com sucesso.',
+    description: 'Servidor encontrado com sucesso.',
     schema: {
       example: {
         id: 'uuid-1234-5678-91011',
@@ -607,23 +607,23 @@ export class AutarquiasController {
   })
   @ApiResponse({ 
     status: 404, 
-    description: 'Autarquia não encontrada com o ID fornecido.' 
+    description: 'Servidor não encontrado com o ID fornecido.' 
   })
-  @ApiParam({ name: 'id', type: 'string', description: 'ID da autarquia que será retornada.' })
+  @ApiParam({ name: 'id', type: 'string', description: 'ID do servidor que será retornada.' })
   @Get(':id')
-  async getAutarquiaById(@Param('id') id: string): Promise<Autarquias> {
-    const autarquia = await this.autarquiasService.getAutarquiaById(id);
-    if (!autarquia) {
-      throw new NotFoundException(`Autarquia com ID ${id} não encontrada.`);
+  async getEstadoById(@Param('id') id: string): Promise<Estados> {
+    const estado = await this.estadosService.getEstadoById(id);
+    if (!estado) {
+      throw new NotFoundException(`Servidor com ID ${id} não encontrado.`);
     }
-    return autarquia;
+    return estado;
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @ApiOperation({ summary: 'Atualiza uma autarquia existente' })
+  @ApiOperation({ summary: 'Atualiza um servidor existente' })
   @ApiResponse({ 
     status: 200, 
-    description: 'Autarquia atualizada com sucesso.',
+    description: 'Servidor atualizado com sucesso.',
     schema: {
       example: {
         id: 'uuid-1234-5678-91011',
@@ -725,19 +725,19 @@ export class AutarquiasController {
   })
   @ApiResponse({ 
     status: 404, 
-    description: 'Autarquia com o ID fornecido não encontrada.' 
+    description: 'Servidor com o ID fornecido não encontrado.' 
   })
   @ApiParam({ 
     name: 'id', 
-    description: 'ID da autarquia a ser atualizada', 
+    description: 'ID do servidor a ser atualizado', 
     type: String 
   })
   @ApiBody({
-    description: 'Dados necessários para atualizar a autarquia.',
-    type: UpdateAutarquiasDto,
+    description: 'Dados necessários para atualizar o servidor.',
+    type: UpdateEstadosDto,
     examples: {
       example: {
-        summary: 'Exemplo de dados para atualização de uma autarquia',
+        summary: 'Exemplo de dados para atualização de um servidor',
         value: {
           orgao: 'Nome do Órgão Atualizado',
           classificacao: 'Classificação do Órgão Atualizada',
@@ -830,18 +830,18 @@ export class AutarquiasController {
     }
   })
   @Patch(':id')
-  async updateAutarquia(
+  async updateEstado(
     @Param('id') id: string,
-    @Body() updateAutarquiaDto: UpdateAutarquiasDto,
+    @Body() updateEstadoDto: UpdateEstadosDto,
   ) {
     try {
-      const updatedAutarquia = await this.autarquiasService.updateAutarquia(id, updateAutarquiaDto);
-      if (!updatedAutarquia) {
-        throw new NotFoundException(`Autarquia with ID ${id} not found`);
+      const updatedEstado = await this.estadosService.updateEstado(id, updateEstadoDto);
+      if (!updatedEstado) {
+        throw new NotFoundException(`Servidor with ID ${id} not found`);
       }
-      return updatedAutarquia;
+      return updatedEstado;
     } catch (error) {
-      throw new BadRequestException(error.message || 'Failed to update autarquia');
+      throw new BadRequestException(error.message || 'Failed to update servidor');
     }
   }
 
