@@ -20,6 +20,11 @@ import { ADD_AUTARQUIAS, AUTARQUIAS } from './views/autarquia/routes';
 import AutarquiaPage from './views/autarquia/pages/Autarquia';
 import AddAutarquia from './views/autarquia/pages/AddAutarquia';
 import UpdateAutarquia from './views/autarquia/pages/UpdateAutarquia';
+import EstadoNotifier from './components/estados/EstadoNotifier';
+import { ADD_ESTADOS, ESTADOS } from './views/estado/routes';
+import EstadoPage from './views/estado/pages/Estado';
+import AddEstado from './views/estado/pages/AddEstado';
+import UpdateEstado from './views/estado/pages/UpdateEstado';
 import useAuth from './hooks/useAuth';
 import UserConfigPage from './views/user/pages/userConfig';
 import UserNotifier from './components/user/UserNotifier';
@@ -39,8 +44,11 @@ const App: React.FC = () => {
             <Route path={USERS()} element={<PrivateRoute element={<UserPage />} />} />
             <Route path={USERS_CONFIG()} element={<PrivateRoute element={<UserConfigPage />} />} />
             <Route path={AUTARQUIAS()} element={<PrivateRoute element={<AutarquiaPage />} />} />
+            <Route path={ESTADOS()} element={<PrivateRoute element={<EstadoPage />} />} />
             <Route path='/autarquias/:id' element={<PrivateRoute element={<UpdateAutarquia />} />} />
+            <Route path='/estados/:id' element={<PrivateRoute element={<UpdateEstado />} />} />
             <Route path={ADD_AUTARQUIAS()} element={<PrivateRoute element={<AddAutarquia />} />} />
+            <Route path={ADD_ESTADOS()} element={<PrivateRoute element={<AddEstado />} />} />
             <Route path={LOGIN()} element={<LoginPage />} />
             <Route path={REGISTER()} element={<RegisterPage />} />
           </Routes>
@@ -49,6 +57,7 @@ const App: React.FC = () => {
       <ToastContainer />
       <AuthNotifier />
       <AutarquiaNotifier />
+      <EstadoNotifier />
       <UserNotifier />
       <RegisterNotifier />
     </Router>

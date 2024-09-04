@@ -4,6 +4,7 @@ import customerReducer from './views/customer/reducer';
 import loginReducer from './views/auth/reducer';
 import registerReducer from './views/register/reducer';
 import autarquiasReducer from './views/autarquia/reducer';
+import estadosReducer from './views/estado/reducer';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     login: loginReducer,
     register: registerReducer,
     autarquias: autarquiasReducer,
+    estados: estadosReducer,
   },
 });
 
