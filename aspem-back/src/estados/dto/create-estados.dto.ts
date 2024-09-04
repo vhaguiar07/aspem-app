@@ -7,13 +7,13 @@ import { IsDentCrossCountValid } from '../../is-valid/IsDentCrossCountValid';
 import { IsRioPaxCountValid } from '../../is-valid/IsRioPaxCountValid';
 import { IsOdMedCountValid } from '../../is-valid/IsOdMedCountValid';
 
-export class CreateAdventicioAutarquiaDto {
+export class CreateAdventicioEstadoDto {
   @IsString()
   @IsOptional()
   nomeCompleto?: string;
 }
 
-export class CreateCooperadorAutarquiaDto {
+export class CreateCooperadorEstadoDto {
   @IsString()
   @IsOptional()
   nomeCompleto?: string;
@@ -24,7 +24,7 @@ export class CreateCooperadorAutarquiaDto {
   data?: Date;
 }
 
-export class CreateDependenteAutarquiaDto {
+export class CreateDependenteEstadoDto {
   @IsString()
   @IsOptional()
   nomeCompleto?: string;
@@ -35,24 +35,13 @@ export class CreateDependenteAutarquiaDto {
   dataNascimento?: Date;
 }
 
-export class CreateDentCrossAutarquiaDto {
+export class CreateDentCrossEstadoDto {
   @IsString()
   @IsOptional()
   nomeCompleto?: string;
 }
 
-export class CreateRioPaxAutarquiaDto {
-  @IsString()
-  @IsOptional()
-  nomeCompleto?: string;
-
-  @IsOptional()
-  @IsDate()
-  @Type(() => Date)
-  data?: Date;
-}
-
-export class CreateOdMedAutarquiaDto {
+export class CreateRioPaxEstadoDto {
   @IsString()
   @IsOptional()
   nomeCompleto?: string;
@@ -63,7 +52,18 @@ export class CreateOdMedAutarquiaDto {
   data?: Date;
 }
 
-export class CreateAutarquiasDto {
+export class CreateOdMedEstadoDto {
+  @IsString()
+  @IsOptional()
+  nomeCompleto?: string;
+
+  @IsOptional()
+  @IsDate()
+  @Type(() => Date)
+  data?: Date;
+}
+
+export class CreateEstadosDto {
   @IsString()
   @IsOptional()
   orgao?: string;
@@ -184,45 +184,45 @@ export class CreateAutarquiasDto {
 
   @IsOptional()
   @ValidateNested({ each: true })
-  @Type(() => CreateAdventicioAutarquiaDto)
+  @Type(() => CreateAdventicioEstadoDto)
   @IsArray()
   @IsAdventiciosCountValid('quantidadeAdventicios')
-  adventicios?: CreateAdventicioAutarquiaDto[];
+  adventicios?: CreateAdventicioEstadoDto[];
 
   @IsOptional()
   @ValidateNested({ each: true })
-  @Type(() => CreateCooperadorAutarquiaDto)
+  @Type(() => CreateCooperadorEstadoDto)
   @IsArray()
   @IsCooperadoresCountValid('quantidadeCooperadores')
-  cooperadores?: CreateCooperadorAutarquiaDto[];
+  cooperadores?: CreateCooperadorEstadoDto[];
 
   @IsOptional()
   @ValidateNested({ each: true })
-  @Type(() => CreateDependenteAutarquiaDto)
+  @Type(() => CreateDependenteEstadoDto)
   @IsArray()
   @IsDependentesCountValid('quantidadeDependentes')
-  dependentes?: CreateDependenteAutarquiaDto[];
+  dependentes?: CreateDependenteEstadoDto[];
 
   @IsOptional()
   @ValidateNested({ each: true })
-  @Type(() => CreateDentCrossAutarquiaDto)
+  @Type(() => CreateDentCrossEstadoDto)
   @IsArray()
   @IsDentCrossCountValid('quantidadeDentCross')
-  dentCross?: CreateDentCrossAutarquiaDto[];
+  dentCross?: CreateDentCrossEstadoDto[];
 
   @IsOptional()
   @ValidateNested({ each: true })
-  @Type(() => CreateRioPaxAutarquiaDto)
+  @Type(() => CreateRioPaxEstadoDto)
   @IsArray()
   @IsRioPaxCountValid('quantidadeRioPax')
-  rioPax?: CreateRioPaxAutarquiaDto[];
+  rioPax?: CreateRioPaxEstadoDto[];
 
   @IsOptional()
   @ValidateNested({ each: true })
-  @Type(() => CreateOdMedAutarquiaDto)
+  @Type(() => CreateOdMedEstadoDto)
   @IsArray()
   @IsOdMedCountValid('quantidadeOdMed')
-  odMed?: CreateOdMedAutarquiaDto[];
+  odMed?: CreateOdMedEstadoDto[];
 
   @IsBoolean()
   @IsOptional()
@@ -333,7 +333,7 @@ export class CreateAutarquiasDto {
   totalDezembro?: number;
 }
 
-export class UpdateAdventicioAutarquiaDto {
+export class UpdateAdventicioEstadoDto {
   @IsString()
   @IsOptional()
   id?: string; // Adicione esta linha
@@ -343,7 +343,7 @@ export class UpdateAdventicioAutarquiaDto {
   nomeCompleto?: string;
 }
 
-export class UpdateCooperadorAutarquiaDto {
+export class UpdateCooperadorEstadoDto {
   @IsString()
   @IsOptional()
   id?: string; // Adicione esta linha
@@ -358,7 +358,7 @@ export class UpdateCooperadorAutarquiaDto {
   data?: Date;
 }
 
-export class UpdateDependenteAutarquiaDto {
+export class UpdateDependenteEstadoDto {
   @IsString()
   @IsOptional()
   id?: string; // Adicione esta linha
@@ -373,7 +373,7 @@ export class UpdateDependenteAutarquiaDto {
   dataNascimento?: Date;
 }
 
-export class UpdateDentCrossAutarquiaDto {
+export class UpdateDentCrossEstadoDto {
   @IsString()
   @IsOptional()
   id?: string; // Adicione esta linha
@@ -383,22 +383,7 @@ export class UpdateDentCrossAutarquiaDto {
   nomeCompleto?: string;
 }
 
-export class UpdateRioPaxAutarquiaDto {
-  @IsString()
-  @IsOptional()
-  id?: string; // Adicione esta linha
-
-  @IsString()
-  @IsOptional()
-  nomeCompleto?: string;
-
-  @IsOptional()
-  @IsDate()
-  @Type(() => Date)
-  data?: Date;
-}
-
-export class UpdateOdMedAutarquiaDto {
+export class UpdateRioPaxEstadoDto {
   @IsString()
   @IsOptional()
   id?: string; // Adicione esta linha
@@ -413,7 +398,22 @@ export class UpdateOdMedAutarquiaDto {
   data?: Date;
 }
 
-export class UpdateAutarquiasDto {
+export class UpdateOdMedEstadoDto {
+  @IsString()
+  @IsOptional()
+  id?: string; // Adicione esta linha
+
+  @IsString()
+  @IsOptional()
+  nomeCompleto?: string;
+
+  @IsOptional()
+  @IsDate()
+  @Type(() => Date)
+  data?: Date;
+}
+
+export class UpdateEstadosDto {
   @IsString()
   @IsOptional()
   id?: string;
@@ -541,45 +541,45 @@ export class UpdateAutarquiasDto {
 
   @IsOptional()
   @ValidateNested({ each: true })
-  @Type(() => UpdateAdventicioAutarquiaDto)
+  @Type(() => UpdateAdventicioEstadoDto)
   @IsArray()
   @IsAdventiciosCountValid('quantidadeAdventicios')
-  adventicios?: UpdateAdventicioAutarquiaDto[];
+  adventicios?: UpdateAdventicioEstadoDto[];
 
   @IsOptional()
   @ValidateNested({ each: true })
-  @Type(() => UpdateCooperadorAutarquiaDto)
+  @Type(() => UpdateCooperadorEstadoDto)
   @IsArray()
   @IsCooperadoresCountValid('quantidadeCooperadores')
-  cooperadores?: UpdateCooperadorAutarquiaDto[];
+  cooperadores?: UpdateCooperadorEstadoDto[];
 
   @IsOptional()
   @ValidateNested({ each: true })
-  @Type(() => UpdateDependenteAutarquiaDto)
+  @Type(() => UpdateDependenteEstadoDto)
   @IsArray()
   @IsDependentesCountValid('quantidadeDependentes')
-  dependentes?: UpdateDependenteAutarquiaDto[];
+  dependentes?: UpdateDependenteEstadoDto[];
 
   @IsOptional()
   @ValidateNested({ each: true })
-  @Type(() => UpdateDentCrossAutarquiaDto)
+  @Type(() => UpdateDentCrossEstadoDto)
   @IsArray()
   @IsDentCrossCountValid('quantidadeDentCross')
-  dentCross?: UpdateDentCrossAutarquiaDto[];
+  dentCross?: UpdateDentCrossEstadoDto[];
 
   @IsOptional()
   @ValidateNested({ each: true })
-  @Type(() => UpdateRioPaxAutarquiaDto)
+  @Type(() => UpdateRioPaxEstadoDto)
   @IsArray()
   @IsRioPaxCountValid('quantidadeRioPax')
-  rioPax?: UpdateRioPaxAutarquiaDto[];
+  rioPax?: UpdateRioPaxEstadoDto[];
 
   @IsOptional()
   @ValidateNested({ each: true })
-  @Type(() => UpdateOdMedAutarquiaDto)
+  @Type(() => UpdateOdMedEstadoDto)
   @IsArray()
   @IsOdMedCountValid('quantidadeOdMed')
-  odMed?: UpdateOdMedAutarquiaDto[];
+  odMed?: UpdateOdMedEstadoDto[];
 
   @IsBoolean()
   @IsOptional()
